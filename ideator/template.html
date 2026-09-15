@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Session tracking: keep accurate so follow-ups update THIS file. -->
+  <meta name="ideator-file" content="ideas/{{slug}}.html" />
+  <meta name="ideator-session" content="active" />
+  <title>Idea — {{Title}}</title>
+
+  <style>
+    /* PLACEHOLDER tokens — re-theme per frontend-design for the real idea. */
+    :root {
+      --ink: #14202b;
+      --muted: #5c6b7a;
+      --line: #dfe4ea;
+      --surface: #f3f5f7;
+      --bg: #eef1f4;
+      --card: #ffffff;
+      --accent: #0d7a6f;
+      --accent-soft: #e2f3f0;
+      --font: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+      --radius: 14px;
+      --shadow: 0 18px 40px rgba(20, 32, 43, 0.08);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --maxw: 720px;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #dceeea 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #e7eaf0 0%, transparent 50%),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: clamp(24px, 5vw, 56px) 20px 80px;
+    }
+
+    .kicker {
+      margin: 0 0 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .pitch {
+      margin: 0;
+      max-width: 48ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .scenarios {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 22px 0 0;
+    }
+    .chip {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 160ms var(--ease), color 160ms var(--ease), background 160ms var(--ease);
+    }
+    .chip[aria-pressed="true"] {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .chip:hover { border-color: #b7c2cc; color: var(--ink); }
+
+    .demo {
+      margin-top: 22px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .transport {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 9px;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 650;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: transform 120ms var(--ease), opacity 120ms var(--ease);
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--ink); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .spacer { flex: 1 1 auto; }
+    .live {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      user-select: none;
+    }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #c2ccd4;
+      transition: background 220ms var(--ease);
+    }
+    .live.is-live .live-dot {
+      background: var(--accent);
+      animation: pulse 1.7s var(--ease) infinite;
+    }
+    /* Ripple color should track --accent (#0d7a6f) — update rgba if you retheme. */
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(13, 122, 111, 0.35); }
+      70%  { box-shadow: 0 0 0 7px rgba(13, 122, 111, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(13, 122, 111, 0); }
+    }
+    .scene-meta {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      min-width: 0;
+    }
+    .btn-icon { font-variant-numeric: tabular-nums; }
+
+    .stage-wrap { padding: 18px; }
+
+    /* --- SAMPLE STAGE: search → filter → detail (replace entirely per idea) --- */
+    .stage {
+      min-height: 340px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stage-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    .search-icon { color: var(--muted); font-size: 14px; }
+    .search-text {
+      flex: 1;
+      font-weight: 600;
+      color: var(--ink);
+      min-height: 1.2em;
+    }
+    .search-text:empty::before {
+      content: attr(data-placeholder);
+      color: #9aa6b2;
+      font-weight: 500;
+    }
+    .caret {
+      width: 2px;
+      height: 1.1em;
+      background: var(--accent);
+      opacity: 0;
+    }
+    .caret.is-on { opacity: 1; animation: blink 1s steps(1) infinite; }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .filter {
+      font-size: 0.82rem;
+      font-weight: 650;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--muted);
+      opacity: 0.55;
+      transform: scale(0.96);
+      transition: opacity 220ms var(--ease), transform 220ms var(--ease),
+        background 220ms var(--ease), color 220ms var(--ease), border-color 220ms var(--ease);
+    }
+    .filter.is-in { opacity: 1; transform: none; }
+    .filter.is-on {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .results {
+      display: grid;
+      gap: 8px;
+    }
+    .card-row {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 260ms var(--ease), transform 260ms var(--ease),
+        border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+    }
+    .card-row.is-in { opacity: 1; transform: none; }
+    .card-row.is-dim { opacity: 0.28; transform: scale(0.98); }
+    .card-row.is-pick {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .thumb {
+      width: 52px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #c5d4cf, #9eb8b2);
+    }
+    .card-row:nth-child(2) .thumb { background: linear-gradient(135deg, #d4cfc5, #b8a99e); }
+    .card-row:nth-child(3) .thumb { background: linear-gradient(135deg, #c5cbd4, #9ea6b8); }
+    .card-title { font-weight: 750; font-size: 0.95rem; }
+    .card-meta { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+    .card-price { font-weight: 750; font-variant-numeric: tabular-nums; }
+
+    .detail {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(24px);
+      pointer-events: none;
+      transition: opacity 280ms var(--ease), transform 280ms var(--ease);
+    }
+    .detail.is-in {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .detail h3 { margin: 0 0 4px; font-size: 1rem; }
+    .detail p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .detail-cta {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 650;
+      padding: 7px 12px;
+      border-radius: 8px;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 36px 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .empty.is-on { display: block; }
+
+    .caption {
+      padding: 14px 18px 16px;
+      border-top: 1px solid var(--line);
+      min-height: 3.2em;
+    }
+    .caption-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 4px;
+    }
+    .caption p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 550;
+    }
+
+    .beats {
+      margin-top: 18px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .beat {
+      height: 4px;
+      flex: 1 1 40px;
+      min-width: 36px;
+      border-radius: 999px;
+      background: #cfd6dd;
+      transition: background 200ms var(--ease), transform 200ms var(--ease);
+    }
+    .beat.is-done { background: var(--accent); }
+    .beat.is-current { background: var(--ink); transform: scaleY(1.5); }
+
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      max-width: 56ch;
+    }
+    footer code {
+      font-family: var(--mono);
+      font-size: 0.86em;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .caret.is-on { animation: none; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">Ideator demo</p>
+    <h1>{{Title}}</h1>
+    <p class="pitch">{{One-line pitch of how this should work.}}</p>
+
+    <div class="scenarios" role="group" aria-label="Demo scenarios">
+      <button type="button" class="chip" data-scenario="happy" aria-pressed="true">Happy path</button>
+      <button type="button" class="chip" data-scenario="empty" aria-pressed="false">Empty state</button>
+    </div>
+
+    <section class="demo" id="demo" aria-label="Interactive idea demo">
+      <!-- Auto-plays when scrolled into view and loops. No "Play" gate.
+           Pause/Restart stay so viewers can hold a frame
+           (WCAG {Web Content Accessibility Guidelines} 2.2.2). -->
+      <div class="transport">
+        <span class="live" id="live" aria-hidden="true"><span class="live-dot"></span> Live</span>
+        <span class="spacer"></span>
+        <span class="scene-meta" id="sceneMeta"></span>
+        <button type="button" class="btn btn-ghost btn-icon" id="playBtn" aria-pressed="false" aria-label="Pause demo">❚❚ Pause</button>
+        <button type="button" class="btn btn-ghost btn-icon" id="replayBtn" aria-label="Restart demo">↺ Restart</button>
+      </div>
+
+      <div class="stage-wrap">
+        <!--
+          SAMPLE ONLY — delete/replace this stage for each new idea.
+          Keep: transport, caption, beats, scene runner.
+          Change: everything inside #stage to match the product surface.
+        -->
+        <div class="stage" id="stage" data-scenario="happy">
+          <p class="stage-label">Sample app · search &amp; filter</p>
+
+          <div class="search">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <div class="search-text" data-el="query" data-placeholder="Search neighborhoods…"></div>
+            <span class="caret" data-el="caret" aria-hidden="true"></span>
+          </div>
+
+          <div class="filters">
+            <span class="filter" data-el="f1">Under $800k</span>
+            <span class="filter" data-el="f2">Yard</span>
+            <span class="filter" data-el="f3">≤ 30 min commute</span>
+          </div>
+
+          <div class="results" data-el="results">
+            <div class="card-row" data-el="r1">
+              <div class="thumb" aria-hidden="true"></div>
+              <div>
+                <div class="card-title">412 Maple Ave</div>
+                <div class="card-meta">3 bd · 22 min commute</div>
+              </div>
+              <div class="card-price">$745k</div>
+            </div>
+            <div class="card-row" data-el="r2">
+              <div class="thumb" aria-hidden="true"></div>
+              <div>
+                <div class="card-title">88 Pine St</div>
+                <div class="card-meta">4 bd · 41 min commute</div>
+              </div>
+              <div class="card-price">$910k</div>
+            </div>
+            <div class="card-row" data-el="r3">
+              <div class="thumb" aria-hidden="true"></div>
+              <div>
+                <div class="card-title">15 Cedar Ct</div>
+                <div class="card-meta">3 bd · 18 min commute</div>
+              </div>
+              <div class="card-price">$689k</div>
+            </div>
+          </div>
+
+          <div class="empty" data-el="empty">No homes match these filters.</div>
+
+          <div class="detail" data-el="detail">
+            <h3>412 Maple Ave</h3>
+            <p>Fits budget + commute. Yard confirmed from listing photos.</p>
+            <span class="detail-cta">View home</span>
+          </div>
+        </div>
+
+        <div class="beats" id="beats" aria-hidden="true"></div>
+      </div>
+
+      <div class="caption">
+        <p class="caption-kicker" id="captionKicker">Live</p>
+        <p id="captionText">Plays automatically and loops — Pause (or click the stage) to hold a frame.</p>
+      </div>
+    </section>
+
+    <footer>
+      Ideator template — replace the stage, scene data, and tokens for your idea
+      (any product surface, not just this sample).
+      Active file: <code>ideas/{{slug}}.html</code>
+    </footer>
+  </main>
+
+  <script>
+    /**
+     * Auto-playing scene runner — domain-agnostic.
+     *
+     * This is the ideator default: a living demo, not a play-gated one.
+     *   • Autostarts when it scrolls into view — there is no "Play" button.
+     *   • Loops forever: after the last scene it holds, rewinds, and replays.
+     *   • Pauses off-screen / on tab switch; resumes clean on return.
+     *   • Pause + Restart controls, and click-the-stage to hold a frame
+     *     (WCAG {Web Content Accessibility Guidelines} 2.2.2: content that
+     *     auto-moves must be pausable).
+     *   • prefers-reduced-motion: plays once, fast, then stops — never loops.
+     *
+     * Each scene mutates the stage, updates the caption, waits `ms`.
+     * Keep scenes ≤ 7. REPLACE SCENES + resetStage() when you rebuild the stage.
+     */
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const LOOP = true;        // set false for a play-once demo (holds final frame)
+    const LOOP_HOLD = 1500;   // ms to hold the payoff frame before rewinding
+    const RESET_HOLD = 560;   // ms of idle after the rewind before the next pass
+
+    const SCENES = {
+      happy: [
+        {
+          id: "idle",
+          ms: 450,
+          kicker: "Idle",
+          caption: "Empty search. The viewer should feel the starting surface.",
+          apply(els) { resetStage(els); },
+        },
+        {
+          id: "type",
+          ms: 1000,
+          kicker: "Trigger",
+          caption: "User types a query — the flow begins.",
+          apply(els) {
+            els.caret.classList.add("is-on");
+            els.query.textContent = "Riverside";
+          },
+        },
+        {
+          id: "results",
+          ms: 1100,
+          kicker: "Work",
+          caption: "Results appear. Still broad — filters haven’t focused yet.",
+          apply(els) {
+            els.caret.classList.remove("is-on");
+            [els.r1, els.r2, els.r3].forEach((n) => n.classList.add("is-in"));
+            [els.f1, els.f2, els.f3].forEach((n) => n.classList.add("is-in"));
+          },
+        },
+        {
+          id: "filter",
+          ms: 1200,
+          kicker: "Hero moment",
+          caption: "Commute filter lands — the mismatched row fades away.",
+          apply(els) {
+            els.f3.classList.add("is-on");
+            els.r2.classList.add("is-dim");
+          },
+        },
+        {
+          id: "detail",
+          ms: 1400,
+          kicker: "Result",
+          caption: "Detail sheet opens on the best match — the idea’s payoff.",
+          apply(els) {
+            els.r1.classList.add("is-pick");
+            els.detail.classList.add("is-in");
+          },
+        },
+      ],
+      empty: [
+        {
+          id: "idle",
+          ms: 400,
+          kicker: "Idle",
+          caption: "Same shell, different path: nothing matches.",
+          apply(els) { resetStage(els); },
+        },
+        {
+          id: "type",
+          ms: 900,
+          kicker: "Trigger",
+          caption: "A narrower query.",
+          apply(els) {
+            els.caret.classList.add("is-on");
+            els.query.textContent = "Waterfront loft";
+          },
+        },
+        {
+          id: "filter",
+          ms: 1000,
+          kicker: "Work",
+          caption: "Filters stack — still searching.",
+          apply(els) {
+            els.caret.classList.remove("is-on");
+            [els.f1, els.f2, els.f3].forEach((n) => {
+              n.classList.add("is-in", "is-on");
+            });
+          },
+        },
+        {
+          id: "empty",
+          ms: 1400,
+          kicker: "Hero moment",
+          caption: "Empty state is honest — no fake results.",
+          apply(els) {
+            els.results.style.display = "none";
+            els.empty.classList.add("is-on");
+          },
+        },
+      ],
+    };
+
+    const els = {
+      query: document.querySelector('[data-el="query"]'),
+      caret: document.querySelector('[data-el="caret"]'),
+      f1: document.querySelector('[data-el="f1"]'),
+      f2: document.querySelector('[data-el="f2"]'),
+      f3: document.querySelector('[data-el="f3"]'),
+      r1: document.querySelector('[data-el="r1"]'),
+      r2: document.querySelector('[data-el="r2"]'),
+      r3: document.querySelector('[data-el="r3"]'),
+      results: document.querySelector('[data-el="results"]'),
+      empty: document.querySelector('[data-el="empty"]'),
+      detail: document.querySelector('[data-el="detail"]'),
+      stage: document.getElementById("stage"),
+      captionKicker: document.getElementById("captionKicker"),
+      captionText: document.getElementById("captionText"),
+      sceneMeta: document.getElementById("sceneMeta"),
+      beats: document.getElementById("beats"),
+      playBtn: document.getElementById("playBtn"),
+      replayBtn: document.getElementById("replayBtn"),
+      live: document.getElementById("live"),
+    };
+
+    let scenario = "happy";
+    let index = -1;
+    let playing = false;    // runner is actively advancing scenes
+    let userPaused = false; // viewer pressed Pause (or tapped the stage)
+    let onScreen = false;   // demo is in the viewport
+    let timer = null;
+    let runId = 0;
+
+    function resetStage(target) {
+      const e = target || els;
+      e.query.textContent = "";
+      e.caret.classList.remove("is-on");
+      [e.f1, e.f2, e.f3].forEach((n) => n.classList.remove("is-in", "is-on"));
+      [e.r1, e.r2, e.r3].forEach((n) =>
+        n.classList.remove("is-in", "is-dim", "is-pick")
+      );
+      e.results.style.display = "";
+      e.empty.classList.remove("is-on");
+      e.detail.classList.remove("is-in");
+    }
+
+    function scenes() {
+      return SCENES[scenario] || SCENES.happy;
+    }
+
+    function renderBeats() {
+      const list = scenes();
+      els.beats.innerHTML = list
+        .map((_, i) => `<span class="beat" data-i="${i}"></span>`)
+        .join("");
+      paintBeats();
+    }
+
+    function paintBeats() {
+      els.beats.querySelectorAll(".beat").forEach((node) => {
+        const i = Number(node.dataset.i);
+        node.classList.toggle("is-done", i < index);
+        node.classList.toggle("is-current", i === index);
+      });
+    }
+
+    function showScene(i) {
+      const list = scenes();
+      if (i < 0 || i >= list.length) return;
+      index = i;
+      const scene = list[i];
+      scene.apply(els);
+      els.captionKicker.textContent = scene.kicker;
+      els.captionText.textContent = scene.caption;
+      els.sceneMeta.textContent = `${i + 1} / ${list.length} · ${scene.id}`;
+      paintBeats();
+    }
+
+    function clearTimer() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    }
+
+    function wait(ms) {
+      return new Promise((resolve) => {
+        timer = setTimeout(resolve, ms);
+      });
+    }
+
+    function syncControls() {
+      els.playBtn.textContent = userPaused ? "▶ Play" : "❚❚ Pause";
+      els.playBtn.setAttribute("aria-pressed", String(userPaused));
+      els.playBtn.setAttribute("aria-label", userPaused ? "Play demo" : "Pause demo");
+      els.live.classList.toggle("is-live", playing && !userPaused);
+    }
+
+    // Run only while the viewer hasn't paused, the demo is on-screen, and the
+    // tab is visible — a loop animating off-screen is wasted work.
+    function canPlay() {
+      return !userPaused && onScreen && !document.hidden;
+    }
+
+    async function run(startAt) {
+      const myRun = ++runId;
+      playing = true;
+      syncControls();
+      const list = scenes();
+      let i = startAt < 0 ? 0 : startAt;
+
+      while (myRun === runId) {
+        if (i >= list.length) {
+          // Reached the end of a pass.
+          if (!LOOP || reduceMotion) {
+            playing = false;
+            syncControls();
+            els.sceneMeta.textContent = "Done · Restart to replay";
+            return;
+          }
+          // Loop: let the payoff land, rewind gently, then run it again.
+          els.sceneMeta.textContent = "Looping…";
+          await wait(reduceMotion ? 60 : LOOP_HOLD);
+          if (myRun !== runId) return;
+          resetStage();
+          index = -1;
+          paintBeats();
+          await wait(RESET_HOLD);
+          if (myRun !== runId) return;
+          i = 0;
+          continue;
+        }
+        showScene(i);
+        await wait(reduceMotion ? 70 : list[i].ms);
+        if (myRun !== runId) return;
+        i += 1;
+      }
+    }
+
+    // Cancel the active runner but leave the current frame on screen.
+    function halt() {
+      runId += 1;
+      clearTimer();
+      playing = false;
+    }
+
+    // Single source of truth: start/stop the runner to match current state.
+    function maybePlay() {
+      if (canPlay()) {
+        if (!playing) run(index);
+      } else {
+        if (playing) halt();
+        if (userPaused) els.sceneMeta.textContent = "Paused";
+      }
+      syncControls();
+    }
+
+    function restart() {
+      userPaused = false;
+      halt();
+      resetStage();
+      index = -1;
+      paintBeats();
+      maybePlay();
+    }
+
+    // --- controls ---------------------------------------------------------
+    els.playBtn.addEventListener("click", () => {
+      userPaused = !userPaused;
+      maybePlay();
+    });
+    els.replayBtn.addEventListener("click", restart);
+
+    // Click anywhere on the stage to pause/resume (real hotspots opt out).
+    els.stage.addEventListener("click", (e) => {
+      if (e.target.closest("[data-hotspot], a, button")) return;
+      userPaused = !userPaused;
+      maybePlay();
+    });
+
+    document.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach((c) => {
+          c.setAttribute("aria-pressed", String(c === chip));
+        });
+        scenario = chip.dataset.scenario;
+        els.stage.dataset.scenario = scenario;
+        userPaused = false;
+        halt();
+        resetStage();
+        index = -1;
+        renderBeats();
+        els.captionKicker.textContent = "Scenario";
+        els.captionText.textContent = `“${chip.textContent}” — playing…`;
+        maybePlay();
+      });
+    });
+
+    // --- autoplay lifecycle ----------------------------------------------
+    // Start when the demo scrolls into view; pause when it leaves or the tab
+    // is hidden; resume automatically on return (unless the viewer paused).
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          onScreen = entries.some((en) => en.isIntersecting);
+          maybePlay();
+        },
+        { threshold: 0.3 }
+      );
+      io.observe(document.getElementById("demo"));
+    } else {
+      onScreen = true;
+    }
+    document.addEventListener("visibilitychange", maybePlay);
+
+    renderBeats();
+    syncControls();
+    // Fallback autostart when IntersectionObserver is unavailable.
+    if (!("IntersectionObserver" in window)) maybePlay();
+  </script>
+</body>
+</html>

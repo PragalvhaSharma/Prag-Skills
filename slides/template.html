@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deck title · the one-line subject</title>
+<meta name="description" content="What this deck argues, in one sentence.">
+<meta name="slides-file" content="decks/deck-slug.html">
+<meta name="slides-session" content="active">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 20'%3E%3Crect width='14' height='20' rx='2' fill='%230040E6'/%3E%3Cpath fill='%23fff' fill-rule='evenodd' d='M10.07 7.73c0-4.85-.83-6.86-3.11-6.86-2.01 0-3.03 1.41-3.03 6.3 0 4.82.79 6.81 3.11 6.81 2.05 0 3.03-1.39 3.03-6.25zM0 7.6C0 2.15 3.75 0 7.08 0 10.65 0 14 2.13 14 7.27 14 12.76 10.25 14.85 6.92 14.85 3.36 14.85 0 12.57 0 7.6zm13.27 11.63s-1.65-2.19-1.65-2.19a.43.43 0 0 0-.56-.26H2.94a.43.43 0 0 0-.56.26L.73 19.23a.4.4 0 0 0-.08.23v.34c0 .11.09.2.2.2h12.3c.11 0 .2-.09.2-.2v-.34a.4.4 0 0 0-.08-.23z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.opendoor.com" crossorigin>
+<style>
+/* ── Opendoor brand faces, served from Opendoor's own CDN ─────────────────── */
+@font-face{font-family:'Graphik';src:url('https://cdn.opendoor.com/fonts/Graphik-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Graphik';src:url('https://cdn.opendoor.com/fonts/Graphik-Medium-Web.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Graphik';src:url('https://cdn.opendoor.com/fonts/Graphik-Semibold-Web.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:'Graphik';src:url('https://cdn.opendoor.com/fonts/Graphik-Bold-Web.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Publico Headline';src:url('https://cdn.opendoor.com/fonts/PublicoHeadline-Roman-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Publico Headline';src:url('https://cdn.opendoor.com/fonts/PublicoHeadline-Medium-Web.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Publico Headline';src:url('https://cdn.opendoor.com/fonts/PublicoHeadline-Bold-Web.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+</style>
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   TOKENS · Opendoor. Palette lifted from opendoor.com.
+   Swap only this block to reskin the deck (see theme.md).
+   ══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#F7F6F3;      /* the page */
+  --blue:#0040E6;       /* Opendoor blue: the one accent */
+  --navy:#23201D;
+  --teal:#015A78;
+  --mint-ink:#015A78;   /* readable ink on mint */
+  --mint-pale:#B5CAFF;  /* the accent that reads on blue */
+
+  /* tint fills — flat, no gradients, always paired with --ink text */
+  --lavender:#EDE8F5;
+  --mint:#DFE8DE;
+  --sky:#E8F4F8;
+  --peach:#F6E6D8;
+  --blush:#F6E4E6;
+  --grey:#ECEAE6;
+  --crimson:#C13E3E;
+  --amber-ink:#8A5A2A;
+
+  --ink:#23201D;        /* headings */
+  --body:#3D3935;       /* body copy */
+  --mute:#786E64;       /* secondary copy */
+  --rule:#DFDBD8;
+  --rule-soft:#EBE9E7;
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --display:'Publico Headline',ui-serif,Georgia,serif;
+  --text:'Graphik',ui-sans-serif,system-ui,-apple-system,Arial,sans-serif;
+  --ui:'Graphik',ui-sans-serif,system-ui,-apple-system,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+/* The whole deck scales off the TIGHTER viewport dimension, so a slide fills a
+   short laptop and a tall monitor the same way. Every size below is in rem, so
+   this one line is the deck's zoom control. */
+html{font-size:clamp(11px, min(1.04vw, 1.78vh), 18px);}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{
+  font-family:var(--text);color:var(--body);background:var(--paper);overflow:hidden;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;
+}
+h1,h2,h3,h4{font-family:var(--display);margin:0;color:var(--ink);font-weight:700;}
+p{margin:0;}
+ul,ol{margin:0;padding:0;list-style:none;}
+code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
+:focus-visible{outline:2.5px solid var(--blue);outline-offset:4px;border-radius:4px;}
+
+/* Every uppercase micro-label is sans, never the serif. Add new ones here. */
+.eyebrow,.label,.psect,.pcount,.item__n,.sect__no,.jump__k,
+.live,.dbtn,.pane__t,.pill-s,.cap2__k,.section-split,.toc b,.foot{
+  font-family:var(--ui);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   TRACK · every slide in one row, moved by a spring
+   ══════════════════════════════════════════════════════════════════════════ */
+.deck{position:fixed;inset:0;overflow:hidden;touch-action:pan-y;}
+.track{display:flex;height:100%;transform:translate3d(0,0,0);}
+/* will-change only WHILE moving. Held permanently it pins the deck to a stale
+   GPU bitmap and every glyph on a resting slide is a resampled copy. */
+.track.is-grabbing,.track.is-moving{will-change:transform;}
+.track.is-grabbing{cursor:grabbing;user-select:none;}
+.slide{
+  flex:none;width:100vw;height:100%;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 5.5rem 6rem;overflow-y:auto;overflow-x:hidden;
+  background:var(--paper);
+}
+.slide--blue{background:var(--blue);color:#fff;}
+.slide--blue h1,.slide--blue h2,.slide--blue h3,.slide--blue h4{color:#fff;}
+/* one centered statement, nothing else */
+.slide--center{align-items:center;justify-content:center;text-align:center;padding-left:4rem;padding-right:4rem;}
+/* one composition that uses the whole stage: the label and caption line up with it */
+.slide--diag{align-items:center;justify-content:center;}
+.slide--diag > *{width:min(100%,78rem);margin-inline:auto;}
+.slide--diag > .label{margin-bottom:1.5rem;}
+
+/* ── progress rail: one segment per section, built from the DOM ── */
+.rail{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;gap:3px;height:3px;}
+.rail__seg{position:relative;height:100%;background:rgba(8,20,45,.1);overflow:hidden;}
+.rail__fill{position:absolute;inset:0;width:0;background:var(--blue);}
+.rail.on-blue .rail__seg{background:rgba(255,255,255,.2);}
+.rail.on-blue .rail__fill{background:#fff;}
+
+/* ── one floating translucent control cluster ── */
+.pill{
+  position:fixed;bottom:1.6rem;left:50%;transform:translateX(-50%);z-index:51;
+  display:flex;align-items:center;gap:.2rem;padding:.35rem;border-radius:100px;
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(8,20,45,.08);
+  box-shadow:0 10px 34px -12px rgba(8,20,45,.28);
+}
+.pill.on-blue{background:rgba(8,20,45,.32);border-color:rgba(255,255,255,.22);box-shadow:0 10px 34px -12px rgba(8,20,45,.5);}
+.pbtn{
+  appearance:none;border:0;background:transparent;cursor:pointer;
+  width:2.3rem;height:2.3rem;border-radius:100px;color:var(--ink);
+  display:grid;place-items:center;
+  transition:background 120ms ease-out, transform 100ms ease-out, opacity 120ms ease-out;
+}
+.pbtn svg{width:1rem;height:1rem;}
+.pbtn:hover:not(:disabled){background:rgba(8,20,45,.07);}
+.pbtn:active:not(:disabled){transform:scale(.9);background:rgba(8,20,45,.12);}  /* feedback on the press, instantly */
+.pbtn:disabled{opacity:.28;cursor:default;}
+.pill.on-blue .pbtn{color:#fff;}
+.pill.on-blue .pbtn:hover:not(:disabled){background:rgba(255,255,255,.16);}
+.pill.on-blue .pbtn:active:not(:disabled){background:rgba(255,255,255,.24);}
+.psect{font-size:.74rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);padding:0 .3rem 0 .7rem;white-space:nowrap;}
+.pill.on-blue .psect{color:var(--mint-pale);}
+.pcount{
+  appearance:none;border:0;background:transparent;cursor:pointer;
+  font-size:.82rem;font-weight:600;letter-spacing:.06em;color:var(--mute);
+  padding:.3rem .7rem;min-width:3.9rem;text-align:center;border-radius:100px;
+  transition:background 120ms ease-out;
+}
+.pcount b{color:var(--ink);}
+.pcount:hover{background:rgba(8,20,45,.07);}
+.pill.on-blue .pcount{color:rgba(255,255,255,.7);}
+.pill.on-blue .pcount b{color:#fff;}
+.pill.on-blue .pcount:hover{background:rgba(255,255,255,.16);}
+.psep{width:1px;height:1.3rem;background:rgba(8,20,45,.12);margin:0 .15rem;}
+.pill.on-blue .psep{background:rgba(255,255,255,.22);}
+
+.hint{
+  position:fixed;bottom:5.2rem;left:50%;transform:translateX(-50%);z-index:51;
+  font-size:.76rem;color:var(--mute);letter-spacing:.02em;white-space:nowrap;
+  transition:opacity 500ms ease-out;
+}
+.hint.on-blue{color:rgba(255,255,255,.62);}
+.hint.is-gone{opacity:0;}
+
+/* ── jump menu: every slide by title, grouped by section (O, or tap the count) ── */
+.jump{
+  position:fixed;inset:0;z-index:60;display:none;
+  padding:3.4rem 2rem 7rem;overflow-y:auto;
+  background:rgba(247,246,243,.86);
+  backdrop-filter:blur(22px) saturate(160%);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);
+}
+.jump.is-open{display:block;}
+.jump__in{width:min(100%,72rem);margin:0 auto;}
+.jump__k{
+  font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--blue);margin:1.5rem 0 .7rem;
+}
+.jump__k:first-child{margin-top:0;}
+.jump__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.5rem;}
+.jbtn{
+  appearance:none;cursor:pointer;text-align:left;
+  display:flex;align-items:baseline;gap:.6rem;
+  background:#fff;border:1px solid var(--rule);border-radius:10px;padding:.7rem .85rem;
+  font-family:var(--text);font-size:.9rem;line-height:1.35;color:var(--body);
+  transition:border-color 120ms ease-out, transform 90ms ease-out;
+}
+.jbtn:hover{border-color:var(--blue);}
+.jbtn:active{transform:scale(.985);}
+.jbtn i{font-style:normal;font-family:var(--ui);font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--mute);flex:none;min-width:1.4rem;}
+.jbtn.is-here{background:var(--blue);border-color:var(--blue);color:#fff;}
+.jbtn.is-here i{color:var(--mint-pale);}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   TYPE · tracking is size-specific: tight on display, ~0 on body
+   ══════════════════════════════════════════════════════════════════════════ */
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--blue);margin-bottom:1.1rem;}
+.slide--blue .eyebrow{color:var(--mint-pale);}
+
+/* the big single-idea statement */
+.stmt{font-family:var(--display);font-weight:700;font-size:4.1rem;line-height:1.04;letter-spacing:-.038em;max-width:30ch;}
+.stmt em{font-style:normal;color:var(--blue);}
+.slide--blue .stmt em{color:var(--mint-pale);}
+.slide--center .stmt{font-size:clamp(2.8rem,5.6vw,5.4rem);max-width:18ch;margin-inline:auto;}
+.sub{margin-top:1.6rem;font-size:1.18rem;line-height:1.6;color:var(--mute);max-width:58ch;}
+.sub b{color:var(--ink);font-weight:700;}
+.slide--blue .sub{color:rgba(255,255,255,.88);}
+.slide--blue .sub b{color:#fff;}
+.slide--center .sub{margin-top:1.8rem;font-size:clamp(1.15rem,2vw,1.55rem);font-weight:600;max-width:36ch;margin-inline:auto;}
+
+/* section head for content slides */
+.h{font-size:2.5rem;line-height:1.1;letter-spacing:-.028em;max-width:34ch;}
+.lead{margin-top:.9rem;font-size:1.08rem;line-height:1.55;color:var(--mute);max-width:74ch;}
+.slide--blue .lead{color:rgba(255,255,255,.88);}
+/* the numbered slide label: <p class="label"><i>2.1</i>What this slide shows</p> */
+.label{font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:1.4rem;}
+.label i{font-style:normal;color:var(--blue);margin-right:.5rem;}
+.slide--blue .label{color:rgba(255,255,255,.7);}
+/* the sentence UNDER a composition that says what to take from it */
+.cap{margin-top:1.1rem;font-size:.95rem;line-height:1.5;color:var(--mute);max-width:78ch;}
+.cap b{color:var(--ink);font-weight:700;}
+.slide--blue .cap{color:rgba(255,255,255,.8);}
+.foot{margin-top:1.4rem;padding-top:.9rem;border-top:1px solid var(--rule);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);}
+
+/* section divider slide */
+.sect__no{font-size:1rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mint-pale);margin-bottom:.5rem;}
+.sect__q{font-size:1.02rem;color:rgba(255,255,255,.72);margin-bottom:2.1rem;padding-bottom:1.1rem;border-bottom:1px solid rgba(255,255,255,.24);max-width:44ch;}
+
+/* logo lockup */
+.brand{display:flex;align-items:center;gap:.72rem;color:var(--blue);}
+.brand__mark{height:2.35rem;width:auto;display:block;}
+.brand__word{font-family:var(--ui);font-weight:600;font-size:1.55rem;letter-spacing:-.04em;color:inherit;line-height:1;}
+.slide--blue .brand{color:#fff;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   COVER
+   ══════════════════════════════════════════════════════════════════════════ */
+.cover__logo{margin-bottom:3.4rem;}
+.cover h1{font-size:5.2rem;line-height:1;letter-spacing:-.042em;max-width:23ch;}
+.cover h1 em{font-style:normal;color:var(--mint-pale);}
+.cover__by{
+  margin-top:3.4rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.26);
+  display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+  font-size:1rem;color:rgba(255,255,255,.8);max-width:64ch;
+}
+.cover__by b{font-family:var(--display);font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:-.01em;}
+/* contents, on the cover or its own slide */
+.toc{display:flex;gap:2.2rem;flex-wrap:wrap;margin-top:2.4rem;}
+.toc div{max-width:17ch;}
+.toc b{display:block;font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mint-pale);margin-bottom:.35rem;}
+.toc span{font-size:1rem;line-height:1.4;color:rgba(255,255,255,.86);}
+.slide:not(.slide--blue) .toc b{color:var(--blue);}
+.slide:not(.slide--blue) .toc span{color:var(--mute);}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CORE BLOCKS · always available. Everything else lives in components.md.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cols{display:grid;gap:2.6rem;}
+.c2{grid-template-columns:repeat(2,1fr);}
+.c3{grid-template-columns:repeat(3,1fr);}
+.c4{grid-template-columns:repeat(4,1fr);}
+
+/* the workhorse: a rule, a kicker, a heading, a sentence */
+.item{border-top:2px solid var(--rule);padding-top:1rem;}
+.item__n{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem;}
+.item h3{font-size:1.4rem;line-height:1.18;letter-spacing:-.022em;margin-bottom:.6rem;}
+.item p{font-size:1rem;line-height:1.6;color:var(--mute);}
+.item p b{color:var(--ink);font-weight:700;}
+.item--muted h3{color:var(--mute);}
+.slide--blue .item{border-top-color:rgba(255,255,255,.34);}
+.slide--blue .item__n{color:var(--mint-pale);}
+.slide--blue .item p{color:rgba(255,255,255,.84);}
+.slide--blue .item p b{color:#fff;}
+
+/* flat tinted note */
+.tint{border-radius:10px;padding:1rem 1.15rem;font-size:1rem;line-height:1.55;color:var(--body);}
+.tint--sky{background:var(--sky);}
+.tint--lav{background:var(--lavender);}
+.tint--mint{background:var(--mint);}
+.tint--peach{background:var(--peach);}
+.tint--blush{background:var(--blush);}
+.tint--grey{background:var(--grey);}
+.tint b{color:var(--ink);font-weight:700;}
+
+/* dotted list, usually on a blue slide */
+.chips{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2rem;font-size:.95rem;color:rgba(255,255,255,.8);}
+.chips span{display:flex;align-items:center;gap:.5rem;}
+.chips span::before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:var(--mint-pale);}
+.slide:not(.slide--blue) .chips{color:var(--mute);}
+.slide:not(.slide--blue) .chips span::before{background:var(--blue);}
+
+/* a mid-slide rule that starts a second thought */
+.section-split{
+  margin:1.6rem 0 1rem;padding-top:1.1rem;border-top:1px solid var(--rule);
+  font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+}
+.section-split i{font-style:normal;color:var(--blue);margin-right:.45rem;}
+
+.figure{width:100%;min-width:0;overflow-x:auto;}
+.diag{width:100%;height:auto;display:block;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   REVEAL · anything with [data-reveal] rises in when its slide arrives.
+   Plays once per slide, then stays. Free for any component.
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-reveal]{opacity:0;transform:translateY(9px);}
+.slide.seen [data-reveal]{
+  opacity:1;transform:none;
+  transition:opacity 460ms var(--ease), transform 460ms var(--ease);
+  transition-delay:calc(var(--i,0) * 70ms);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LIVE DEMO CHROME · the stage frame, transport, and caption strip.
+   The stage INTERIOR is a component; this is only the housing.
+   ══════════════════════════════════════════════════════════════════════════ */
+.demo{display:flex;flex-direction:column;gap:.75rem;width:100%;}
+.slide--diag .demo{width:min(100%,78rem);margin-inline:auto;}
+.demo__head{display:flex;align-items:flex-end;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;}
+.demo__pitch{font-size:.92rem;color:var(--mute);max-width:52ch;line-height:1.45;}
+.demo__ctl{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.live{display:inline-flex;align-items:center;gap:.4rem;margin-right:.3rem;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.live i{width:.42rem;height:.42rem;border-radius:50%;background:var(--rule);}
+.live.is-live i{background:var(--crimson);animation:blip 1.7s ease-in-out infinite;}
+@keyframes blip{0%,100%{opacity:1}50%{opacity:.22}}
+.dbtn{
+  appearance:none;cursor:pointer;font-family:var(--ui);font-size:.74rem;font-weight:700;letter-spacing:.05em;
+  color:var(--ink);background:#fff;border:1px solid var(--rule);border-radius:100px;padding:.34rem .78rem;
+  transition:background 120ms ease-out, border-color 120ms ease-out, transform 90ms ease-out;
+}
+.dbtn:hover{background:var(--grey);}
+.dbtn:active{transform:scale(.95);}
+.dbtn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff;}
+.stage{
+  border:1px solid var(--rule);border-radius:13px;padding:.85rem;background:var(--paper);
+  cursor:pointer;min-height:19.5rem;
+}
+.pane__t{font-size:.66rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);margin-bottom:.6rem;}
+.cap2{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;min-height:1.5rem;}
+.cap2__k{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#fff;background:var(--blue);border-radius:100px;padding:.18rem .55rem;}
+.cap2__t{font-size:.92rem;color:var(--body);line-height:1.4;flex:1 1 22rem;min-width:0;}
+.beats{display:flex;gap:.28rem;margin-left:auto;}
+.beat{width:.85rem;height:.24rem;border-radius:100px;background:var(--rule);transition:background 200ms ease-out;}
+.beat.is-done{background:var(--mint-pale);}
+.beat.is-current{background:var(--blue);}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width:1000px){
+  .slide{padding:4.2rem 2rem 5.6rem;}
+  .cover h1{font-size:3.4rem;}
+  .stmt{font-size:2.7rem;max-width:26ch;}
+  .h{font-size:1.9rem;}
+  .cols{gap:1.5rem;}
+  .c3,.c4{grid-template-columns:repeat(2,1fr);}
+  .psect{display:none;}
+}
+@media (max-width:640px){
+  html{font-size:15px;}
+  .slide{padding:4.6rem 1.4rem 5.4rem;justify-content:flex-start;}
+  .slide--center,.slide--diag{justify-content:center;}
+  .cover h1{font-size:2.7rem;}
+  .stmt{font-size:2.1rem;max-width:none;}
+  .slide--center .stmt{max-width:14ch;}
+  .sub,.lead{font-size:1rem;}
+  .c2,.c3,.c4{grid-template-columns:1fr;}
+  .hint{display:none;}
+  .diag{min-width:34rem;}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ACCESSIBILITY PREFERENCES
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  /* no springs, no travel: states just appear */
+  [data-reveal],.slide.seen [data-reveal]{opacity:1;transform:none;transition:none;}
+  .pbtn,.dbtn,.jbtn{transition:none!important;}
+  .live.is-live i{animation:none;}
+}
+@media (prefers-reduced-transparency:reduce){
+  /* frostier, not see-through */
+  .pill,.jump{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .pill{border-color:var(--rule);}
+  .pill.on-blue{background:var(--navy);border-color:rgba(255,255,255,.3);}
+}
+@media (prefers-contrast:more){
+  .pill{background:#fff;border:2px solid var(--ink);backdrop-filter:none;}
+  .pill.on-blue{background:var(--navy);border-color:#fff;}
+  .sub,.lead,.cap,.item p{color:#2A2A2A;}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PRINT · one slide per landscape page. Colour is the argument here, so
+   force it on everything rather than listing components one by one.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media print{
+  @page{size:landscape;margin:0;}
+  html{font-size:11px;}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body,.deck{position:static;overflow:visible;height:auto;}
+  .track{display:block;transform:none!important;}
+  .slide{width:100%;height:auto;min-height:96vh;page-break-after:always;break-after:page;padding:2.4rem 2.6rem;overflow:visible;}
+  .slide:last-child{break-after:auto;}
+  .rail,.pill,.hint,.jump,.demo__ctl,.beats{display:none!important;}
+  /* every reveal-on-arrival state prints in its finished form */
+  [data-reveal]{opacity:1!important;transform:none!important;}
+  .stage{min-height:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="rail" id="rail" aria-hidden="true"></div>
+
+<div class="deck" id="deck">
+<div class="track" id="track">
+
+  <!-- ═══════════ 1 · COVER ═══════════════════════════════════════════════
+       data-section="0" is the overview run. Every other slide carries the
+       section it belongs to; the rail, the section name, and the jump menu
+       are all built from those attributes, so there is nothing to keep in
+       sync by hand. Add data-section-name once per section.
+       ═════════════════════════════════════════════════════════════════════ -->
+  <section class="slide slide--blue cover" data-section="0" data-title="Cover">
+    <div class="cover__logo brand">
+      <svg class="brand__mark" viewBox="0 0 14 20" fill="currentColor" role="img" aria-label="Opendoor">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0652 7.72525C10.0652 2.87886 9.23666 0.869951 6.95864 0.869951C4.94968 0.869951 3.93488 2.27822 3.93488 7.16613C3.93488 11.9918 4.7219 13.9801 7.04144 13.9801C9.09177 13.9801 10.0652 12.5924 10.0652 7.72525ZM0 7.60107C0 2.15396 3.74854 0 7.08288 0C10.645 0 14 2.13332 14 7.26967C14 12.7581 10.2515 14.85 6.91711 14.85C3.35507 14.85 0 12.5718 0 7.60107ZM13.2689 19.2321C12.929 18.7812 11.6198 17.0442 11.6198 17.0442C11.4969 16.8812 11.2864 16.7829 11.0605 16.7829H2.93952C2.71362 16.7829 2.50312 16.8812 2.38028 17.0442L0.731324 19.2318C0.679012 19.3011 0.651254 19.3819 0.651254 19.4645V19.7984C0.651254 19.9098 0.741489 20 0.852838 20H13.1472C13.2585 20 13.3488 19.9098 13.3488 19.7984V19.4645C13.3488 19.3819 13.3213 19.3014 13.2689 19.2321Z"/>
+      </svg>
+      <span class="brand__word">Project</span>
+    </div>
+    <p class="eyebrow">Opendoor · Team · Channel</p>
+    <h1>The claim, in a sentence. <em>And the payoff.</em></h1>
+    <p class="sub">One line of scope: what is live, what is not, and what a viewer is about to be shown.</p>
+    <div class="toc">
+      <div><b>Section 1</b><span>The question this section answers</span></div>
+      <div><b>Section 2</b><span>The question this section answers</span></div>
+      <div><b>Section 3</b><span>The question this section answers</span></div>
+    </div>
+    <p class="cover__by"><b>Name</b>Date range · 15 minutes, then questions</p>
+  </section>
+
+  <!-- ═══════════ 2 · SECTION OPENER ═══════════ -->
+  <section class="slide slide--blue" data-section="1" data-section-name="1 · The problem" data-title="Section 1 opener">
+    <p class="sect__no">Section 1</p>
+    <p class="sect__q">The question this section answers, phrased as a question.</p>
+    <h2 class="stmt">The one sentence a viewer should leave with. <em>The turn.</em></h2>
+  </section>
+
+  <!-- ═══════════ 3 · CONTENT ═══════════ -->
+  <section class="slide" data-section="1" data-title="Three things that are true">
+    <p class="label"><i>1.1</i>What this slide shows</p>
+    <div class="cols c3">
+      <div class="item" data-reveal style="--i:0">
+        <p class="item__n">One</p>
+        <h3>The first finding</h3>
+        <p>One sentence of evidence, with <b>the number that matters</b> set in bold.</p>
+      </div>
+      <div class="item" data-reveal style="--i:1">
+        <p class="item__n">Two</p>
+        <h3>The second finding</h3>
+        <p>One sentence of evidence. Keep it to a sentence.</p>
+      </div>
+      <div class="item" data-reveal style="--i:2">
+        <p class="item__n">Three</p>
+        <h3>The third finding</h3>
+        <p>One sentence of evidence. Keep it to a sentence.</p>
+      </div>
+    </div>
+    <p class="cap"><b>The takeaway.</b> The sentence that says what to do with the three findings above.</p>
+  </section>
+
+  <!-- ═══════════ 4 · STATEMENT ═══════════ -->
+  <section class="slide slide--blue slide--center" data-section="2" data-section-name="2 · What shipped" data-title="The turn">
+    <p class="sect__no">Section 2</p>
+    <h2 class="stmt">One idea, <em>full bleed</em>.</h2>
+    <p class="sub">Only if it needs a second line.</p>
+  </section>
+
+  <!-- ═══════════ PASTE COMPONENTS HERE ═══════════════════════════════════
+       Every block in components.md is a self-contained pair: a CSS chunk to
+       append to the last <style>, and a slide to drop in here.
+       ═════════════════════════════════════════════════════════════════════ -->
+
+  <!-- ═══════════ 5 · CLOSER ═══════════ -->
+  <section class="slide slide--blue" data-section="3" data-section-name="3 · Asks" data-title="Asks">
+    <p class="eyebrow">What I need</p>
+    <h2 class="stmt">Three asks, <em>named</em>.</h2>
+    <div class="cols c3" style="margin-top:2.6rem">
+      <div class="item"><p class="item__n">Ask 1</p><h3>The decision</h3><p>Who decides, and by when.</p></div>
+      <div class="item"><p class="item__n">Ask 2</p><h3>The access</h3><p>What is blocked without it.</p></div>
+      <div class="item"><p class="item__n">Ask 3</p><h3>The next slice</h3><p>What ships if this one worked.</p></div>
+    </div>
+    <p class="cover__by"><b>Name</b>email@opendoor.com · thanks</p>
+  </section>
+
+</div>
+</div>
+
+<p class="hint" id="hint">Drag, swipe, or use <b>&larr;</b> <b>&rarr;</b></p>
+
+<nav class="pill" id="pill" aria-label="Slide navigation">
+  <button class="pbtn" id="prev" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <span class="psect" id="pSect">Overview</span>
+  <button class="pcount" id="pCount" aria-label="Jump to a slide" title="All slides (O)"><b id="cNow">1</b> / <span id="cAll">1</span></button>
+  <button class="pbtn" id="next" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <span class="psep" aria-hidden="true"></span>
+  <button class="pbtn" id="fs" aria-label="Enter full screen" title="Full screen (F)">
+    <svg id="fsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+  </button>
+</nav>
+
+<div class="jump" id="jump" role="dialog" aria-modal="true" aria-label="All slides"><div class="jump__in" id="jumpIn"></div></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   DECK · spring-driven horizontal track
+   ------------------------------------------------------------------------
+   Sections, the rail, the slide count, and the jump menu are all derived
+   from data-section / data-section-name / data-title in the markup. Adding
+   or moving a slide needs no change here.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var deck  = document.getElementById('deck');
+  var track = document.getElementById('track');
+  var slides = [].slice.call(track.children);
+  var n = slides.length;
+  var rail = document.getElementById('rail');
+  var pill = document.getElementById('pill'), hint = document.getElementById('hint');
+  var prev = document.getElementById('prev'), next = document.getElementById('next');
+  var fs = document.getElementById('fs'), fsIcon = document.getElementById('fsIcon');
+  var cNow = document.getElementById('cNow'), cAll = document.getElementById('cAll');
+  var pSect = document.getElementById('pSect'), pCount = document.getElementById('pCount');
+  var jump = document.getElementById('jump'), jumpIn = document.getElementById('jumpIn');
+
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── sections: contiguous runs of the same data-section ── */
+  var SECT = [];
+  slides.forEach(function(s, i){
+    var key = s.getAttribute('data-section') || '0';
+    var nm = s.getAttribute('data-section-name');
+    var last = SECT[SECT.length - 1];
+    if (!last || last.key !== key){
+      SECT.push({
+        key: key, start: i, end: i + 1,
+        name: nm || (key === '0' ? 'Overview' : 'Section ' + key),
+        named: !!nm
+      });
+    } else {
+      last.end = i + 1;
+      if (nm && !last.named){ last.name = nm; last.named = true; }
+    }
+    s.setAttribute('data-sect-i', String(SECT.length - 1));
+  });
+
+  rail.innerHTML = SECT.map(function(s){
+    return '<div class="rail__seg" style="flex:' + (s.end - s.start) + '"><div class="rail__fill"></div></div>';
+  }).join('');
+  var fills = [].slice.call(rail.querySelectorAll('.rail__fill'));
+  cAll.textContent = String(n);
+
+  /* ── jump menu, built once ── */
+  function titleOf(s, i){
+    var t = s.getAttribute('data-title');
+    if (t) return t;
+    var el = s.querySelector('h1,h2,h3,.stmt,.sect__q,.label');
+    t = el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (t.length > 64) t = t.slice(0, 63).replace(/\s\S*$/, '') + '…';
+    return t || ('Slide ' + (i + 1));
+  }
+  jumpIn.innerHTML = SECT.map(function(s){
+    var btns = '';
+    for (var i = s.start; i < s.end; i++){
+      btns += '<button class="jbtn" data-go="' + i + '"><i>' + (i + 1) + '</i><span>' +
+              titleOf(slides[i], i).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span></button>';
+    }
+    return '<p class="jump__k">' + s.name + '</p><div class="jump__grid">' + btns + '</div>';
+  }).join('');
+  var jbtns = [].slice.call(jumpIn.querySelectorAll('.jbtn'));
+
+  /* Measure the SLIDE, not the deck: slides are 100vw, which is fractional,
+     while clientWidth truncates. Over many slides that rounding drifts far
+     enough to show a sliver of the next slide. */
+  function measure(){ return slides[0].getBoundingClientRect().width || deck.clientWidth; }
+
+  var W = measure();          // one slide = one page width
+  var x = 0;                  // current track offset (px, negative = forward)
+  var v = 0;                  // current velocity (px/s)
+  var target = 0;
+  var index = 0;              // the slide currently ON SCREEN
+  var want = 0;               // the slide we are heading to
+  var raf = null, lastT = 0, hashT = null;
+
+  // Apple's two designer-facing spring parameters
+  var damping = 1.0;          // 1.0 = critically damped, no overshoot
+  var response = 0.4;         // seconds to approach the target
+
+  function minX(){ return -(n - 1) * W; }
+  function clamp01(t){ return t < 0 ? 0 : t > 1 ? 1 : t; }
+
+  /* Slides are 100vw, so -index * W is almost always fractional. A layer parked
+     on a fractional offset resamples itself and softens text, so the applied
+     value is snapped to the device pixel grid. The maths still uses exact x. */
+  var dpr = window.devicePixelRatio || 1;
+  function snap(val){ return Math.round(val * dpr) / dpr; }
+
+  function render(){
+    track.style.transform = 'translate3d(' + snap(x) + 'px,0,0)';
+    var pos = (W > 0 && n > 1) ? clamp01(-x / ((n - 1) * W)) * (n - 1) : 0;  // continuous position
+    for (var s = 0; s < SECT.length; s++){
+      var count = SECT[s].end - SECT[s].start;
+      fills[s].style.width = (clamp01((pos - SECT[s].start + 1) / count) * 100) + '%';
+    }
+    var i = Math.round(-x / W);
+    i = Math.max(0, Math.min(n - 1, i));
+    if (i !== index){ index = i; onIndex(); }
+  }
+
+  function syncNav(){
+    prev.disabled = want === 0;
+    next.disabled = want === n - 1;
+  }
+
+  function onIndex(){
+    cNow.textContent = String(index + 1);
+    slides.forEach(function(s, i){ s.classList.toggle('is-active', i === index); });
+    slides[index].classList.add('seen');   // reveals play once, then stay
+    pSect.textContent = SECT[Number(slides[index].getAttribute('data-sect-i'))].name;
+    var blue = slides[index].classList.contains('slide--blue');
+    pill.classList.toggle('on-blue', blue);
+    rail.classList.toggle('on-blue', blue);
+    hint.classList.toggle('on-blue', blue);
+    syncNav();
+    jbtns.forEach(function(b, i){ b.classList.toggle('is-here', i === index); });
+    // a demo runs only while its own slide is the one on screen
+    document.dispatchEvent(new CustomEvent('slidechange', { detail:{ index: index } }));
+    // debounced: a fast multi-slide flick must not machine-gun replaceState
+    clearTimeout(hashT);
+    hashT = setTimeout(function(){
+      if (location.hash !== '#' + (index + 1)) history.replaceState(null, '', '#' + (index + 1));
+    }, 250);
+  }
+
+  /* ── spring: integrate from the CURRENT on-screen value, always interruptible ── */
+  function tick(t){
+    if (!lastT) lastT = t;
+    var dt = Math.min(0.064, (t - lastT) / 1000);
+    lastT = t;
+
+    var w0 = 2 * Math.PI / response;
+    var k = w0 * w0, c = 2 * damping * w0;
+    var steps = Math.max(1, Math.ceil(dt / (1 / 600)));
+    var h = dt / steps;
+    for (var i = 0; i < steps; i++){
+      var a = -k * (x - target) - c * v;
+      v += a * h;
+      x += v * h;
+    }
+
+    render();
+    if (Math.abs(x - target) < 0.4 && Math.abs(v) < 6){
+      x = target; v = 0; render();
+      raf = null; lastT = 0;
+      track.classList.remove('is-moving');   // release the layer: text re-rasterises crisp
+      return;
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  function spring(to, initialVelocity, d, r){
+    target = to;
+    if (typeof initialVelocity === 'number') v = initialVelocity;
+    damping = d || 1.0;
+    response = r || 0.4;
+    if (reduce){ x = target; v = 0; render(); return; }
+    track.classList.add('is-moving');
+    if (!raf){ lastT = 0; raf = requestAnimationFrame(tick); }
+  }
+
+  /* go() is the only way the deck moves on purpose. It commits to `want`
+     immediately, so a viewer mashing the arrow key advances once per press
+     even though `index` only catches up when a frame renders. */
+  function go(i, vel, d, r){
+    i = Math.max(0, Math.min(n - 1, i));
+    want = i;
+    syncNav();
+    spring(-i * W, vel, d, r);
+    hint.classList.add('is-gone');
+  }
+
+  /* ── momentum projection: land where the flick was going (Apple's decay form) ── */
+  function project(velocity, decelerationRate){
+    var dr = decelerationRate || 0.998;
+    return (velocity / 1000) * dr / (1 - dr);
+  }
+
+  /* ── rubber-band: resist progressively past the ends, never hard-stop ── */
+  function rubberband(overshoot, dimension, constant){
+    var cst = constant || 0.55;
+    return (overshoot * dimension * cst) / (dimension + cst * Math.abs(overshoot));
+  }
+  function clampWithBand(raw){
+    var lo = minX(), hi = 0;
+    if (raw > hi) return hi + rubberband(raw - hi, W);
+    if (raw < lo) return lo + rubberband(raw - lo, W);
+    return raw;
+  }
+
+  /* ── direct manipulation: 1:1 tracking, axis decided in parallel ── */
+  var down = false, decided = false, axis = null;
+  var startX = 0, startY = 0, startPos = 0, pid = null;
+  var hist = [];
+
+  deck.addEventListener('pointerdown', function(e){
+    if (e.button !== undefined && e.button !== 0) return;
+    if (e.target.closest('.pill, .demo__ctl, .jump')) return;
+    down = true; decided = false; axis = null;
+    startX = e.clientX; startY = e.clientY; startPos = x;
+    pid = e.pointerId;
+    hist = [{ t: e.timeStamp, x: e.clientX }];
+    // grabbing a moving deck stops it exactly where it is, keeping its velocity
+    if (raf){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
+  });
+
+  deck.addEventListener('pointermove', function(e){
+    if (!down || e.pointerId !== pid) return;
+    var dx = e.clientX - startX, dy = e.clientY - startY;
+
+    if (!decided){
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;   // hysteresis
+      axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      decided = true;
+      if (axis === 'x'){
+        try { deck.setPointerCapture(pid); } catch (err) {}
+        track.classList.add('is-grabbing');
+      }
+    }
+    if (axis !== 'x') return;
+
+    e.preventDefault();
+    x = clampWithBand(startPos + dx);
+    hist.push({ t: e.timeStamp, x: e.clientX });
+    if (hist.length > 6) hist.shift();
+    render();
+  }, { passive: false });
+
+  function release(e){
+    if (!down || (e.pointerId !== undefined && e.pointerId !== pid)) return;
+    down = false;
+    track.classList.remove('is-grabbing');
+    try { deck.releasePointerCapture(pid); } catch (err) {}
+    if (axis !== 'x'){ axis = null; return; }
+    axis = null;
+
+    // velocity from a short history window, not just the last event
+    var vel = 0;
+    if (hist.length > 1){
+      var a = hist[0], b = hist[hist.length - 1];
+      var dt = (b.t - a.t) / 1000;
+      if (dt > 0.008) vel = (b.x - a.x) / dt;
+    }
+
+    var from = Math.round(-startPos / W);          // the slide we grabbed from
+    var flick = Math.abs(vel) > 220;
+    var i;
+
+    if (flick){
+      // A flick commits on the velocity SIGN, not on how far it happened to
+      // travel, so a short-but-fast swipe still advances. A harder throw carries.
+      i = vel < 0 ? from + 1 : from - 1;
+      var byMomentum = Math.round(-(x + project(vel)) / W);
+      i = vel < 0 ? Math.max(i, byMomentum) : Math.min(i, byMomentum);
+    } else {
+      // A slow drag commits on distance: past a third of a page and it goes.
+      var moved = x - startPos;
+      i = Math.abs(moved) > W * 0.3 ? (moved < 0 ? from + 1 : from - 1) : from;
+    }
+    i = Math.max(0, Math.min(n - 1, i));
+
+    // bounce only when the gesture itself carried momentum
+    go(i, vel, flick ? 0.8 : 1.0, flick ? 0.4 : 0.42);
+  }
+  deck.addEventListener('pointerup', release);
+  deck.addEventListener('pointercancel', release);
+
+  /* ── jump menu ── */
+  function setJump(on){
+    jump.classList.toggle('is-open', on);
+    if (on){
+      var here = jbtns[want];
+      if (here) here.focus();
+    } else {
+      pCount.focus();
+    }
+  }
+  pCount.addEventListener('click', function(){ setJump(!jump.classList.contains('is-open')); });
+  jump.addEventListener('click', function(e){
+    var b = e.target.closest('.jbtn');
+    if (b){ go(Number(b.getAttribute('data-go'))); setJump(false); return; }
+    if (e.target === jump) setJump(false);
+  });
+
+  /* ── buttons & keys ── */
+  prev.addEventListener('click', function(){ go(want - 1); });
+  next.addEventListener('click', function(){ go(want + 1); });
+
+  function toggleFs(){
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  }
+  fs.addEventListener('click', toggleFs);
+  document.addEventListener('fullscreenchange', function(){
+    var on = !!document.fullscreenElement;
+    fsIcon.firstElementChild.setAttribute('d', on
+      ? 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5'
+      : 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5');
+    fs.setAttribute('aria-label', on ? 'Exit full screen' : 'Enter full screen');
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'button' && (e.key === ' ' || e.key === 'Enter')) return;   // let controls act
+    var k = e.key;
+    var open = jump.classList.contains('is-open');
+    if (k === 'Escape'){ if (open){ e.preventDefault(); setJump(false); } return; }
+    if (k === 'o' || k === 'O'){ e.preventDefault(); setJump(!open); return; }
+    if (open) return;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter'){ e.preventDefault(); go(want + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace'){ e.preventDefault(); go(want - 1); }
+    else if (k === 'Home'){ e.preventDefault(); go(0); }
+    else if (k === 'End'){ e.preventDefault(); go(n - 1); }
+    else if (k === 'f' || k === 'F'){ e.preventDefault(); toggleFs(); }
+    else if (k === 'p' || k === 'P'){ e.preventDefault(); window.print(); }
+  });
+
+  /* ── resize: keep the current slide pinned ── */
+  var rt = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){
+      W = measure();
+      dpr = window.devicePixelRatio || 1;    // zoom, or a move to another display
+      if (raf){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
+      track.classList.remove('is-moving');
+      x = target = -want * W; v = 0;
+      render();
+    }, 90);
+  });
+
+  /* ── printing wants every slide in its finished state ── */
+  window.addEventListener('beforeprint', function(){
+    slides.forEach(function(s){ s.classList.add('seen'); });
+  });
+
+  /* ── start ── */
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  if (start >= 1 && start <= n) index = start - 1;
+  want = index;
+  x = target = -index * W;
+  render(); onIndex();
+  setTimeout(function(){ hint.classList.add('is-gone'); }, 5200);
+})();
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SCENE RUNNER · live demos that play themselves
+   ------------------------------------------------------------------------
+   • No play button. Each demo starts the moment its own slide is on screen.
+   • Loops: holds the payoff frame, rewinds gently, runs again.
+   • Pauses off-slide and on a hidden tab; resumes on return.
+   • Pause + Restart, and click the stage to hold a frame
+     (WCAG 2.2.2: anything that auto-moves must be pausable).
+   • prefers-reduced-motion: plays once, fast, then stops.
+   • Printing captures the payoff frame, not whatever beat it was on.
+
+   One engine. It never knows what a stage looks like: each demo hands it a
+   scene list and a reset, scoped to its own subtree. Inert if no demo exists.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var LOOP_HOLD = 1600;   // hold the payoff frame before rewinding
+  var RESET_HOLD = 560;   // a beat of calm before the next pass
+
+  /* createDemo({ root:'<id of .demo>', first:'<scenario key>', build:fn })
+     build(el) receives a scoped lookup for [data-el="…"] inside the demo and
+     returns { reset, scenes: { <key>: [ {kicker, caption, ms, apply}, … ] } }.
+     Optional [data-el] hooks in the markup: kicker, caption, beats, live,
+     play, replay. All of them may be absent. */
+  function createDemo(cfg){
+    var root = document.getElementById(cfg.root);
+    if (!root) return;
+    var slide = root.closest('.slide');
+    var stage = root.querySelector('.stage');
+    function el(k){ return root.querySelector('[data-el="' + k + '"]'); }
+
+    var kicker = el('kicker'), text = el('caption'), beatsEl = el('beats');
+    var playBtn = el('play'), replayBtn = el('replay'), live = el('live');
+
+    var built  = cfg.build(el);
+    var SCENES = built.scenes;
+    var reset  = built.reset;
+
+    var scenario = cfg.first || Object.keys(SCENES)[0];
+    var index = -1;
+    var playing = false;     // runner is actively advancing scenes
+    var userPaused = false;  // viewer pressed Pause (or tapped the stage)
+    var onScreen = false;    // this demo's slide is the one on screen
+    var timer = null;
+    var runId = 0;
+
+    function scenes(){ return SCENES[scenario] || SCENES[Object.keys(SCENES)[0]]; }
+
+    function renderBeats(){
+      if (!beatsEl) return;
+      beatsEl.innerHTML = scenes().map(function(_, i){
+        return '<span class="beat" data-i="' + i + '"></span>';
+      }).join('');
+      paintBeats();
+    }
+    function paintBeats(){
+      if (!beatsEl) return;
+      [].forEach.call(beatsEl.querySelectorAll('.beat'), function(node){
+        var i = Number(node.getAttribute('data-i'));
+        node.classList.toggle('is-done', i < index);
+        node.classList.toggle('is-current', i === index);
+      });
+    }
+    function showScene(i){
+      var list = scenes();
+      if (i < 0 || i >= list.length) return;
+      index = i;
+      list[i].apply();
+      if (kicker && list[i].kicker != null) kicker.textContent = list[i].kicker;
+      if (text && list[i].caption != null) text.textContent = list[i].caption;
+      paintBeats();
+    }
+
+    function clearTimer(){ if (timer){ clearTimeout(timer); timer = null; } }
+    function wait(ms){ return new Promise(function(res){ timer = setTimeout(res, ms); }); }
+
+    function syncControls(){
+      if (playBtn){
+        playBtn.innerHTML = userPaused ? '&#9656; Resume' : '&#10073;&#10073; Pause';
+        playBtn.setAttribute('aria-pressed', String(userPaused));
+        playBtn.setAttribute('aria-label', userPaused ? 'Resume demo' : 'Pause demo');
+      }
+      if (live) live.classList.toggle('is-live', playing && !userPaused);
+    }
+
+    /* Run only while the viewer hasn't paused, this demo's slide is on screen,
+       and the tab is visible. A loop animating out of view is wasted work. */
+    function canPlay(){ return !userPaused && onScreen && !document.hidden; }
+
+    function run(startAt){
+      var myRun = ++runId;
+      playing = true;
+      syncControls();
+      var list = scenes();
+      var i = startAt < 0 ? 0 : startAt;
+
+      function step(){
+        if (myRun !== runId) return;
+        if (i >= list.length){
+          if (reduceMotion){ playing = false; syncControls(); return; }
+          // Let the payoff land, rewind gently, then run it again.
+          wait(LOOP_HOLD).then(function(){
+            if (myRun !== runId) return;
+            reset();
+            index = -1;
+            paintBeats();
+            return wait(RESET_HOLD).then(function(){
+              if (myRun !== runId) return;
+              i = 0;
+              step();
+            });
+          });
+          return;
+        }
+        showScene(i);
+        wait(reduceMotion ? 70 : list[i].ms).then(function(){
+          if (myRun !== runId) return;
+          i += 1;
+          step();
+        });
+      }
+      step();
+    }
+
+    // Cancel the active runner but leave the current frame on screen.
+    function halt(){ runId += 1; clearTimer(); playing = false; }
+
+    // Single source of truth: start or stop the runner to match current state.
+    function maybePlay(){
+      if (canPlay()){ if (!playing) run(index); }
+      else if (playing) halt();
+      syncControls();
+    }
+
+    function restart(){
+      userPaused = false;
+      halt();
+      reset();
+      index = -1;
+      paintBeats();
+      maybePlay();
+    }
+
+    /* ── controls ── */
+    if (playBtn) playBtn.addEventListener('click', function(){ userPaused = !userPaused; maybePlay(); });
+    if (replayBtn) replayBtn.addEventListener('click', restart);
+
+    if (stage) stage.addEventListener('click', function(e){
+      if (e.target.closest('a, button')) return;
+      userPaused = !userPaused;
+      maybePlay();
+    });
+
+    var chips = [].slice.call(root.querySelectorAll('.dbtn[data-scenario]'));
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(c){ c.setAttribute('aria-pressed', String(c === chip)); });
+        scenario = chip.getAttribute('data-scenario');
+        if (stage) stage.setAttribute('data-scenario', scenario);
+        userPaused = false;
+        halt();
+        reset();
+        index = -1;
+        renderBeats();
+        maybePlay();
+      });
+    });
+
+    /* ── autoplay lifecycle ── */
+    function syncVisible(){
+      onScreen = !!slide && slide.classList.contains('is-active');
+      maybePlay();
+    }
+    document.addEventListener('slidechange', syncVisible);
+    document.addEventListener('visibilitychange', maybePlay);
+
+    // Printing should capture the payoff frame, not whatever beat it was on.
+    window.addEventListener('beforeprint', function(){
+      userPaused = true;
+      halt();
+      var list = scenes();
+      for (var i = 0; i < list.length; i++) list[i].apply();
+      showScene(list.length - 1);
+      syncControls();
+    });
+
+    renderBeats();
+    reset();
+    syncControls();
+    syncVisible();
+  }
+
+  window.createDemo = createDemo;
+
+  /* ── register demos below, one createDemo() per stage ────────────────────
+  createDemo({
+    root:'demo', first:'happy',
+    build: function(el){
+      var box = el('box');
+      function reset(){ box.classList.remove('is-in'); }
+      return {
+        reset: reset,
+        scenes: {
+          happy: [
+            { ms:600,  kicker:'Idle',   caption:'Nothing has happened yet.', apply: reset },
+            { ms:1400, kicker:'Step 1', caption:'The thing arrives.', apply: function(){ box.classList.add('is-in'); } }
+          ]
+        }
+      };
+    }
+  });
+  ─────────────────────────────────────────────────────────────────────────── */
+})();
+</script>
+</body>
+</html>

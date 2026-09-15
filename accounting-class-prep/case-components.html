@@ -1,0 +1,1383 @@
+<!-- ============================================================
+     MAC case components, in the order the Case part uses them:
+       0 · overview: video, the company, the story, the four lines, the cast
+       1 · the decision and the issues ladder
+       2 · business and industry
+       3 · exhibit read
+       4 · recommendation
+       5 · what to say in class
+       6 · overhead rate: built, applied, then rebuilt on another base
+       7 · diagrams drawn for this case: the fleet, the profit bridge
+       8 · observations: what you noticed that nobody else will
+       9 · every other exhibit, each one classified fixed / variable / mixed
+     Paste the <style> block into the ivey-case-prep template's own
+     <style>, then copy the markup you need. Tokens are the
+     template's; nothing new is defined except --shot-frame.
+     ============================================================ -->
+
+<style>
+:root{ --shot-frame:#D7DED8; }
+
+/* ---------- 0 · overview: who this is, before anything else ---------- */
+.brief{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.brief .who{background:var(--surface-2);padding:20px;display:flex;flex-direction:column;gap:4px}
+.brief .who .nm{font-family:Bitter,Georgia,serif;font-size:25px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.brief .who .sub{color:var(--ink-2);font-size:14.5px;line-height:1.4;margin-bottom:10px}
+.brief .who .facts{display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--rule);padding-top:12px}
+.brief .who .facts span{display:flex;justify-content:space-between;gap:12px;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2)}
+.brief .who .facts span b{color:var(--ink);font-weight:600;text-align:right}
+.brief .story{padding:20px 22px;display:flex;flex-direction:column;gap:11px;background:var(--surface)}
+.brief .story p{font-size:16.5px;line-height:1.55;max-width:62ch}
+.brief .story p b{font-weight:600}
+.brief .story .stamp{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent)}
+@media(max-width:780px){.brief{grid-template-columns:1fr}}
+
+/* who is in the room, and what each of them wants */
+.cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.cast>div{background:var(--surface);padding:13px 16px;display:flex;flex-direction:column;gap:2px}
+.cast .nm{font-weight:600;font-size:15px}
+.cast .rl{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+.cast .wt{font-size:14px;color:var(--ink-2);line-height:1.4;margin-top:4px}
+
+/* ---------- 1 · the decision, and the issues ladder ---------- */
+.dec{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.dec div{background:var(--surface);padding:13px 16px;display:flex;flex-direction:column;gap:3px}
+.dec .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3)}
+.dec .v{font-size:15px;font-weight:600}
+
+.issues{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.iss{display:grid;grid-template-columns:30px minmax(0,1fr) minmax(0,.82fr);gap:16px;
+  padding:15px 18px;border-top:1px solid var(--rule);background:var(--surface)}
+.iss:first-child{border-top:none}
+.iss .lv{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--accent);padding-top:4px}
+.iss .body{display:flex;flex-direction:column;gap:4px;min-width:0}
+.iss .ttl{font-weight:600;font-size:15.5px;line-height:1.3}
+.iss .sub{color:var(--ink-2);font-size:14.5px}
+.iss .settle{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2);
+  background:var(--surface-2);border-radius:8px;padding:9px 12px;align-self:start}
+.iss .settle b{color:var(--accent);font-weight:600}
+@media(max-width:820px){.iss{grid-template-columns:26px minmax(0,1fr)}.iss .settle{grid-column:2}}
+
+/* ---------- 2 · business and industry, built from the ground up ---------- */
+
+/* the ladder: one plain sentence per step, the number under it, top to bottom */
+.ground{display:flex;flex-direction:column}
+.gstep{display:grid;grid-template-columns:30px minmax(0,1fr);gap:20px;
+  padding:19px 0;border-top:1px solid var(--rule)}
+.gstep:first-child{border-top:none;padding-top:4px}
+.gstep .gn{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-3);
+  padding-top:5px;font-weight:500}
+.gstep .gb{display:flex;flex-direction:column;gap:9px;min-width:0}
+.gstep .txt{font-size:18px;line-height:1.5;max-width:60ch;color:var(--ink)}
+.gstep .txt b{font-weight:600}
+.gstep .fig{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--ink-2);
+  background:var(--surface-2);border-radius:8px;padding:10px 14px;align-self:start;
+  line-height:1.7;white-space:pre-wrap}
+.gstep .fig b{color:var(--ink);font-weight:600}
+
+/* the last rung is the conclusion, so it looks like one */
+.gstep.end{border-top:2px solid var(--accent);margin-top:4px}
+.gstep.end .gn{color:var(--accent)}
+.gstep.end .txt{font-family:Bitter,Georgia,serif;font-size:20px;font-weight:600;line-height:1.35}
+.gstep.end .fig{background:var(--accent-soft);color:var(--ink)}
+.gstep.end .fig b{color:var(--accent)}
+
+/* where the money goes: two plain buckets, sized by how big they are */
+.mix{display:flex;flex-direction:column;gap:11px}
+.mix .track{display:flex;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--rule-strong)}
+.mix .seg{display:flex;align-items:center;padding:0 14px;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden}
+.mix .seg.v{background:var(--accent-soft);color:var(--accent);border-right:1px solid var(--rule-strong)}
+.mix .seg.m{background:var(--flag-soft);color:var(--flag);border-right:1px solid var(--rule-strong)}
+.mix .seg.f{background:var(--credit-soft);color:var(--credit)}
+.mix .keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+.mix .key{display:flex;gap:11px;align-items:flex-start}
+.mix .key i{width:13px;height:13px;border-radius:4px;flex:none;margin-top:5px}
+.mix .key i.v{background:var(--accent-soft);border:1.3px solid var(--accent)}
+.mix .key i.m{background:var(--flag-soft);border:1.3px solid var(--flag)}
+.mix .key i.f{background:var(--credit-soft);border:1.3px solid var(--credit)}
+.mix .key .t{font-size:15px;line-height:1.45}
+.mix .key .t em{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;color:var(--ink-2);margin-top:2px}
+
+/* what you have to be good at, and whether they are */
+.ksf{display:flex;flex-direction:column;gap:14px}
+.ksfrow{display:grid;grid-template-columns:22px minmax(0,1fr);gap:14px;align-items:start}
+.ksfrow .mk{font-size:15px;line-height:1.5;flex:none}
+.ksfrow .mk.yes{color:var(--accent)}
+.ksfrow .mk.no{color:var(--credit)}
+.ksfrow .mk.part{color:var(--flag)}
+.ksfrow .t{font-size:16px;line-height:1.5;max-width:66ch}
+.ksfrow .t b{font-weight:600}
+.ksfrow .t em{font-style:normal;color:var(--ink-2)}
+
+/* the bridge: the industry read has to land on an accounting consequence */
+.sowhat{border-left:3px solid var(--accent);background:var(--surface-2);
+  border-radius:0 10px 10px 0;padding:17px 20px;display:flex;flex-direction:column;gap:7px}
+.sowhat .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent)}
+.sowhat .v{font-size:17px;line-height:1.5;max-width:64ch}
+.sowhat .v b{font-weight:600}
+
+/* ---------- 3 · exhibit screenshot, with clickable highlights ---------- */
+.shot{margin:0;display:flex;flex-direction:column;gap:9px}
+.shot .canvas{position:relative;line-height:0}
+.shot img{width:100%;display:block;border:1px solid var(--shot-frame);border-radius:9px;background:#fff}
+.shot figcaption{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);
+  display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;line-height:1.5}
+.shot figcaption b{color:var(--ink-2);font-weight:600}
+
+/* a hotspot sits over the exhibit at coordinates exhibit_boxes.py worked out */
+.hs{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);
+  margin:0;padding:0;background:transparent;cursor:pointer;border-radius:7px;
+  border:1.5px dashed color-mix(in srgb,var(--accent) 55%,transparent);
+  /* multiply keeps the exhibit's own figures crisp under the tint */
+  mix-blend-mode:multiply;
+  transition:background .16s ease,border-color .16s ease,box-shadow .16s ease}
+.hs:hover{background:var(--accent-soft);border-style:solid;border-color:var(--accent)}
+.hs.on{background:var(--accent-soft);border:2px solid var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 12%,transparent)}
+.hs.oval{border-radius:50%}
+
+/* a hotspot that says what the thing IS, not just that it is point 3.
+   Semantic colour is fixed across the whole term: green = variable / leaves
+   with the unit, brick = fixed / stays, ochre = mixed / needs splitting. */
+.hs .tag{mix-blend-mode:normal;position:absolute;left:-7px;top:-11px;height:20px;padding:0 9px;
+  border-radius:10px;color:#fff;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+  display:flex;align-items:center;white-space:nowrap}
+.hs.vr{border-color:color-mix(in srgb,var(--accent) 60%,transparent)}
+.hs.vr .tag{background:var(--accent)}
+.hs.vr:hover,.hs.vr.on{background:var(--accent-soft);border-color:var(--accent)}
+.hs.fx{border-color:color-mix(in srgb,var(--credit) 60%,transparent)}
+.hs.fx .tag{background:var(--credit)}
+.hs.fx:hover,.hs.fx.on{background:var(--credit-soft);border-color:var(--credit)}
+.hs.mx{border-color:color-mix(in srgb,var(--flag) 65%,transparent)}
+.hs.mx .tag{background:var(--flag)}
+.hs.mx:hover,.hs.mx.on{background:var(--flag-soft);border-color:var(--flag)}
+.hs.on{border-width:2px}
+
+/* the same three colours on the point beside it */
+.pt.vr.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.pt.vr.on>.hd{background:var(--accent-soft)}
+.pt.vr.on .pin{background:var(--accent);color:#fff}
+.pt.fx.on{border-color:var(--credit);box-shadow:inset 3px 0 0 var(--credit)}
+.pt.fx.on>.hd{background:var(--credit-soft)}
+.pt.fx.on .pin{background:var(--credit);color:#fff}
+.pt.mx.on{border-color:var(--flag);box-shadow:inset 3px 0 0 var(--flag)}
+.pt.mx.on>.hd{background:var(--flag-soft)}
+.pt.mx.on .pin{background:var(--flag);color:#fff}
+.pt .cls{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.13em;
+  text-transform:uppercase;padding:2px 7px;border-radius:5px;align-self:flex-start;font-weight:600}
+.pt.vr .cls{background:var(--accent-soft);color:var(--accent)}
+.pt.fx .cls{background:var(--credit-soft);color:var(--credit)}
+.pt.mx .cls{background:var(--flag-soft);color:var(--flag)}
+.hs .pin{mix-blend-mode:normal;position:absolute;left:-11px;top:-11px;width:22px;height:22px;border-radius:50%;
+  background:var(--accent);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  font-weight:600;display:flex;align-items:center;justify-content:center;line-height:1}
+.hs.trap{border-color:color-mix(in srgb,var(--credit) 55%,transparent)}
+.hs.trap:hover{background:var(--credit-soft);border-color:var(--credit)}
+.hs.trap.on{background:var(--credit-soft);border-color:var(--credit);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--credit) 12%,transparent)}
+.hs.trap .pin{background:var(--credit)}
+
+/* the read beside it: points, each with its own nested detail and working */
+.exread{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:26px;align-items:start}
+.exread .fig-col{position:sticky;top:18px}
+.exread .rd{display:flex;flex-direction:column;gap:9px}
+.exread .hint{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);padding-bottom:2px}
+
+.pt{border:1px solid var(--rule);border-radius:11px;overflow:hidden;background:var(--surface)}
+.pt>.hd{display:grid;grid-template-columns:22px minmax(0,1fr);gap:11px;width:100%;
+  padding:12px 14px;background:transparent;border:0;text-align:left;font:inherit;color:inherit;
+  cursor:pointer;transition:background .16s ease}
+.pt>.hd:hover{background:var(--surface-2)}
+.pt .pin{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--surface-3);color:var(--ink-2);margin-top:2px}
+.pt .tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pt .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3)}
+.pt .v{font-size:15.5px;color:var(--ink);line-height:1.45}
+.pt .v b{font-weight:600}
+.pt.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.pt.on>.hd{background:var(--accent-soft)}
+.pt.on .pin{background:var(--accent);color:#fff}
+.pt.trap.on{border-color:var(--credit);box-shadow:inset 3px 0 0 var(--credit)}
+.pt.trap.on>.hd{background:var(--credit-soft)}
+.pt.trap.on .pin{background:var(--credit)}
+
+/* the bits within: each one can light its own patch of the exhibit */
+.pt .detail{display:flex;flex-direction:column;gap:7px;padding:2px 14px 13px 47px}
+.pt .sub{display:grid;grid-template-columns:17px minmax(0,1fr);gap:10px;width:100%;
+  padding:6px 9px;margin-left:-9px;border-radius:7px;background:transparent;border:0;
+  text-align:left;font:inherit;color:var(--ink-2);cursor:pointer;transition:background .16s ease}
+.pt .sub:hover{background:var(--surface-2)}
+.pt .sub.on{background:var(--accent-soft);color:var(--ink)}
+.pt .sub .sp{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);padding-top:3px}
+.pt .sub.on .sp{color:var(--accent);font-weight:600}
+.pt .sub .st{font-size:14.5px;line-height:1.5}
+.pt .sub .st b{color:var(--ink);font-weight:600}
+.pt .sub[data-mark]:after{content:"◱";font-size:10px;color:var(--ink-3);align-self:start;padding-top:3px}
+
+/* the arithmetic, right there in the point */
+.pt .mini{font-family:"IBM Plex Mono",monospace;font-size:12px;font-variant-numeric:tabular-nums;
+  background:var(--surface-2);border-radius:8px;padding:10px 13px;margin:2px 0 0;
+  line-height:1.75;white-space:pre;overflow-x:auto;color:var(--ink-2)}
+.pt .mini b{color:var(--ink);font-weight:600}
+.pt .mini i{font-style:normal;color:var(--accent)}
+.pt.trap .mini i{color:var(--credit)}
+
+@media(max-width:900px){.exread{grid-template-columns:1fr}.exread .fig-col{position:static}
+  .pt .detail{padding-left:20px}}
+@media(prefers-reduced-motion:reduce){.hs,.pt>.hd,.pt .sub{transition:none}}
+
+/* ---------- 4 · recommendation ---------- */
+.rec{border:1.5px solid var(--accent);border-radius:12px;background:var(--accent-soft);padding:18px 20px;
+  display:flex;flex-direction:column;gap:9px}
+.rec .hd{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent)}
+.rec .call{font-family:Bitter,Georgia,serif;font-size:19px;font-weight:600;line-height:1.3}
+.rec .because{color:var(--ink-2);font-size:15px;max-width:70ch}
+.rec .carry{font-family:"IBM Plex Mono",monospace;font-size:13px;background:#fff;border-radius:8px;
+  padding:10px 13px;align-self:start}
+
+/* ---------- 5 · what to say in class ---------- */
+.say{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.say .c{border:1px solid var(--rule);border-radius:11px;padding:14px 16px;background:var(--surface);
+  display:flex;flex-direction:column;gap:6px}
+.say .c .when{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent)}
+.say .c .line{font-size:15px;line-height:1.45}
+.say .c .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2);
+  border-top:1px solid var(--rule);padding-top:7px}
+
+/* ---------- 6 · overhead rate ---------- */
+
+/* the rate as a division you can see: pool over base, answer on the right */
+.rateline{display:grid;grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr) 26px minmax(0,1.05fr);
+  gap:10px;align-items:stretch}
+.rateline .box{border:1.5px solid var(--rule-strong);border-radius:11px;padding:13px 16px;
+  background:var(--surface);display:flex;flex-direction:column;gap:3px;min-width:0}
+.rateline .box .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+.rateline .box .v{font-size:14.5px;font-weight:600;line-height:1.3}
+.rateline .box .n{font-family:"IBM Plex Mono",monospace;font-size:17px;font-variant-numeric:tabular-nums;
+  color:var(--ink);margin-top:5px}
+.rateline .box.out{border-color:var(--accent);background:var(--accent-soft)}
+.rateline .box.out .k{color:var(--accent)}
+.rateline .box.out .n{color:var(--accent);font-weight:600}
+.rateline .op{font-family:"IBM Plex Mono",monospace;font-size:20px;color:var(--ink-3);
+  display:flex;align-items:center;justify-content:center}
+@media(max-width:800px){.rateline{grid-template-columns:1fr}.rateline .op{justify-content:flex-start;padding-left:4px}}
+
+/* the choice nobody makes out loud */
+.choice{border-left:3px solid var(--flag);background:var(--flag-soft);border-radius:0 10px 10px 0;
+  padding:14px 18px;display:flex;flex-direction:column;gap:5px}
+.choice .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--flag)}
+.choice .v{font-size:16px;line-height:1.5;max-width:66ch}
+.choice .v b{font-weight:600}
+
+/* same costs, different base, different answer */
+.swap{display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.swaprow{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.5fr) 118px 118px;
+  gap:14px;align-items:center;padding:13px 17px;border-top:1px solid var(--rule);background:var(--surface)}
+.swaprow:first-child{border-top:none}
+.swaprow.hd{background:var(--surface-2)}
+.swaprow.hd span{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+.swaprow .base{font-weight:600;font-size:14.5px}
+.swaprow .asm{font-size:13.5px;color:var(--ink-2);line-height:1.4}
+.swaprow .amt{font-family:"IBM Plex Mono",monospace;font-size:13.5px;font-variant-numeric:tabular-nums;
+  text-align:right;display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.swaprow .amt .bar{height:6px;border-radius:3px;background:var(--rule-strong);width:var(--w)}
+.swaprow.worst .amt .bar{background:var(--credit)}
+.swaprow.best .amt .bar{background:var(--accent)}
+.swaprow .amt b{font-weight:600}
+@media(max-width:820px){.swaprow{grid-template-columns:minmax(0,1fr) 104px 104px}
+  .swaprow .asm{grid-column:1/-1;order:9}}
+
+/* ---------- 7 · diagrams drawn for this case ---------- */
+
+/* the fleet: one row per route, bar width is its fares, the dark part is what
+   leaves with the flight. Cancelled routes are drawn as ghosts, not as rows. */
+.fleet{display:flex;flex-direction:column;gap:9px}
+.fleetrow{display:grid;grid-template-columns:74px minmax(0,1fr) 108px;gap:14px;align-items:center}
+.fleetrow .rt{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--ink)}
+.fleetrow .track{height:26px;display:flex;border-radius:5px;overflow:hidden;
+  background:var(--surface-2);width:var(--w)}
+.fleetrow .vc{background:var(--credit-soft);border-right:1.5px solid var(--credit);flex:none;width:var(--vw)}
+.fleetrow .cn{background:var(--accent-soft);flex:1;display:flex;align-items:center;padding-left:9px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);font-weight:600;
+  overflow:hidden;white-space:nowrap}
+.fleetrow .amt{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-variant-numeric:tabular-nums;
+  text-align:right;color:var(--ink-2)}
+.fleetrow .amt b{color:var(--ink);font-weight:600}
+
+/* a cancelled route is a different object on the page, not a row with a zero in it */
+.fleetrow.gone .rt{color:var(--ink-3);text-decoration:line-through}
+.fleetrow.gone .track{background:transparent;border:1.5px dashed var(--rule-strong);opacity:.75}
+.fleetrow.gone .vc{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 4px,
+  transparent 4px,transparent 8px);border-right-color:var(--rule-strong)}
+.fleetrow.gone .cn{background:transparent;color:var(--ink-3);font-weight:500}
+.fleetrow.gone .amt{color:var(--ink-3)}
+.fleetrow.gone .amt b{color:var(--ink-3);font-weight:500}
+.fleet .ghosthead{display:flex;gap:10px;align-items:baseline;margin-top:7px;
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3)}
+.fleet .ghosthead .ln{flex:1;height:1px;background:var(--rule)}
+.fleet .legend{display:flex;gap:20px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;color:var(--ink-2);margin-top:4px}
+.fleet .legend span{display:flex;gap:7px;align-items:center}
+.fleet .legend i{width:11px;height:11px;border-radius:3px;flex:none}
+.fleet .legend i.v{background:var(--credit-soft);border:1.2px solid var(--credit)}
+.fleet .legend i.c{background:var(--accent-soft);border:1.2px solid var(--accent)}
+@media(max-width:700px){.fleetrow{grid-template-columns:60px minmax(0,1fr)}
+  .fleetrow .amt{grid-column:2;text-align:left}}
+
+/* the bridge: what actually happened to profit between two years */
+.bridge{display:flex;flex-direction:column;gap:2px}
+.brow{display:grid;grid-template-columns:200px minmax(0,1fr) 120px;gap:14px;align-items:center;
+  padding:8px 0}
+.brow .lb{font-size:14px;line-height:1.35}
+.brow .lb b{font-weight:600}
+.brow .plot{height:22px;position:relative;background:var(--surface-2);border-radius:4px}
+.brow .seg{position:absolute;top:0;bottom:0;border-radius:4px;left:var(--l);width:var(--w)}
+.brow .seg.down{background:var(--credit-soft);border:1.2px solid var(--credit)}
+.brow .seg.up{background:var(--accent-soft);border:1.2px solid var(--accent)}
+.brow .seg.base{background:var(--surface-3);border:1.2px solid var(--rule-strong)}
+.brow .n{font-family:"IBM Plex Mono",monospace;font-size:13px;font-variant-numeric:tabular-nums;
+  text-align:right}
+.brow .n.down{color:var(--credit)}
+.brow .n.up{color:var(--accent)}
+.brow.end{border-top:1.5px solid var(--rule-strong);margin-top:6px;padding-top:12px}
+.brow.end .lb{font-weight:600;font-size:15px}
+.brow.end .n{font-weight:600;font-size:14px}
+@media(max-width:760px){.brow{grid-template-columns:minmax(0,1fr) 110px}.brow .plot{display:none}}
+
+/* ---------- 8 · observations ---------- */
+.obs{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);
+  border-radius:12px;overflow:hidden}
+.ob{display:grid;grid-template-columns:26px minmax(0,1fr) minmax(0,.72fr);gap:16px;
+  padding:15px 18px;border-top:1px solid var(--rule);background:var(--surface)}
+.ob:first-child{border-top:none}
+.ob .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);padding-top:4px}
+.ob .body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ob .cl{font-size:15.5px;line-height:1.45}
+.ob .cl b{font-weight:600}
+.ob .why{font-size:14px;color:var(--ink-2);line-height:1.45}
+.ob .why em{font-style:normal;color:var(--accent);font-weight:600}
+.ob .ev{font-family:"IBM Plex Mono",monospace;font-size:12px;font-variant-numeric:tabular-nums;
+  background:var(--surface-2);border-radius:8px;padding:9px 12px;align-self:start;
+  line-height:1.7;white-space:pre;color:var(--ink-2)}
+.ob .ev b{color:var(--ink);font-weight:600}
+.ob .tg{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.13em;
+  text-transform:uppercase;align-self:flex-start;padding:3px 8px;border-radius:5px;
+  background:var(--surface-3);color:var(--ink-3)}
+.ob .tg.q{background:var(--flag-soft);color:var(--flag)}
+.ob .tg.b{background:var(--accent-soft);color:var(--accent)}
+.ob .tg.a{background:var(--credit-soft);color:var(--credit)}
+@media(max-width:840px){.ob{grid-template-columns:24px minmax(0,1fr)}.ob .ev{grid-column:2}}
+
+/* ---------- 0a · the video overview ---------- */
+.vid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.vid video{width:100%;display:block;background:#0E1614;aspect-ratio:16/9}
+.vid .side{padding:18px 20px;display:flex;flex-direction:column;gap:10px;background:var(--surface-2)}
+.vid .side .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent)}
+.vid .side .ttl{font-family:Bitter,Georgia,serif;font-size:17px;font-weight:600;line-height:1.25}
+.vid .side .cov{display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--ink-2);
+  line-height:1.4}
+.vid .side .cov span{display:grid;grid-template-columns:15px minmax(0,1fr);gap:7px}
+.vid .side .cov i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  color:var(--ink-3);padding-top:2px}
+.vid .side .made{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
+  border-top:1px solid var(--rule);padding-top:10px;margin-top:auto;line-height:1.6}
+.vid .side .made a{color:var(--accent)}
+@media(max-width:760px){.vid{grid-template-columns:1fr}}
+
+/* ---------- 0b · the four lines the case is built on ---------- */
+.pnl{display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.pnl .hd{display:grid;grid-template-columns:28px minmax(0,1.05fr) minmax(0,1.5fr) 118px 104px;
+  gap:14px;padding:10px 18px;background:var(--surface-2);
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+.pnl .hd .r{text-align:right}
+.pnlrow{display:grid;grid-template-columns:28px minmax(0,1.05fr) minmax(0,1.5fr) 118px 104px;
+  gap:14px;padding:13px 18px;align-items:center;border-top:1px solid var(--rule);background:var(--surface)}
+.pnlrow .op{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-3);text-align:center}
+.pnlrow .lb{font-weight:600;font-size:15px;line-height:1.3}
+.pnlrow .lb em{display:block;font-style:normal;font-weight:400;font-size:12.5px;color:var(--ink-2)}
+.pnlrow .bar{height:22px;border-radius:4px;width:var(--w)}
+.pnlrow .amt{font-family:"IBM Plex Mono",monospace;font-size:14px;font-variant-numeric:tabular-nums;
+  text-align:right;font-weight:600}
+.pnlrow .chg{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-variant-numeric:tabular-nums;
+  text-align:right;color:var(--credit)}
+.pnlrow.rev .bar{background:var(--surface-3);border:1.2px solid var(--rule-strong)}
+.pnlrow.vr .bar{background:var(--accent-soft);border:1.2px solid var(--accent)}
+.pnlrow.oh .bar{background:var(--credit-soft);border:1.2px solid var(--credit)}
+.pnlrow.out{border-top:1.5px solid var(--rule-strong);background:var(--surface-2)}
+.pnlrow.out .bar{background:var(--flag-soft);border:1.2px solid var(--flag)}
+.pnlrow.out .lb,.pnlrow.out .amt{font-weight:600}
+@media(max-width:820px){.pnl .hd{display:none}
+  .pnlrow{grid-template-columns:24px minmax(0,1fr) 112px;gap:11px}
+  .pnlrow .bar{display:none}.pnlrow .chg{grid-column:2/-1;text-align:left}}
+</style>
+
+
+<!-- ============ MARKUP ============ -->
+
+<!-- 0 · overview, so the reader knows who this is before any numbers -->
+
+<!-- 0a · the video. Watch it on the bus, then read the page. Machine made, so
+     it orients and never argues.
+     NotebookLM hands back roughly 35MB for a 6 minute video, which is over the
+     15MB publish limit. Re-encode it before publishing, per the recipe in
+     SKILL.md: slide content survives 240kbps at 15fps with no visible loss.
+     Keep the original in the session folder, publish the web copy. -->
+<div class="vid">
+  <video controls preload="metadata"
+         poster="assets/session-04-regionfly/video-poster.jpg"
+         src="assets/session-04-regionfly/regionfly-video-overview.mp4">
+    Your browser will not play this. The file is in the session folder.
+  </video>
+  <div class="side">
+    <span class="k">Watch first, 6 min 28</span>
+    <span class="ttl">RegionFly, what the case is about</span>
+    <div class="cov">
+      <span><i>1</i>Who RegionFly is and what it sells</span>
+      <span><i>2</i>What happened to the business, 2015 to 2018</span>
+      <span><i>3</i>The decision the new owners face in January 2019</span>
+      <span><i>4</i>Why the route margins in Exhibit 3 mislead</span>
+    </div>
+    <span class="made">Generated by NotebookLM from the case PDF, so treat it as
+      orientation, not as analysis. It deliberately gives no recommendation.
+      <a href="https://notebooklm.google.com/notebook/6e72fbe7-99a5-44e2-950e-8062eb0f7edf">Open the notebook</a></span>
+  </div>
+</div>
+
+<div class="brief">
+  <div class="who">
+    <div class="nm">RegionFly</div>
+    <div class="sub">Regional airline, southeastern United States. Premium service,
+      professional and wealthy flyers.</div>
+    <div class="facts">
+      <span>Founded <b>1971</b></span>
+      <span>Routes <b>7 historic, 5 flying</b></span>
+      <span>Revenue 2018 <b>$4.16M</b></span>
+      <span>Operating profit <b>$1.26M</b></span>
+      <span>Owner <b>parent airline, 2017</b></span>
+      <span>Case set <b>January 2019</b></span>
+    </div>
+  </div>
+  <div class="story">
+    <span class="stamp">What is going on</span>
+    <p>RegionFly has flown the same seven routes along the eastern seaboard since
+      1971, and deliberately never grew. That worked for four decades. Then fares
+      fell, demand softened, and by 2017 the company was profitable but going
+      backwards, so a larger airline bought it.</p>
+    <p>The new owners want costs down. Two routes were already cancelled after
+      2016, and <b>profit fell anyway</b>. Now the owners are asking which routes
+      to cut next, and they want an answer in three days.</p>
+    <p>Ed and Fabiana have to tell them. The trouble is that the only numbers they
+      have are route profits produced by a cost system that spreads overhead on
+      revenue, so <b>the busiest routes look like the worst ones</b>.</p>
+  </div>
+</div>
+
+<!-- 0b · the four lines. This is the case's own income statement, and every
+     question in it is about one of these rows or the line between two of them. -->
+<h3>The four lines this case is built on</h3>
+<div class="pnl">
+  <div class="hd"><span></span><span>The line</span><span>Share of fares</span>
+    <span class="r">2018</span><span class="r">vs 2015</span></div>
+
+  <div class="pnlrow rev"><span class="op"></span>
+    <span class="lb">Revenue<em>What passengers paid, seven routes</em></span>
+    <span class="bar" style="--w:100%"></span>
+    <span class="amt">4,164,340</span><span class="chg">−30.6%</span></div>
+
+  <div class="pnlrow vr"><span class="op">−</span>
+    <span class="lb">Variable direct costs<em>Leave with the flight: fuel, crew hours, landing</em></span>
+    <span class="bar" style="--w:17.3%"></span>
+    <span class="amt">722,206</span><span class="chg">−28.8%</span></div>
+
+  <div class="pnlrow oh"><span class="op">−</span>
+    <span class="lb">Overhead<em>One block, seven account numbers, no route attached</em></span>
+    <span class="bar" style="--w:52.3%"></span>
+    <span class="amt">2,179,686</span><span class="chg">−19.2%</span></div>
+
+  <div class="pnlrow out"><span class="op">=</span>
+    <span class="lb">Operating profit<em>30.3% margin, still healthy, still falling</em></span>
+    <span class="bar" style="--w:30.3%"></span>
+    <span class="amt">1,262,448</span><span class="chg">−44.9%</span></div>
+</div>
+
+<p class="note">Read the right-hand column downwards. Fares fell 30.6%, the costs
+that leave with the flight fell about the same, overhead fell only 19.2%, and
+profit fell <b>44.9%</b>. Profit falls fastest because the middle row shrank with
+the business and the third row did not. Every question in this case is about one
+of these four rows, or about the line between two of them.</p>
+
+<div class="cast">
+  <div><span class="nm">Ed Merch</span><span class="rl">Director of strategy</span>
+    <span class="wt">Has to name routes, and does not trust the numbers he was given.</span></div>
+  <div><span class="nm">Fabiana Queen</span><span class="rl">CFO</span>
+    <span class="wt">Owns the cost system that is producing the misleading figures.</span></div>
+  <div><span class="nm">The new owners</span><span class="rl">Parent airline, since 2017</span>
+    <span class="wt">Want cost out. Already tried cutting routes once, in 2017.</span></div>
+</div>
+
+<!-- 1 · the decision, then the issues -->
+<div class="dec">
+  <div><span class="k">Whose call it is</span><span class="v">The new owners</span></div>
+  <div><span class="k">What they have to decide</span><span class="v">Cut two more routes, or not</span></div>
+  <div><span class="k">How long they have</span><span class="v">Three days</span></div>
+  <div><span class="k">What makes it hard</span><span class="v">Most of the cost does not leave with the route</span></div>
+</div>
+
+<div class="issues">
+  <div class="iss">
+    <span class="lv">1</span>
+    <div class="body">
+      <span class="ttl">Immediate: which routes get cut</span>
+      <span class="sub">Ed has three days to name routes.</span>
+    </div>
+    <span class="settle">Settled by: contribution per route, <b>not</b> reported margin</span>
+  </div>
+  <div class="iss">
+    <span class="lv">2</span>
+    <div class="body">
+      <span class="ttl">Underneath: the cost system is lying about routes</span>
+      <span class="sub">Overhead is spread on revenue, so a big route looks expensive by construction.</span>
+    </div>
+    <span class="settle">Settled by: reclassifying Exhibit 2 fixed vs variable</span>
+  </div>
+  <div class="iss">
+    <span class="lv">3</span>
+    <div class="body">
+      <span class="ttl">Behind that: cuts made on bad numbers already happened</span>
+      <span class="sub">2017 proves it. Two routes gone, profit still fell.</span>
+    </div>
+    <span class="settle">Settled by: the 2016 → 2017 overhead bridge</span>
+  </div>
+</div>
+
+<!-- 2 · business and industry, from the ground up -->
+
+<!-- 2a · start from what physically happens, and only then look at money -->
+<h3>Start from what actually happens</h3>
+<div class="ground">
+
+  <div class="gstep">
+    <span class="gn">1</span>
+    <div class="gb">
+      <p class="txt">RegionFly flies planes between small cities. A plane leaves
+        the gate with a fixed number of seats on it, and <b>it costs the same to
+        fly whether those seats are full or empty</b>.</p>
+    </div>
+  </div>
+
+  <div class="gstep">
+    <span class="gn">2</span>
+    <div class="gb">
+      <p class="txt">Money comes in one way: somebody buys a seat. RegionFly does
+        not set that fare. The majors and the other regionals do, and RegionFly
+        takes what the market gives.</p>
+      <div class="fig">Route #5 fares, 2018 = <b>$608,818</b></div>
+    </div>
+  </div>
+
+  <div class="gstep">
+    <span class="gn">3</span>
+    <div class="gb">
+      <p class="txt">Some money goes out <b>because that flight happened</b>.
+        Burn the fuel, pay the crew for those hours, pay the airport to land.
+        No flight, no cost.</p>
+      <div class="fig">Route #5, 2018 = <b>$98,196</b>
+16 cents of every fare dollar</div>
+    </div>
+  </div>
+
+  <div class="gstep">
+    <span class="gn">4</span>
+    <div class="gb">
+      <p class="txt">The rest goes out <b>whether the plane moves or not</b>. The
+        lease on the aircraft, the hangar, the head office. Cancel every flight
+        tomorrow and this bill still arrives.</p>
+      <div class="fig">Whole airline, 2018 = <b>$2,179,686</b>
+no single route causes any of it</div>
+    </div>
+  </div>
+
+  <div class="gstep end">
+    <span class="gn">→</span>
+    <div class="gb">
+      <p class="txt">So dropping a route loses you all of its fares and saves you
+        only the fuel and crew. The big bill stays.</p>
+      <div class="fig">Drop Route #5:   lose 608,818
+                 save    98,196
+                 ─────────────
+                 <b>airline is $510,622 worse off</b></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 2b · the split as Exhibit 1 presents it. Exhibit 2 revises it later, and
+     section 9 shows the revision. Do not delete one of the two: the gap between
+     them is the case. -->
+<h3>Where the money goes, as Exhibit 1 presents it</h3>
+<div class="mix">
+  <div class="track">
+    <div class="seg v" style="width:25%">25%</div>
+    <div class="seg f" style="width:75%">75%</div>
+  </div>
+  <div class="keys">
+    <div class="key"><i class="v"></i><span class="t">Goes away if the plane stays home
+      <em>$722,206 · fuel, crew hours, landing fees</em></span></div>
+    <div class="key"><i class="f"></i><span class="t">Still there in the morning
+      <em>$2,179,686 · the whole overhead block</em></span></div>
+  </div>
+</div>
+
+<p class="note">That is what Exhibit 1 looks like if you take the overhead block at
+face value, and it is where most of the class will stop. Exhibit 2 breaks that
+block open and the avoidable share goes from 25% to <b>61%</b>. Both numbers go on
+the page, because the distance between them is the point.</p>
+
+<!-- 2c · what this business has to be good at, and whether it is -->
+<h3>What this business has to be good at</h3>
+<div class="ksf">
+  <div class="ksfrow"><span class="mk part">◐</span><span class="t">
+    <b>Fill the seats.</b> The fixed bill is the same either way, so every extra
+    passenger is nearly pure profit. <em>Slipping: revenue per route is falling
+    faster than seats flown.</em></span></div>
+  <div class="ksfrow"><span class="mk no">✕</span><span class="t">
+    <b>Keep the planes flying.</b> A parked aircraft still costs its full lease.
+    <em>Two routes were cancelled in 2017 and the lease bill did not move.</em></span></div>
+  <div class="ksfrow"><span class="mk no">✕</span><span class="t">
+    <b>Know what a route really costs.</b> Every keep or kill call runs off this
+    number. <em>The system spreads overhead on revenue, so the biggest route
+    looks the most expensive by construction.</em></span></div>
+</div>
+
+<div class="sowhat">
+  <span class="k">Which means</span>
+  <span class="v">Three quarters of this airline's costs do not care what you fly.
+    So the only number that answers a keep or kill question is
+    <b>fares minus the costs that leave with the flight</b>. The reported profit
+    per route, which has a share of the $2.18M buried in it, answers a different
+    question and will give you the wrong answer to this one.</span>
+</div>
+
+<!-- 3 · exhibit, screenshot with clickable highlights, plus the read -->
+<!-- Every coordinate below came from exhibit_boxes.py. Do not eyeball them.
+     python3 exhibit_boxes.py case.pdf assets/session-04-regionfly 5 \
+       "block:REVENUE..Total Revenue=rev" "row:Route #2=r2" ...                  -->
+<div class="exread" data-linked>
+  <div class="fig-col">
+  <figure class="shot">
+    <div class="canvas">
+      <img src="assets/session-04-regionfly/exhibit-5.jpg"
+           alt="Exhibit 1, RegionFly revenue, cost and profitability 2015 to 2018">
+      <button class="hs" data-mark="rev" aria-label="Revenue by route"
+              style="--x:2.7%;--y:15.0%;--w:94.4%;--h:21.0%"><span class="pin">1</span></button>
+      <button class="hs" data-mark="r2" aria-label="Route 2 revenue row"
+              style="--x:2.7%;--y:21.5%;--w:84.5%;--h:2.6%"></button>
+      <button class="hs" data-mark="r4" aria-label="Route 4 revenue row"
+              style="--x:2.7%;--y:25.2%;--w:84.5%;--h:2.6%"></button>
+      <button class="hs" data-mark="totrev" aria-label="Total revenue row"
+              style="--x:2.7%;--y:33.3%;--w:84.5%;--h:2.7%"><span class="pin">2</span></button>
+      <button class="hs" data-mark="var" aria-label="Variable direct costs"
+              style="--x:2.7%;--y:37.9%;--w:96.3%;--h:22.6%"><span class="pin">3</span></button>
+      <button class="hs" data-mark="totvar" aria-label="Total variable direct costs row"
+              style="--x:2.7%;--y:56.2%;--w:84.5%;--h:2.7%"></button>
+      <button class="hs trap" data-mark="oh" aria-label="Overhead, by account not by route"
+              style="--x:2.7%;--y:60.9%;--w:96.3%;--h:21.8%"><span class="pin">4</span></button>
+      <button class="hs trap" data-mark="totoh" aria-label="Total overhead row"
+              style="--x:2.7%;--y:80.0%;--w:84.5%;--h:2.7%"></button>
+      <button class="hs" data-mark="profit" aria-label="Operating profit row"
+              style="--x:2.7%;--y:83.2%;--w:84.5%;--h:2.6%"><span class="pin">5</span></button>
+    </div>
+    <figcaption><b>Exhibit 1</b> Revenue, cost and profitability, 2015–2018 · case p.5</figcaption>
+  </figure>
+  </div>
+
+  <div class="rd">
+    <p class="hint">Click a point, or any ◱ line inside it, to light up that patch of the exhibit.</p>
+
+    <div class="pt" data-mark="rev">
+      <button class="hd" data-mark="rev"><span class="pin">1</span><span class="tx">
+        <span class="k">Revenue, by route</span>
+        <span class="v">Seven routes are listed, but only <b>five of them fly</b>.
+          The cut everyone is debating has already been run once.</span></span></button>
+      <div class="detail">
+        <button class="sub" data-mark="r2"><span class="sp">a</span><span class="st">
+          Route #2 goes to <b>$0</b> in 2017 and stays there. Cancelled, not shrunk.</span></button>
+        <button class="sub" data-mark="r4"><span class="sp">b</span><span class="st">
+          Route #4 the same. Between them they carried a quarter of 2016 fares.</span></button>
+        <pre class="mini">Fares lost to the 2017 cancellations
+  Route #2, 2016      830,014
+  Route #4, 2016      523,553
+                    ─────────
+                    <b>1,353,567</b>
+       <i>23.7% of all 2016 fares</i></pre>
+        <button class="sub"><span class="sp">c</span><span class="st">
+          The five survivors shrank too, so the fall is not only the cancellations.</span></button>
+        <pre class="mini">Five surviving routes
+  2016              4,359,666
+  2018              4,164,340
+                    ─────────
+  down                195,326   <i>−4.5% on their own</i></pre>
+      </div>
+    </div>
+
+    <div class="pt" data-mark="totrev">
+      <button class="hd" data-mark="totrev"><span class="pin">2</span><span class="tx">
+        <span class="k">The top line</span>
+        <span class="v">Fares fell by nearly a third in three years, and most of
+          that is the two routes that were cut.</span></span></button>
+      <div class="detail">
+        <pre class="mini">Total revenue
+  2015              6,002,529
+  2018              4,164,340
+                    ─────────
+  down              1,838,189   <i>−30.6%</i>
+
+  2016 → 2018       1,548,893
+       <i>−27.1%, the period after the cuts</i></pre>
+      </div>
+    </div>
+
+    <div class="pt" data-mark="var">
+      <button class="hd" data-mark="var"><span class="pin">3</span><span class="tx">
+        <span class="k">The costs that leave with the flight</span>
+        <span class="v">Given by route, and <b>small</b>. This is the only cost in
+          the exhibit that actually disappears when a route does.</span></span></button>
+      <div class="detail">
+        <button class="sub" data-mark="totvar"><span class="sp">a</span><span class="st">
+          $722,206 against $4.16M of fares, so about <b>17 cents in the fare dollar</b>.</span></button>
+        <pre class="mini">Variable share of fares, 2018
+  722,206 ÷ 4,164,340 = <b>17.3%</b>
+       <i>so 82.7¢ in the fare dollar is contribution</i></pre>
+        <button class="sub"><span class="sp">b</span><span class="st">
+          Routes #2 and #4 show <b>$0</b> here as well. That is the proof these costs
+          are genuinely variable: no flight, no cost.</span></button>
+        <button class="sub"><span class="sp">c</span><span class="st">
+          Cross-foot it and the case is a dollar out, which tells you it was rounded.</span></button>
+        <pre class="mini">Seven routes add to    722,205
+Exhibit prints         722,206
+                      ────────
+                            <b>1</b>
+       <i>rounding, not an error to chase</i></pre>
+      </div>
+    </div>
+
+    <div class="pt trap" data-mark="oh">
+      <button class="hd" data-mark="oh"><span class="pin">4</span><span class="tx">
+        <span class="k">The trap</span>
+        <span class="v">Overhead is listed <b>by account number, not by route</b>.
+          Nothing in this exhibit tells you what a route costs.</span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          Accounts 1000 to 7000 with no names. Exhibit 2 is where they get identified,
+          and that is where you sort them into fixed and variable.</span></button>
+        <button class="sub" data-mark="totoh"><span class="sp">b</span><span class="st">
+          Two routes were cancelled and overhead barely moved, which is the whole case.</span></button>
+        <pre class="mini">Overhead, after the cuts
+  2016              2,809,015
+  2018              2,179,686
+                    ─────────
+  down                629,329   <i>−22.4%</i>
+
+Revenue over the same period   <i>−27.1%</i>
+Cost fell slower than the revenue that paid for it.</pre>
+        <button class="sub"><span class="sp">c</span><span class="st">
+          So overhead got <b>heavier</b> per fare dollar, not lighter.</span></button>
+        <pre class="mini">Overhead per dollar of fares
+  2016   2,809,015 ÷ 5,713,233 = 49.2¢
+  2018   2,179,686 ÷ 4,164,340 = <b>52.3¢</b>
+       <i>+3.1¢ worse after cutting two routes</i></pre>
+      </div>
+    </div>
+
+    <div class="pt" data-mark="profit">
+      <button class="hd" data-mark="profit"><span class="pin">5</span><span class="tx">
+        <span class="k">What it all lands on</span>
+        <span class="v">The experiment has already run. Two routes were cut, and
+          profit fell by <b>almost a third</b>.</span></span></button>
+      <div class="detail">
+        <pre class="mini">Operating profit
+  2016              1,850,877
+  2018              1,262,448
+                    ─────────
+  down                588,429   <i>−31.8%</i></pre>
+        <button class="sub"><span class="sp">a</span><span class="st">
+          This is the number to put in front of anyone who proposes cutting more.
+          The same move was made in 2017 and it did not work.</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* link the hotspots on an exhibit to the points beside it, both directions.
+   A sub-point lights its own patch; a point with no patch of its own just
+   highlights itself. */
+document.querySelectorAll('.exread[data-linked]').forEach(fig => {
+  const marked = [...fig.querySelectorAll('[data-mark]')];
+  const set = mark => marked.forEach(el => el.classList.toggle('on', !!mark && el.dataset.mark === mark));
+  fig.querySelectorAll('.hs,.pt>.hd,.pt .sub').forEach(el => {
+    const mark = el.dataset.mark;
+    el.addEventListener('click', () => {
+      const already = mark && fig.querySelector(`.hs[data-mark="${mark}"]`)?.classList.contains('on');
+      set(already ? null : mark);
+      fig.dataset.pinned = fig.querySelector('.on') ? '1' : '';
+    });
+    el.addEventListener('mouseenter', () => { if (!fig.dataset.pinned) set(mark); });
+  });
+  fig.addEventListener('mouseleave', () => { if (!fig.dataset.pinned) set(null); });
+});
+</script>
+
+<!-- 4 · recommendation -->
+<div class="rec">
+  <span class="hd">Where I land</span>
+  <span class="call">Cut nothing. Fix the allocation first, then reprice Route #5.</span>
+  <span class="because">Every route covers its own variable cost. Cutting one removes its
+    revenue and leaves the overhead behind, which is exactly what 2017 showed.</span>
+  <span class="carry">Route #5 contribution 2018 = 608,818 − 98,196 = <b>$510,622</b> that walks out the door</span>
+</div>
+
+<!-- 5 · class contribution -->
+<div class="say">
+  <div class="c"><span class="when">Opening</span>
+    <span class="line">The reported route margins are an artifact of the allocation base, not a fact about routes.</span>
+    <span class="num">Backed by: overhead spread on revenue, Exhibit 3</span></div>
+  <div class="c"><span class="when">When someone says cut Route #5</span>
+    <span class="line">That is the 2017 experiment again. It ran, and profit fell.</span>
+    <span class="num">Revenue −$1.30M, overhead only −$477K</span></div>
+  <div class="c"><span class="when">Closing</span>
+    <span class="line">Different numbers for different purposes. Full cost for pricing, contribution for keep or kill.</span>
+    <span class="num">Ties back to session 3</span></div>
+</div>
+
+
+<!-- 6 · overhead rate: built, applied, then rebuilt on another base -->
+
+<h3>Building the rate</h3>
+<div class="rateline">
+  <div class="box"><span class="k">What you are spreading</span>
+    <span class="v">All overhead, 2018</span><span class="n">$2,179,686</span></div>
+  <span class="op">÷</span>
+  <div class="box"><span class="k">What you spread it on</span>
+    <span class="v">Total fares</span><span class="n">$4,164,340</span></div>
+  <span class="op">=</span>
+  <div class="box out"><span class="k">The rate</span>
+    <span class="v">Overhead per fare dollar</span><span class="n">52.34¢</span></div>
+</div>
+
+<pre class="math">Rate = Overhead to spread  ÷  What you spread it on
+     = $2,179,686  ÷  $4,164,340
+     = <b>0.5234, i.e. 52.34 cents of overhead per dollar of fares</b></pre>
+
+<div class="choice">
+  <span class="k">The part nobody says out loud</span>
+  <span class="v">Nothing in the accounts told anyone to divide by fares. Somebody
+    chose it. <b>A route does not consume head office in proportion to what it
+    charges passengers</b>, so this rate quietly taxes the busiest routes hardest,
+    then the resulting margin gets used to decide which routes to cut.</span>
+</div>
+
+<h3>Applying it</h3>
+<table>
+  <thead><tr><th>Route</th><th class="n">Fares 2018</th><th class="n">× rate</th>
+    <th class="n">Overhead charged</th><th class="n">Contribution</th><th class="n">Reported profit</th></tr></thead>
+  <tbody>
+    <tr><td>Route #1</td><td class="n">1,273,941</td><td class="n">0.5234</td>
+      <td class="n">666,802</td><td class="n">1,068,467</td><td class="n">401,665</td></tr>
+    <tr><td>Route #3</td><td class="n">901,845</td><td class="n">0.5234</td>
+      <td class="n">472,041</td><td class="n">747,642</td><td class="n">275,601</td></tr>
+    <tr><td>Route #5</td><td class="n">608,818</td><td class="n">0.5234</td>
+      <td class="n">318,666</td><td class="n">510,622</td><td class="n">191,956</td></tr>
+    <tr><td>Route #6</td><td class="n">539,726</td><td class="n">0.5234</td>
+      <td class="n">282,502</td><td class="n">455,394</td><td class="n">172,892</td></tr>
+    <tr><td>Route #7</td><td class="n">840,010</td><td class="n">0.5234</td>
+      <td class="n">439,675</td><td class="n">660,010</td><td class="n">220,335</td></tr>
+    <tr class="tot"><td>Total</td><td class="n">4,164,340</td><td class="n"></td>
+      <td class="n">2,179,686</td><td class="n">3,442,135</td><td class="n">1,262,449</td></tr>
+  </tbody>
+</table>
+
+<p class="note">The overhead column re-adds to $2,179,686, which is the whole pool,
+so nothing was created or lost in the spreading. Cross-foot every allocation table
+this way. Two things the case rounds: the seven route variable costs sum to
+$722,205 against the $722,206 printed, and reported profit lands a dollar off
+$1,262,448 for the same reason.</p>
+
+<h3>Change the base, change the answer</h3>
+<div class="swap">
+  <div class="swaprow hd"><span>Base you divide by</span><span>What it quietly assumes</span>
+    <span style="text-align:right">Charged to #6</span><span style="text-align:right">Reported profit</span></div>
+  <div class="swaprow best"><span class="base">Fares</span>
+    <span class="asm">A route uses head office in proportion to what it charges passengers</span>
+    <span class="amt"><b>282,502</b><span class="bar" style="--w:65%"></span></span>
+    <span class="amt"><b>172,892</b></span></div>
+  <div class="swaprow"><span class="base">Variable direct cost</span>
+    <span class="asm">A route uses head office in proportion to its fuel and crew</span>
+    <span class="amt"><b>254,522</b><span class="bar" style="--w:58%"></span></span>
+    <span class="amt"><b>200,872</b></span></div>
+  <div class="swaprow worst"><span class="base">Equally, per flying route</span>
+    <span class="asm">Head office serves each route about the same</span>
+    <span class="amt"><b>435,937</b><span class="bar" style="--w:100%"></span></span>
+    <span class="amt"><b>19,457</b></span></div>
+</div>
+
+<div class="sowhat">
+  <span class="k">Which means</span>
+  <span class="v">Route #6 did not change. Nothing about how it flies, what it
+    charges or what it burns is different across those three rows. Only the
+    divisor changed, and its reported profit moved from
+    <b>$172,892 to $19,457</b>. That is why the reported margin cannot decide
+    whether to keep a route, and why contribution, $455,394 in every row, can.</span>
+</div>
+
+
+<!-- 7 · diagrams drawn for this case, not generic shapes -->
+
+<h3>The seven routes, and what each one actually throws off</h3>
+<div class="fleet">
+  <div class="fleetrow"><span class="rt">Route #1</span>
+    <span class="track" style="--w:100%"><span class="vc" style="--vw:16.1%"></span>
+      <span class="cn">contribution</span></span>
+    <span class="amt"><b>1,068,467</b></span></div>
+  <div class="fleetrow"><span class="rt">Route #3</span>
+    <span class="track" style="--w:70.8%"><span class="vc" style="--vw:17.1%"></span>
+      <span class="cn">contribution</span></span>
+    <span class="amt"><b>747,642</b></span></div>
+  <div class="fleetrow"><span class="rt">Route #7</span>
+    <span class="track" style="--w:65.9%"><span class="vc" style="--vw:21.4%"></span>
+      <span class="cn">contribution</span></span>
+    <span class="amt"><b>660,010</b></span></div>
+  <div class="fleetrow"><span class="rt">Route #5</span>
+    <span class="track" style="--w:47.8%"><span class="vc" style="--vw:16.1%"></span>
+      <span class="cn">contribution</span></span>
+    <span class="amt"><b>510,622</b></span></div>
+  <div class="fleetrow"><span class="rt">Route #6</span>
+    <span class="track" style="--w:42.4%"><span class="vc" style="--vw:15.6%"></span>
+      <span class="cn">contribution</span></span>
+    <span class="amt"><b>455,394</b></span></div>
+
+  <div class="ghosthead">Cancelled in 2017, drawn at their last full year <span class="ln"></span></div>
+
+  <div class="fleetrow gone"><span class="rt">Route #2</span>
+    <span class="track" style="--w:65.2%"><span class="vc" style="--vw:23.6%"></span>
+      <span class="cn">was throwing off this</span></span>
+    <span class="amt"><b>634,382</b></span></div>
+  <div class="fleetrow gone"><span class="rt">Route #4</span>
+    <span class="track" style="--w:41.1%"><span class="vc" style="--vw:20.6%"></span>
+      <span class="cn">was throwing off this</span></span>
+    <span class="amt"><b>415,957</b></span></div>
+
+  <div class="legend">
+    <span><i class="v"></i>Leaves with the flight</span>
+    <span><i class="c"></i>Contribution, stays to cover the fixed bill</span>
+    <span>Bar length = fares. 2018, except the two ghosts, which are 2016</span>
+  </div>
+</div>
+
+<div class="sowhat">
+  <span class="k">Which means</span>
+  <span class="v">Not one route fails to cover what it costs to fly. The weakest of
+    the five still hands over <b>$455,394</b> a year towards the fixed bill, and the
+    two that were cancelled were handing over <b>$1,050,339</b> between them. There is
+    no loss-making route in this exhibit to find.</span>
+</div>
+
+<h3>So where did the profit actually go?</h3>
+<div class="bridge">
+  <div class="brow"><span class="lb">Operating profit <b>2016</b></span>
+    <span class="plot"><span class="seg base" style="--l:0%;--w:100%"></span></span>
+    <span class="n">1,850,877</span></div>
+  <div class="brow"><span class="lb">Contribution lost with <b>#2 and #4</b></span>
+    <span class="plot"><span class="seg down" style="--l:43.1%;--w:56.9%"></span></span>
+    <span class="n down">−1,050,339</span></div>
+  <div class="brow"><span class="lb">Survivors earned a little less</span>
+    <span class="plot"><span class="seg down" style="--l:34.0%;--w:9.1%"></span></span>
+    <span class="n down">−167,417</span></div>
+  <div class="brow"><span class="lb">Overhead the cuts <b>did</b> remove</span>
+    <span class="plot"><span class="seg up" style="--l:0%;--w:34.1%"></span></span>
+    <span class="n up">+629,329</span></div>
+  <div class="brow end"><span class="lb">Operating profit <b>2018</b></span>
+    <span class="plot"><span class="seg base" style="--l:0%;--w:68.2%"></span></span>
+    <span class="n">1,262,448</span></div>
+</div>
+
+<pre class="math">Cancelling #2 and #4 traded away contribution to chase overhead
+
+  contribution given up      1,050,339
+  overhead actually saved      629,329
+                             ─────────
+  net cost of the 2017 cuts    <b>421,010</b>   <i>before the survivors slipped</i></pre>
+
+<div class="sowhat">
+  <span class="k">Which means</span>
+  <span class="v">The 2017 cuts are not a hypothetical. They ran, and they cost
+    <b>$421,010</b>. Every dollar of fares walked out, and only sixty cents in the
+    dollar of the overhead followed it. Proposing the same move again in 2019
+    needs an answer to that.</span>
+</div>
+
+
+<!-- 8 · observations: things in the numbers that nobody else will have noticed -->
+<div class="obs">
+
+  <div class="ob"><span class="n">1</span>
+    <div class="body"><span class="tg b">Cost behaviour</span>
+      <span class="cl">The overhead accounts <b>already tell you which costs are
+        fixed</b>, before you open Exhibit 2. Two of them fell at completely
+        different rates over the same period.</span>
+      <span class="why">Account 1000 tracks the business down. Account 4000 barely
+        notices it left. <em>That is the fixed and variable split, visible in
+        Exhibit 1 alone.</em></span></div>
+    <span class="ev">2016 → 2018
+  acct 1000   787,084 → 538,631   <b>−31.6%</b>
+  acct 4000   783,004 → 717,969    <b>−8.3%</b>
+  revenue                        −27.1%</span></div>
+
+  <div class="ob"><span class="n">2</span>
+    <div class="body"><span class="tg q">Check the data</span>
+      <span class="cl">Accounts 1000 and 4000 are <b>identical to the dollar</b> in
+        2015, then separate in every later year.</span>
+      <span class="why">Two unrelated cost pools do not land on the same figure by
+        chance. One was probably set equal to the other when the system was built.
+        <em>Worth a sentence in class, and a reason to distrust 2015.</em></span></div>
+    <span class="ev">2015   acct 1000   <b>755,242</b>
+       acct 4000   <b>755,242</b>
+2016   acct 1000    787,084
+       acct 4000    783,004</span></div>
+
+  <div class="ob"><span class="n">3</span>
+    <div class="body"><span class="tg a">The argument</span>
+      <span class="cl">The overhead problem <b>predates the cuts</b>. In 2016,
+        before anything was cancelled, overhead grew while revenue shrank.</span>
+      <span class="why">So cancelling routes was never going to fix it, and the
+        owners are reaching for the same lever twice.
+        <em>This is the strongest single point against cutting again.</em></span></div>
+    <span class="ev">2015 → 2016
+  revenue    −289,296   <b>−4.8%</b>
+  overhead   +111,723   <b>+4.1%</b></span></div>
+
+  <div class="ob"><span class="n">4</span>
+    <div class="body"><span class="tg b">Cost behaviour</span>
+      <span class="cl">The routes are <b>not interchangeable</b>. What it costs to
+        fly a fare dollar swings six points between them.</span>
+      <span class="why">Any single company-wide rate averages that away, which is
+        the case for looking at routes one at a time rather than through one
+        blended number.</span></div>
+    <span class="ev">Variable cost per fare dollar, 2018
+  Route #6    <b>15.6¢</b>
+  Route #1     16.1¢
+  Route #5     16.1¢
+  Route #3     17.1¢
+  Route #7    <b>21.4¢</b></span></div>
+
+  <div class="ob"><span class="n">5</span>
+    <div class="body"><span class="tg q">Check the data</span>
+      <span class="cl">Route #7's 2018 variable cost is <b>exactly $180,000</b>, the
+        only round number anywhere in the exhibit.</span>
+      <span class="why">Every other figure is granular to the dollar. A round one is
+        an estimate or a plug, so do not build a recommendation that turns on
+        Route #7's margin alone.</span></div>
+    <span class="ev">Route #1   205,474
+Route #3   154,203
+Route #5    98,196
+Route #6    84,332
+Route #7   <b>180,000</b>  ← round</span></div>
+
+  <div class="ob"><span class="n">6</span>
+    <div class="body"><span class="tg a">The argument</span>
+      <span class="cl">Cutting routes made every surviving route look
+        <b>worse</b>, mechanically, with no change in how any of them operate.</span>
+      <span class="why">Fewer routes to spread the same fixed bill over. Cut two
+        more and the survivors get heavier again.
+        <em>The cut is self-justifying, which is what makes it dangerous.</em></span></div>
+    <span class="ev">Overhead per flying route
+  2016   2,809,015 ÷ 7 = 401,288
+  2018   2,179,686 ÷ 5 = <b>435,937</b>
+                        ─────────
+  each route carries    <b>+34,649</b></span></div>
+
+</div>
+
+
+<!-- 9 · the rest of the exhibits. Every exhibit in the case gets shown. -->
+
+<h3>Exhibit 2, sorted into fixed and variable</h3>
+<p class="lede">This is the exhibit the first case question turns on. Each account
+gets a label, and the label is argued from two things: what the description says
+the money buys, and how the account actually moved when flying fell 27%.</p>
+
+<div class="exread" data-linked>
+  <div class="fig-col">
+  <figure class="shot">
+    <div class="canvas">
+      <img src="assets/session-04-regionfly/exhibit-6.jpg"
+           alt="Exhibit 2, RegionFly chart of overhead accounts">
+      <button class="hs vr" data-mark="a1000" aria-label="Account 1000, variable"
+        style="--x:2.8%;--y:15.9%;--w:83.6%;--h:5.7%"><span class="tag">Variable</span></button>
+      <button class="hs mx" data-mark="a2000" aria-label="Account 2000, mixed"
+        style="--x:2.8%;--y:22.2%;--w:82.3%;--h:5.7%"><span class="tag">Mixed</span></button>
+      <button class="hs vr" data-mark="a3000" aria-label="Account 3000, variable"
+        style="--x:2.8%;--y:28.1%;--w:94.4%;--h:5.3%"><span class="tag">Variable</span></button>
+      <button class="hs fx" data-mark="a4000" aria-label="Account 4000, fixed"
+        style="--x:2.8%;--y:32.8%;--w:96.3%;--h:8.8%"><span class="tag">Fixed</span></button>
+      <button class="hs fx" data-mark="a5000" aria-label="Account 5000, fixed"
+        style="--x:2.8%;--y:41.0%;--w:96.3%;--h:5.5%"><span class="tag">Fixed</span></button>
+      <button class="hs fx" data-mark="a6000" aria-label="Account 6000, fixed"
+        style="--x:2.8%;--y:45.7%;--w:96.3%;--h:4.2%"><span class="tag">Fixed</span></button>
+      <button class="hs vr" data-mark="a7000" aria-label="Account 7000, variable"
+        style="--x:2.8%;--y:50.4%;--w:94.4%;--h:5.7%"><span class="tag">Variable</span></button>
+    </div>
+    <figcaption><b>Exhibit 2</b> Chart of overhead accounts · case p.6</figcaption>
+  </figure>
+  </div>
+
+  <div class="rd">
+    <p class="hint">Click an account to light up its row. Colour is the classification.</p>
+
+    <div class="pt vr" data-mark="a1000">
+      <button class="hd" data-mark="a1000"><span class="pin">1</span><span class="tx">
+        <span class="cls">Variable</span>
+        <span class="k">1000 · Flight support</span>
+        <span class="v">Crew who are <b>not assigned to a route</b>, paid for the
+          flying that actually happens.</span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          The description says the people are unassigned, which reads fixed. The
+          numbers say otherwise: it fell almost exactly with flying.</span></button>
+        <pre class="mini">2016 → 2018
+  acct 1000     <b>−31.6%</b>
+  variable direct costs  −31.4%
+  revenue                −27.1%</pre>
+      </div>
+    </div>
+
+    <div class="pt mx" data-mark="a2000">
+      <button class="hd" data-mark="a2000"><span class="pin">2</span><span class="tx">
+        <span class="cls">Mixed</span>
+        <span class="k">2000 · Sales</span>
+        <span class="v">Ticketing moves with passengers. <b>Company-wide
+          advertising does not.</b> One account, two behaviours.</span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          It fell, but only two thirds as fast as the variable accounts, which is
+          what a mixed cost looks like.</span></button>
+        <pre class="mini">acct 2000   <b>−19.7%</b>
+the variable accounts  −31.6%
+the fixed accounts     −8% to −15%</pre>
+        <button class="sub"><span class="sp">b</span><span class="st">
+          Say in class that you would split this one before using it, and that the
+          case does not give you enough to split it properly.</span></button>
+      </div>
+    </div>
+
+    <div class="pt vr" data-mark="a3000">
+      <button class="hd" data-mark="a3000"><span class="pin">3</span><span class="tx">
+        <span class="cls">Variable</span>
+        <span class="k">3000 · Maintenance</span>
+        <span class="v">Repair wages, materials, oil. <b>Aircraft need maintaining
+          by the hour flown</b>, not by the calendar.</span></span></button>
+      <div class="detail">
+        <pre class="mini">acct 3000   <b>−31.6%</b>   <i>same as 1000 and 7000</i></pre>
+      </div>
+    </div>
+
+    <div class="pt fx" data-mark="a4000">
+      <button class="hd" data-mark="a4000"><span class="pin">4</span><span class="tx">
+        <span class="cls">Fixed</span>
+        <span class="k">4000 · Fees and taxes</span>
+        <span class="v">Lease payments, loan interest, insurance, registration.
+          <b>The bill arrives whether the aircraft flies or not.</b></span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          It is also the <b>biggest</b> account, and it barely moved when a third of
+          the flying went away. That is the case in one line.</span></button>
+        <pre class="mini">acct 4000   783,004 → 717,969
+             <b>−8.3%</b> against revenue −27.1%</pre>
+        <button class="sub"><span class="sp">b</span><span class="st">
+          Landing fees are buried in here and they <b>are</b> variable, so a careful
+          answer calls this one mixed and fixed-dominated.</span></button>
+      </div>
+    </div>
+
+    <div class="pt fx" data-mark="a5000">
+      <button class="hd" data-mark="a5000"><span class="pin">5</span><span class="tx">
+        <span class="cls">Fixed</span>
+        <span class="k">5000 · Depreciation</span>
+        <span class="v">Straight-line. <b>Straight-line means fixed by
+          construction</b>, whatever the aircraft does.</span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          So why did it fall 13.9%? Straight-line depreciation cannot fall unless
+          assets left. <b>Aircraft were sold or retired</b>, which the narrative
+          never mentions.</span></button>
+        <pre class="mini">acct 5000  281,473 → 242,362
+            <b>−13.9%</b>
+    <i>a straight-line charge should be flat</i></pre>
+      </div>
+    </div>
+
+    <div class="pt fx" data-mark="a6000">
+      <button class="hd" data-mark="a6000"><span class="pin">6</span><span class="tx">
+        <span class="cls">Fixed</span>
+        <span class="k">6000 · Other</span>
+        <span class="v">Admin, office supplies, legal. Head office, and the
+          smallest account on the page.</span></span></button>
+      <div class="detail">
+        <pre class="mini">acct 6000   <b>47,592</b>
+    <i>2.2% of overhead, not worth class time</i></pre>
+      </div>
+    </div>
+
+    <div class="pt vr" data-mark="a7000">
+      <button class="hd" data-mark="a7000"><span class="pin">7</span><span class="tx">
+        <span class="cls">Variable</span>
+        <span class="k">7000 · Airport</span>
+        <span class="v">Gate agents, baggage handlers, ground crew. <b>You staff a
+          gate because a flight is coming.</b></span></span></button>
+      <div class="detail">
+        <pre class="mini">acct 7000   <b>−31.6%</b>   <i>identical to 1000 and 3000</i></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>What the sorting is worth</h3>
+<div class="mix">
+  <div class="track">
+    <div class="seg v" style="width:48.6%">Variable 48.6%</div>
+    <div class="seg m" style="width:5.1%" title="Mixed 5.1%"></div>
+    <div class="seg f" style="width:46.2%">Fixed 46.2%</div>
+  </div>
+  <div class="keys">
+    <div class="key"><i class="v"></i><span class="t">Leaves if the flying stops
+      <em>1000 + 3000 + 7000 = $1,060,279</em></span></div>
+    <div class="key"><i class="m"></i><span class="t">Needs splitting first
+      <em>2000 Sales = $111,485</em></span></div>
+    <div class="key"><i class="f"></i><span class="t">Still there in the morning
+      <em>4000 + 5000 + 6000 = $1,007,923</em></span></div>
+  </div>
+</div>
+
+<pre class="math">The whole cost base, 2018, once Exhibit 2 is sorted
+
+  leaves with the flight     direct variable    722,206
+                             variable overhead  1,060,279
+                                                ─────────
+                                                <b>1,782,485</b>   <i>61.4% of all cost</i>
+
+  stays whatever you fly     fixed overhead     1,007,923   <i>34.7%</i>
+  needs splitting            sales                111,485    <i>3.8%</i>
+                                                ─────────
+  total cost                                     2,901,893   <i>$1 of rounding</i></pre>
+
+<div class="sowhat">
+  <span class="k">Which means</span>
+  <span class="v">Read off the face of Exhibit 1, this looks like a business where
+    only 25% of cost is avoidable. Once Exhibit 2 is sorted, <b>61% of the cost
+    base actually leaves with the flying</b>. That does not rescue the cut, because
+    the $1.0M that stays is still more than any one route contributes, but it does
+    change the honest answer to question 1: the route costs in Exhibit 3 are wrong
+    for a different reason than "overhead is all fixed".</span>
+</div>
+
+<h3>Exhibit 3, where the misleading number is manufactured</h3>
+<div class="exread" data-linked>
+  <div class="fig-col">
+  <figure class="shot">
+    <div class="canvas">
+      <img src="assets/session-04-regionfly/exhibit-7.jpg"
+           alt="Exhibit 3, operating profit margin by route, 2016">
+      <button class="hs" data-mark="pool" aria-label="The overhead pool being spread"
+        style="--x:19.0%;--y:37.1%;--w:9.9%;--h:2.6%"><span class="pin">1</span></button>
+      <button class="hs trap" data-mark="alloc" aria-label="The allocation, on variable direct cost"
+        style="--x:2.7%;--y:41.0%;--w:96.3%;--h:20.7%"><span class="pin">2</span></button>
+      <button class="hs" data-mark="margins" aria-label="The resulting route margins"
+        style="--x:2.7%;--y:62.8%;--w:94.4%;--h:19.7%"><span class="pin">3</span></button>
+      <button class="hs trap" data-mark="worst" aria-label="Route 2 margin, the worst"
+        style="--x:62.5%;--y:67.2%;--w:7.1%;--h:2.6%"></button>
+    </div>
+    <figcaption><b>Exhibit 3</b> Operating profit margin by route, 2016 · case p.7</figcaption>
+  </figure>
+  </div>
+
+  <div class="rd">
+    <p class="hint">Click a point to light it up on the exhibit.</p>
+
+    <div class="pt" data-mark="pool">
+      <button class="hd" data-mark="pool"><span class="pin">1</span><span class="tx">
+        <span class="k">The pool</span>
+        <span class="v">All $2,809,015 of 2016 overhead, treated as <b>one
+          undifferentiated lump</b> to be handed out.</span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          Fixed and variable go in together. Everything Exhibit 2 just let you sort
+          is thrown back in the same bucket here.</span></button>
+      </div>
+    </div>
+
+    <div class="pt trap" data-mark="alloc">
+      <button class="hd" data-mark="alloc"><span class="pin">2</span><span class="tx">
+        <span class="k">The trap, and it is here</span>
+        <span class="v">The base is <b>share of variable direct cost</b>. Burn more
+          fuel, get charged more head office.</span></span></button>
+      <div class="detail">
+        <button class="sub"><span class="sp">a</span><span class="st">
+          Route #2 burned 18.57% of the fuel and crew, so it was handed 18.57% of
+          everything, including the leases and the depreciation.</span></button>
+        <pre class="mini">Route #2 allocation, 2016
+  share of VDC        18.57%
+  × pool           2,809,015
+                   ─────────
+  charged            <b>521,704</b>
+       <i>on fares of only 830,014</i></pre>
+        <button class="sub"><span class="sp">b</span><span class="st">
+          Test the base: does a route consume hangars and insurance in proportion
+          to its fuel burn? <b>No.</b> So the base fails on its own logic.</span></button>
+      </div>
+    </div>
+
+    <div class="pt" data-mark="margins">
+      <button class="hd" data-mark="margins"><span class="pin">3</span><span class="tx">
+        <span class="k">What it produced</span>
+        <span class="v">A 28 point spread in route margin, <b>manufactured almost
+          entirely by the allocation</b>.</span></span></button>
+      <div class="detail">
+        <button class="sub" data-mark="worst"><span class="sp">a</span><span class="st">
+          Route #2 comes out worst at 13.58%, and Route #2 is one of the two that
+          got cut. <b>This exhibit is why.</b></span></button>
+        <pre class="mini">Route #2, 2016
+  fares               830,014
+  variable direct     195,632
+                      ───────
+  contribution        <b>634,382</b>   <i>76.4% of fares</i>
+
+  after allocation    112,678   <i>13.58%</i>
+       <i>the gap is all allocated overhead</i></pre>
+        <button class="sub"><span class="sp">b</span><span class="st">
+          Rank the routes by contribution margin instead and the order changes.
+          Route #2 sits mid-pack at 76.4%, not last.</span></button>
+      </div>
+    </div>
+  </div>
+</div>

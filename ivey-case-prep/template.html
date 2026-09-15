@@ -1,0 +1,822 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="prep-file" content="{{course-dir}}/notes/{{slug}}.html">
+<meta name="prep-session" content="active">
+<title>{{Course Session Title}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  color-scheme:light;
+  --paper:#FFFFFF; --surface:#FFFFFF; --surface-2:#F3F6F3; --surface-3:#E9EFEA;
+  --ink:#141F1C; --ink-2:#4C5A55; --ink-3:#7A8681;
+  --rule:#E0E6E1; --rule-strong:#A8B5AE;
+  --accent:#1B6B57; --accent-2:#2E9376; --accent-soft:#E2F0E9;
+  --credit:#A33A2C; --credit-soft:#FAE7E2;
+  --flag:#8A6A12; --flag-soft:#FAF2DC;
+  --shadow:0 1px 2px rgba(20,31,28,.05), 0 12px 28px -22px rgba(20,31,28,.5);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Bitter,Georgia,serif;text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1400px;margin:0;padding-inline:34px}
+
+/* ---------- masthead ---------- */
+header{border-bottom:1px solid var(--rule)}
+.hd{max-width:1330px;padding-block:38px 28px;display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between;align-items:flex-end}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(30px,5.5vw,46px);font-weight:700;letter-spacing:-.025em;margin-top:10px}
+.gist{color:var(--ink-2);max-width:52ch;margin-top:10px}
+.hd .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-2);border-left:2px solid var(--accent);padding-left:14px;line-height:2}
+.hd .meta b{color:var(--ink);font-weight:600}
+
+/* ---------- left contents rail ---------- */
+.cols{display:grid;grid-template-columns:236px minmax(0,1fr);gap:54px;align-items:start}
+nav.toc{position:sticky;top:22px;padding-block:34px 0;font-size:13.5px;max-height:calc(100vh - 44px);overflow-y:auto}
+nav.toc .toc-h{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:8px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+nav.toc a{display:flex;gap:9px;align-items:baseline;padding:5px 10px;border-radius:6px;color:var(--ink-2);
+  text-decoration:none;border-left:2px solid transparent;line-height:1.35}
+nav.toc a .n{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);min-width:15px}
+nav.toc a:hover{background:var(--surface-2);color:var(--ink)}
+nav.toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:600}
+nav.toc a.on .n{color:var(--accent)}
+nav.toc a .io{font-size:10px;color:var(--accent);margin-left:auto;opacity:.75}
+nav.toc .grp{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);padding:16px 10px 5px}
+nav.toc .grp:first-child{padding-top:2px}
+
+main{display:flex;flex-direction:column;gap:26px;padding-block:34px 80px;min-width:0;max-width:1020px}
+
+/* ---------- plain-English opener ---------- */
+.oneline{display:flex;gap:14px;align-items:flex-start;background:var(--accent-soft);border-radius:10px;
+  padding:14px 18px;font-size:16px;color:var(--ink);max-width:76ch}
+.oneline .tag{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);white-space:nowrap;padding-top:5px}
+.oneline b{font-weight:600}
+
+/* ---------- group divider ---------- */
+.group{display:flex;align-items:center;gap:16px;margin-top:34px}
+.group:first-child{margin-top:0}
+.group h2{font-size:13px;font-family:"IBM Plex Mono",monospace;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);border:none;padding:0;white-space:nowrap}
+.group .ln{flex:1;height:1px;background:var(--rule)}
+.group .ct{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+
+section{display:flex;flex-direction:column;gap:18px;scroll-margin-top:64px}
+section>h2{font-size:clamp(21px,3.2vw,27px);font-weight:600;letter-spacing:-.015em;display:flex;gap:12px;align-items:baseline}
+section>h2 .no{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--accent);font-weight:500}
+h3{font-size:17px;font-weight:600;margin-top:8px}
+.lede{color:var(--ink-2);max-width:72ch;font-size:16px}
+.lede strong{color:var(--ink);font-weight:600}
+
+
+/* ---------- flow diagrams: CSS boxes, NOT SVG text ----------
+   Text wraps and boxes grow, so a long label can never overflow.
+   Use these for every box-and-arrow / one-to-many / spectrum diagram.
+   Reserve <svg> for real charts only (bars, lines, curves).           */
+.flow{display:grid;gap:14px;align-items:center}
+.flow.f5{grid-template-columns:minmax(0,1.05fr) 22px minmax(0,.92fr) 58px minmax(0,1.2fr)}
+.flow.f3{grid-template-columns:minmax(0,.8fr) 22px minmax(0,1.25fr)}
+.fstack{display:flex;flex-direction:column;gap:10px;min-width:0}
+.fnode{border:1.5px solid var(--rule-strong);border-radius:11px;padding:11px 14px;background:var(--surface);
+  display:flex;flex-direction:column;gap:3px;min-width:0}
+.fnode b{font-size:14.5px;font-weight:600;line-height:1.3}
+.fnode span{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);line-height:1.55;overflow-wrap:anywhere}
+.fnode.acc{background:var(--accent-soft);border-color:var(--accent)}
+.fnode.acc b,.fnode.acc span{color:var(--accent)}
+.fnode.bad{background:var(--credit-soft);border-color:var(--credit)}
+.fnode.bad b,.fnode.bad span{color:var(--credit)}
+.fnode.flg{background:var(--flag-soft);border-color:var(--flag);text-align:center}
+.fnode.flg b,.fnode.flg span{color:var(--flag)}
+.fnode.mute{border-style:dashed;background:var(--surface-3)}
+.farr{color:var(--rule-strong);text-align:center;line-height:1;font-family:"IBM Plex Mono",monospace}
+.farr .ch{display:block;font-size:20px;line-height:1}
+.farr i{font-style:normal;display:block;font-size:9px;letter-spacing:.06em;color:var(--ink-3);margin-top:5px;text-transform:uppercase;white-space:nowrap}
+
+/* spectrum: ordered scale with a hard line somewhere in it */
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}
+.spec .sn{border:1.5px solid var(--rule-strong);border-radius:11px;padding:11px 13px;background:var(--surface);min-width:0}
+.spec .sn b{display:block;font-size:14.5px;font-weight:600;margin-bottom:3px}
+.spec .sn span{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);line-height:1.5;display:block}
+.spec .sn.ok{background:var(--accent-soft);border-color:var(--accent)}
+.spec .sn.ok b,.spec .sn.ok span{color:var(--accent)}
+.spec .sn.no{background:var(--credit-soft);border-color:var(--credit)}
+.spec .sn.no b,.spec .sn.no span{color:var(--credit)}
+.specline{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin-top:2px}
+.specline .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--credit);white-space:nowrap}
+.specline .rule{flex:1;height:0;border-top:2px dashed var(--credit)}
+
+/* horizontal labelled bars */
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar{display:grid;grid-template-columns:132px minmax(0,1fr);gap:14px;align-items:center}
+.bar .bl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);text-align:right}
+.bar .bt{display:flex;align-items:center;gap:10px;min-width:0}
+.bar .bf{height:20px;border-radius:4px;flex:none}
+.bar .bc{font-size:13px;color:var(--ink-2);min-width:0;overflow-wrap:anywhere}
+.bar .bf.hi{background:var(--credit-soft);border:1.2px solid var(--credit)}
+.bar .bf.md{background:var(--flag-soft);border:1.2px solid var(--flag)}
+.bar .bf.lo{background:var(--accent-soft);border:1.2px solid var(--accent)}
+
+/* two-ended scales: where two things sit on one axis */
+.scales{display:flex;flex-direction:column;gap:13px}
+.scale{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center}
+.scale .sl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);text-align:right}
+.scale .tr{position:relative;height:34px}
+.scale .tr .ln{position:absolute;top:22px;left:0;right:0;height:0;border-top:1.5px solid var(--rule-strong)}
+.scale .tr .e{position:absolute;top:0;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3)}
+.scale .tr .e.l{left:0} .scale .tr .e.r{right:0}
+.scale .tr .dot{position:absolute;top:15px;width:15px;height:15px;border-radius:50%;transform:translateX(-50%)}
+.scale .tr .dot.s{background:var(--accent-soft);border:2px solid var(--accent)}
+.scale .tr .dot.b{background:var(--credit-soft);border:2px solid var(--credit)}
+.legend{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-top:4px;font-family:"IBM Plex Mono",monospace;font-size:11px}
+.legend i{font-style:normal;display:inline-flex;align-items:center;gap:7px}
+.legend .dot{width:13px;height:13px;border-radius:50%;display:inline-block}
+.legend .dot.s{background:var(--accent-soft);border:2px solid var(--accent)}
+.legend .dot.b{background:var(--credit-soft);border:2px solid var(--credit)}
+
+
+/* ---------- stat strip: headline numbers, rendered not typed ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;max-width:1020px}
+.stat{border-top:3px solid var(--accent);padding-top:9px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat.b{border-top-color:var(--credit)} .stat.c{border-top-color:var(--flag)} .stat.m{border-top-color:var(--rule-strong)}
+.stat .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.stat .v{font-family:Bitter,serif;font-size:29px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums;color:var(--accent)}
+.stat.b .v{color:var(--credit)} .stat.c .v{color:var(--flag)} .stat.m .v{color:var(--ink)}
+.stat .s{font-size:12.5px;color:var(--ink-2);overflow-wrap:anywhere}
+
+/* ---------- tug of war: two opposed forces, net position ---------- */
+.tug{display:flex;flex-direction:column;gap:9px;max-width:1020px}
+.tug .row{display:grid;grid-template-columns:minmax(0,1fr) 300px minmax(0,1fr);gap:12px;align-items:center}
+.tug .lb{font-size:13.5px;color:var(--ink-2);min-width:0;overflow-wrap:anywhere}
+.tug .lb.l{text-align:right}
+.tug .mid{height:22px;position:relative;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.tug .mid i{position:absolute;top:0;bottom:0;display:block;transition:width .9s cubic-bezier(.22,1,.36,1)}
+.tug .mid i.l{right:50%;background:var(--credit-soft);border-right:2px solid var(--credit)}
+.tug .mid i.r{left:50%;background:var(--accent-soft);border-left:2px solid var(--accent)}
+.tug .net{display:grid;grid-template-columns:minmax(0,1fr) 300px minmax(0,1fr);gap:12px;align-items:center;
+  border-top:1px solid var(--rule-strong);padding-top:10px;margin-top:3px}
+.tug .net .mid{height:30px;background:transparent;display:flex;align-items:center;justify-content:center;
+  font-family:Bitter,serif;font-weight:700;font-size:17px}
+
+/* ---------- scorecard: claim, two sides, verdict ---------- */
+.sc{display:flex;flex-direction:column;max-width:1020px;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.scrow{display:grid;grid-template-columns:150px minmax(0,1fr) 122px;gap:0;border-top:1px solid var(--rule)}
+.scrow:first-child{border-top:none}
+.scrow .cl{padding:11px 14px;font-size:14px;font-weight:600;background:var(--surface-2);min-width:0;overflow-wrap:anywhere}
+.scrow .sides{display:grid;grid-template-columns:1fr 1fr;gap:0;min-width:0}
+.scrow .sd{padding:11px 14px;font-size:13px;color:var(--ink-2);min-width:0;overflow-wrap:anywhere;border-left:1px solid var(--rule)}
+.scrow .sd b{color:var(--ink)}
+.scrow .sd.a{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+.scrow .sd.b{background:color-mix(in srgb,var(--credit-soft) 45%,transparent)}
+.scrow .vd{padding:11px 12px;border-left:1px solid var(--rule);font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center}
+.scrow .vd.a{color:var(--accent);background:var(--accent-soft)}
+.scrow .vd.b{color:var(--credit);background:var(--credit-soft)}
+.scrow .vd.d{color:var(--ink-3);background:var(--surface-2)}
+.scrow.sch .cl,.scrow.sch .sd,.scrow.sch .vd{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--surface-2);padding-block:8px}
+
+/* ---------- motion: meaning only, always from a visible rest state ---------- */
+.rv{opacity:1;transform:none;transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1)}
+.js .rv:not(.in){opacity:0;transform:translateY(8px)}
+.js .bars .bf{width:0!important;transition:width .9s cubic-bezier(.22,1,.36,1)}
+.js .rv.in .bars .bf,.js .bars.in .bf{width:var(--w)!important}
+@media (prefers-reduced-motion:reduce){
+  .js .rv:not(.in){opacity:1;transform:none}
+  .js .bars .bf{width:var(--w)!important;transition:none}
+  .tug .mid i{transition:none}
+}
+
+
+/* ---------- sequence: actors exchanging messages over time ----------
+   Replaces a Mermaid sequenceDiagram. Never emit Mermaid: its labels
+   cross the lifelines, its participant boxes clip, and its badges sit
+   on the text. Here the "who" is its own column, so nothing can collide
+   and every label wraps.                                               */
+.seq{display:flex;flex-direction:column;max-width:1020px;counter-reset:seq}
+.seq .s{display:grid;grid-template-columns:26px 186px minmax(0,1fr);gap:14px;
+  padding:11px 0;border-top:1px solid var(--rule);align-items:start}
+.seq .s:first-child{border-top:none;padding-top:2px}
+.seq .s::before{counter-increment:seq;content:counter(seq);
+  width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+  border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600}
+.seq .who{font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.5;
+  color:var(--ink-2);padding-top:5px;min-width:0;overflow-wrap:anywhere}
+.seq .who b{color:var(--ink);font-weight:600;display:block}
+.seq .who i{font-style:normal;color:var(--ink-3)}
+.seq .msg{min-width:0;padding-top:3px}
+.seq .msg b{font-size:14.5px;font-weight:600;display:block;line-height:1.35}
+.seq .msg span{font-size:13.5px;color:var(--ink-2);display:block;margin-top:3px;overflow-wrap:anywhere}
+.seq .s.ret::before{background:var(--surface-3);color:var(--ink-3);border-color:var(--rule-strong);border-style:dashed}
+.seq .s.ret .msg b{color:var(--ink-2);font-weight:500}
+.seq .s.self .who i::before{content:"\21ba  "}
+.seq .grp{display:flex;align-items:center;gap:12px;padding:12px 0 2px}
+.seq .grp .tg{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;white-space:nowrap}
+.seq .grp .ln{flex:1;height:0;border-top:1px dashed var(--rule-strong)}
+@media (max-width:700px){ .seq .s{grid-template-columns:26px minmax(0,1fr)} .seq .who{grid-column:2} .seq .msg{grid-column:2} }
+
+/* ---------- diagram frame ---------- */
+figure{margin:0;display:flex;flex-direction:column;gap:10px;max-width:1020px}
+.dg{background:var(--surface-2);border:1px solid var(--rule);border-radius:14px;padding:24px}
+.dg.pad0{padding:18px}
+figcaption{color:var(--ink-3);font-size:13.5px;max-width:70ch}
+svg.d{width:100%;height:auto;display:block;overflow:visible}
+.d-box{fill:var(--surface);stroke:var(--rule-strong);stroke-width:1.5}
+.d-box.acc{fill:var(--accent-soft);stroke:var(--accent)}
+.d-box.bad{fill:var(--credit-soft);stroke:var(--credit)}
+.d-box.mute{fill:var(--surface-3);stroke:var(--rule-strong);stroke-dasharray:5 4}
+.d-t{font-family:"Public Sans",sans-serif;font-size:15px;font-weight:600;fill:var(--ink)}
+.d-t.t2{font-size:13.5px}
+.d-s{font-family:"IBM Plex Mono",monospace;font-size:11.5px;fill:var(--ink-3)}
+.d-lab{font-family:"IBM Plex Mono",monospace;font-size:11.5px;fill:var(--ink-2)}
+.d-link{fill:none;stroke:var(--rule-strong);stroke-width:1.6}
+.d-link.acc{stroke:var(--accent)}
+.d-link.bad{stroke:var(--credit)}
+
+/* ---------- interactive shell ---------- */
+.ia{max-width:1020px;background:var(--surface);border:1px solid var(--rule);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.ia-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  padding:12px 18px;border-bottom:1px solid var(--rule);background:var(--surface-2)}
+.ia-top .ttl{font-size:14px;font-weight:600}
+.ia-top .hint{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.ia-body{padding:20px 18px}
+
+.seg{display:inline-flex;border:1px solid var(--rule-strong);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:inherit;font-size:13px;font-weight:500;cursor:pointer;border:0;background:transparent;
+  color:var(--ink-2);padding:6px 14px;border-right:1px solid var(--rule)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:600}
+.seg button:hover:not([aria-pressed="true"]){background:var(--accent-soft);color:var(--accent)}
+
+.slider{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.slider label{font-size:13.5px;color:var(--ink-2);min-width:130px}
+.slider input[type=range]{flex:1;min-width:180px;accent-color:var(--accent);height:22px}
+.slider .val{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:14px;
+  font-weight:600;min-width:96px;text-align:right;color:var(--ink)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px;margin-top:16px}
+.kpi{border-top:2px solid var(--rule-strong);padding-top:7px}
+.kpi.on{border-top-color:var(--accent)}
+.kpi.warn{border-top-color:var(--credit)}
+.kpi .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.kpi .v{font-family:Bitter,serif;font-size:21px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.25}
+.kpi.on .v{color:var(--accent)} .kpi.warn .v{color:var(--credit)}
+.kpi .s{font-size:12.5px;color:var(--ink-2)}
+
+/* ---------- example strip ---------- */
+.ex{max-width:1020px;border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
+  padding:14px 18px;background:var(--surface);font-size:15px;color:var(--ink-2);display:flex;flex-direction:column;gap:7px}
+.ex .lb{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.ex strong{color:var(--ink);font-weight:600}
+.calc-line{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);
+  background:var(--surface-2);padding:7px 11px;border-radius:6px;align-self:flex-start;font-variant-numeric:tabular-nums}
+
+/* ---------- 2x2 classifier ---------- */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font:inherit;font-size:13.5px;cursor:pointer;background:var(--surface);border:1.5px solid var(--rule-strong);
+  color:var(--ink);padding:7px 14px;border-radius:8px;transition:transform .12s ease,border-color .12s ease}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600}
+.chip.done{opacity:.35;pointer-events:none;border-style:dashed}
+.grid22{display:grid;grid-template-columns:76px 1fr 1fr;gap:10px}
+.grid22 .hh{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);align-self:end;padding-bottom:4px;text-align:center}
+.grid22 .vh{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;text-align:center}
+.grid22 .vh.a{color:var(--accent)} .grid22 .vh.b{color:var(--credit)}
+.qd{min-height:104px;border:1.5px dashed var(--rule-strong);border-radius:12px;background:var(--surface-2);
+  padding:10px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:background .15s,border-color .15s}
+.qd:hover{border-color:var(--accent);background:var(--accent-soft)}
+.qd.armed{border-color:var(--accent);border-style:solid}
+.qd.hit{animation:hit .4s ease} .qd.miss{animation:miss .4s ease}
+@keyframes hit{0%{background:var(--accent-soft)}100%{background:var(--surface-2)}}
+@keyframes miss{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.placed{background:var(--surface);border:1px solid var(--accent);border-left:3px solid var(--accent);
+  border-radius:6px;padding:7px 10px;font-size:13.5px}
+.placed b{display:block;font-weight:600}
+.placed span{font-size:12px;color:var(--ink-3)}
+.fb{font-size:13.5px;min-height:22px;color:var(--ink-2)}
+.fb.bad{color:var(--credit)} .fb.good{color:var(--accent)}
+
+/* ---------- vet bill ---------- */
+.bill{background:var(--surface);border:1px solid var(--rule-strong);border-radius:10px;overflow:hidden;font-size:14px;max-width:520px}
+.bill .top{padding:11px 16px;border-bottom:1px dashed var(--rule-strong);font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.bill .ln{display:grid;grid-template-columns:1fr 82px 76px;gap:10px;padding:9px 16px;align-items:center}
+.bill .ln+.ln{border-top:1px solid var(--rule)}
+.bill .amt{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right}
+.bill .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.08em;padding:2px 0;border-radius:4px;
+  text-align:center;transition:background .25s,color .25s,border-color .25s}
+.bill .k.d{color:var(--accent);border:1px solid var(--accent);background:var(--accent-soft)}
+.bill .k.i{color:var(--credit);border:1px solid var(--credit);background:var(--credit-soft)}
+.bill .ttl{display:grid;grid-template-columns:1fr 82px 76px;gap:10px;padding:10px 16px;border-top:2px solid var(--rule-strong);
+  background:var(--surface-2);font-weight:600}
+
+/* ---------- question as asked ---------- */
+.qtext{max-width:1020px;border:1.5px dashed var(--rule-strong);border-radius:10px;padding:15px 19px;
+  background:var(--surface-2);display:flex;flex-direction:column;gap:9px}
+.qtext .lbl{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3)}
+.qtext .body{font-size:15.5px;color:var(--ink);line-height:1.55}
+.qtext ol{margin:4px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:5px;font-size:15px}
+.qtext ol li::marker{color:var(--accent);font-weight:600}
+.qtext .given{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-2);
+  background:var(--surface);border:1px solid var(--rule);border-radius:7px;padding:10px 14px;
+  white-space:pre;overflow-x:auto;font-variant-numeric:tabular-nums;margin:0}
+
+/* ---------- worked process ---------- */
+.steps{max-width:1020px;display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:16px;padding:18px 0;border-top:1px solid var(--rule)}
+.step:first-child{border-top:none;padding-top:6px}
+.step .num{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+  border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600}
+.step .sb{display:flex;flex-direction:column;gap:10px;min-width:0}
+.step h4{margin:0;font-size:15.5px;font-weight:600;font-family:"Public Sans",sans-serif;padding-top:4px}
+.step p{font-size:15px;color:var(--ink-2)}
+.step p strong{color:var(--ink);font-weight:600}
+pre.math{margin:0;font-family:"IBM Plex Mono",monospace;font-size:13.5px;line-height:1.9;
+  background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;
+  padding:14px 18px;overflow-x:auto;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:pre}
+pre.math b{color:var(--accent);font-weight:600}
+pre.math i{color:var(--ink-3);font-style:normal}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:12px;background:var(--surface);max-width:1020px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+caption{text-align:left;padding:13px 17px 11px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+th,td{padding:9px 16px;text-align:left;vertical-align:top}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:500;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+tbody tr+tr td{border-top:1px solid var(--rule)}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td{border-top:1px solid var(--rule-strong)!important;box-shadow:inset 0 -3px 0 -1px var(--rule-strong);
+  font-weight:600;background:var(--surface-2)}
+td.cr{color:var(--credit)}
+.sm{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3)}
+
+.pill{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 8px;border-radius:4px;border:1px solid var(--rule-strong);color:var(--ink-2);white-space:nowrap}
+.pill.v{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.pill.f{border-color:var(--credit);color:var(--credit);background:var(--credit-soft)}
+
+.note{max-width:1020px;border-left:3px solid var(--flag);background:var(--flag-soft);color:var(--ink);padding:12px 16px;border-radius:0 8px 8px 0;font-size:14.5px}
+.note.acc{border-left-color:var(--accent);background:var(--accent-soft)}
+.fx{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:5px;display:inline-block}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start;max-width:1020px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1020px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:9px}
+.card h4{margin:0;font-size:15px;font-weight:600}
+.card p{font-size:14px;color:var(--ink-2)}
+ul.t,ol.t{margin:0;padding-left:20px;color:var(--ink-2);font-size:14.5px;display:flex;flex-direction:column;gap:7px}
+ul.t strong,ol.t strong{color:var(--ink)}
+
+/* ---------- Q&A ---------- */
+.q{border:1px solid var(--rule);border-radius:12px;background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:13px}
+.q-meta{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+blockquote{margin:0;padding:13px 16px;background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-size:15px}
+.wc{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+button.reveal{display:none;align-self:flex-start;font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);padding:6px 14px;border-radius:6px}
+body.quiz .ans{display:none} body.quiz .ans.open{display:flex} body.quiz button.reveal{display:inline-block}
+body.quiz button.reveal.gone{display:none}
+.ans{display:flex;flex-direction:column;gap:12px}
+.toggle{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  background:var(--surface);border:1px solid var(--rule-strong);color:var(--ink);padding:7px 14px;border-radius:8px;align-self:flex-start}
+.toggle .pip{width:8px;height:8px;border-radius:50%;background:var(--rule-strong)}
+body.quiz .toggle .pip{background:var(--accent)}
+
+/* ---------- car calc ---------- */
+.calc{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:24px;align-items:start}
+.irow{display:grid;grid-template-columns:1fr 78px 78px;gap:8px;align-items:center;padding:5px 0;border-top:1px solid var(--rule)}
+.irow:first-child{border-top:none}
+.irow label{font-size:13px;color:var(--ink-2)}
+.irow.hdr span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:right}
+.irow.hdr span:first-child{text-align:left}
+.irow input{width:100%;font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-variant-numeric:tabular-nums;
+  text-align:right;padding:5px 8px;border:1px solid var(--rule);border-radius:5px;background:var(--surface-2);color:var(--ink)}
+.irow input:focus{border-color:var(--accent);background:var(--surface)}
+.irow.wide{grid-template-columns:1fr 164px}
+
+footer{border-top:1px solid var(--rule);padding-block:22px 48px;color:var(--ink-3);font-size:12px;font-family:"IBM Plex Mono",monospace}
+
+@media (max-width:960px){
+  .cols{grid-template-columns:1fr;gap:0}
+  nav.toc{position:static;max-height:none;overflow:visible;padding-block:16px 0;border-bottom:1px solid var(--rule)}
+  nav.toc ol{flex-direction:row;flex-wrap:wrap;gap:5px}
+  nav.toc a{border:1px solid var(--rule);border-radius:999px;padding:4px 11px;font-size:12.5px;border-left-width:1px}
+  nav.toc a.on{border-color:var(--accent)}
+  nav.toc a .io{display:none}
+  nav.toc .grp{width:100%;padding:10px 2px 2px}
+}
+@media (max-width:820px){
+  .flow.f5,.flow.f3{grid-template-columns:1fr}
+  .farr{margin:2px 0}
+  .farr .ch{transform:rotate(90deg)}
+  .spec{grid-template-columns:1fr}
+  .specline{flex-wrap:wrap;gap:7px}
+  .specline .lbl{white-space:normal}
+  .specline .rule{min-width:26px}
+  .bar,.scale{grid-template-columns:1fr;gap:5px}
+  .bar .bl,.scale .sl{text-align:left}
+}
+@media (max-width:700px){
+  .calc{grid-template-columns:1fr}
+  .grid22{grid-template-columns:1fr}
+  .grid22 .hh{display:none}
+  .grid22 .vh{writing-mode:horizontal-tb;justify-content:flex-start;padding-top:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<!--
+  IVEY CASE PREP TEMPLATE — replace every {{placeholder}}, delete what you don't use.
+  Keep the design system as-is; consistency across a term is the point.
+  Components: .oneline · .flow/.fnode (box diagrams) · .spec (spectrum) · .bars · .scales
+              .ia interactive · .ex example · .qtext question
+              .steps/.step/pre.math working · .tw tables · Q&A log
+
+  DIAGRAM RULE: box-and-arrow diagrams are CSS (.flow), never hand-placed <svg> <text>.
+  SVG text does not wrap and you cannot guess its width, so long labels silently
+  overflow their box and the viewBox. Use <svg> only for real charts (bars, lines,
+  curves) where the geometry IS the content, and keep their labels short.
+-->
+
+<header>
+  <div class="wrap hd">
+    <div>
+      <div class="eyebrow">{{COURSE CODE}} &middot; {{Module n}} &middot; {{Session n}}</div>
+      <h1>{{Session or case title}}</h1>
+      <p class="gist">{{One sentence, named through the running example.}}</p>
+    </div>
+    <div class="meta">
+      Reading <b>{{pages}}</b><br>
+      Problems <b>{{assigned}}</b><br>
+      Graded <b>{{Yes n% / No — practice only}}</b>
+    </div>
+  </div>
+</header>
+
+<div class="wrap cols">
+
+<!-- ===== CONTENTS RAIL — scroll-spy is wired in the shared script ===== -->
+<nav class="toc" aria-label="Contents">
+  <div class="toc-h">On this page</div>
+  <ol id="toclist">
+    <li class="grp">Start here</li>
+    <li><a href="#big"><span class="n"></span><span>Big picture</span></a></li>
+    <li class="grp">Concepts</li>
+    <li><a href="#c-one"><span class="n">1</span><span>{{Concept}}</span><span class="io">&#9679;</span></a></li>
+    <li class="grp">Questions</li>
+    <li><a href="#p1"><span class="n"></span><span>{{Problem 1}}</span></a></li>
+    <li class="grp">Reference</li>
+    <li><a href="#glossary"><span class="n"></span><span>Plain-English glossary</span></a></li>
+    <li><a href="#traps"><span class="n"></span><span>Traps &amp; formulas</span></a></li>
+    <li><a href="#log"><span class="n"></span><span>Q&amp;A log</span></a></li>
+  </ol>
+  <div class="grp" style="padding-left:10px">&#9679; = interactive</div>
+</nav>
+
+<main>
+
+<!-- ===== BIG PICTURE ===== -->
+<section id="big">
+  <h2>Big picture</h2>
+  <figure>
+    <div class="dg">
+      <div class="flow f5">
+        <div class="fstack">
+          <div class="fnode acc"><b>{{Input A}}</b><span>{{concrete instance, wraps freely}}</span></div>
+          <div class="fnode bad"><b>{{Input B}}</b><span>{{concrete instance}}</span></div>
+        </div>
+        <div class="farr"><span class="ch">&rsaquo;</span></div>
+        <div class="fnode flg"><b>{{THE PIVOT}}</b><span>{{what the two inputs produce}}</span></div>
+        <div class="farr"><span class="ch">&rsaquo;</span><i>{{label}}</i></div>
+        <div class="fstack">
+          <div class="fnode"><b>{{Outcome 1}}</b><span>{{named example}}</span></div>
+          <div class="fnode"><b>{{Outcome 2}}</b><span>{{named example}}</span></div>
+          <div class="fnode mute"><b>{{Outcome 3}}</b><span>{{the one you must not pick}}</span></div>
+        </div>
+      </div>
+    </div>
+    <figcaption>{{The takeaway, not a restatement of the boxes.}}</figcaption>
+  </figure>
+</section>
+
+<div class="group"><h2>Concepts</h2><div class="ln"></div><span class="ct">{{n}} sections &middot; {{n}} interactive</span></div>
+
+<!-- ===== CONCEPT ===== -->
+<section id="c-one">
+  <h2><span class="no">1</span> {{Concept}}</h2>
+  <p class="oneline"><span class="tag">In one line</span><span>{{Plain English, no jargon. The idea a friend would tell you over coffee.}}</span></p>
+  <p class="lede">{{Two or three sentences of the real explanation.}}</p>
+
+  <!-- interactive shell -->
+  <div class="ia">
+    <div class="ia-top">
+      <span class="ttl">{{Widget name}}</span>
+      <div class="seg" id="xSeg" role="group" aria-label="{{what it switches}}">
+        <button type="button" data-k="a" aria-pressed="true">{{Option A}}</button>
+        <button type="button" data-k="b" aria-pressed="false">{{Option B}}</button>
+      </div>
+      <span class="hint">drag the slider</span>
+    </div>
+    <div class="ia-body">
+      <div class="slider">
+        <label for="xVal">{{What you're changing}}</label>
+        <input id="xVal" type="range" min="0" max="100" step="1" value="50">
+        <span class="val" id="xValV">50</span>
+      </div>
+      <svg class="d" id="xChart" viewBox="0 0 720 230" role="img" aria-label="{{describe}}" style="margin-top:14px"></svg>
+      <div class="kpis" id="xKpis"></div>
+      <div class="note acc" id="xNote" style="margin-top:14px"></div>
+    </div>
+  </div>
+
+  <div class="tw"><table>
+    <caption>Examples &mdash; {{running domain}}</caption>
+    <thead><tr><th>{{Category}}</th><th>{{This case}}</th><th>Elsewhere in the course</th><th>Test that proves it</th></tr></thead>
+    <tbody><tr><td><span class="pill v">{{Label}}</span></td><td>{{Named thing at a real price}}</td><td>{{A casebook case}}</td><td>{{One-line disproof}}</td></tr></tbody>
+  </table></div>
+
+  <div class="ex">
+    <span class="lb">Example &mdash; {{what it shows}}</span>
+    <div>{{Setup with the named thing and the number.}}</div>
+    <div class="calc-line">{{show the arithmetic}}</div>
+  </div>
+  <div class="note">{{Edge case, counterexample, or where this bites later.}}</div>
+</section>
+
+<!-- ===== SEQUENCE: use this, never a Mermaid sequenceDiagram ===== -->
+<figure>
+  <div class="dg">
+    <div class="seq">
+      <div class="s"><div class="who"><b>You</b><i>&rarr; the service</i></div><div class="msg"><b>Open the feed</b><span>One request. Everything below happens before anything renders.</span></div></div>
+      <div class="s self"><div class="who"><b>Service</b><i>itself</i></div><div class="msg"><b>Hydrate the query</b><span>Pulls your follows, blocks, mutes and recently seen posts.</span></div></div>
+      <div class="grp"><span class="tg">In parallel</span><span class="ln"></span></div>
+      <div class="s"><div class="who"><b>Service</b><i>&rarr; follow graph</i></div><div class="msg"><b>Recent posts from follows</b></div></div>
+      <div class="s"><div class="who"><b>Service</b><i>&rarr; retrieval</i></div><div class="msg"><b>Nearest posts to your vector</b></div></div>
+      <div class="s ret"><div class="who"><b>Ranker</b><i>&rarr; service</i></div><div class="msg"><b>Predicted scores per post</b><span>Returned, not requested. Dashed number marks a reply.</span></div></div>
+    </div>
+  </div>
+  <figcaption>Every label is a fragment. The actors sit in their own column, so nothing can overlap.</figcaption>
+</figure>
+
+<div class="group"><h2>Questions &amp; answers</h2><div class="ln"></div><span class="ct">{{what's in here}}</span></div>
+
+<!-- ===== PROBLEM: question → working → answers. Never collapse these three. ===== -->
+<section id="p1">
+  <h2>{{18-1}} &middot; {{Company}}</h2>
+
+  <div class="qtext">
+    <span class="lbl">The question, as set &mdash; {{source}}</span>
+    <div class="body">{{Verbatim opening sentence of the question.}}</div>
+    <pre class="given">{{the given data, laid out like the original table}}</pre>
+    <div class="body"><b>Required:</b></div>
+    <ol type="a">
+      <li>{{part a, verbatim}}</li>
+      <li>{{part b, verbatim}}</li>
+    </ol>
+  </div>
+
+  <h3>Working it through</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="sb">
+      <h4>{{The move, in plain words — not "Part (a)"}}</h4>
+      <p>{{Why this step, and the trap in it.}}</p>
+      <pre class="math">{{Name}} = {{formula in words}}
+     = {{substituted}}
+     = <b>{{answer}}</b></pre>
+      <p>{{What the number means.}}</p>
+    </div></div>
+
+    <div class="step"><div class="num">2</div><div class="sb">
+      <h4>{{Next move}}</h4>
+      <pre class="math">{{Line}}          $ 0,000
+{{Line}}            0,000
+                  ───────
+<b>{{Total}}          $00,000</b>  <i>✓ cross-foots</i></pre>
+    </div></div>
+  </div>
+
+  <h3>The answers</h3>
+  <div class="tw"><table>
+    <caption>Summary</caption>
+    <tbody>
+      <tr><td>(a) {{label}}</td><td class="n">{{value}}</td></tr>
+      <tr class="tot"><td>(b) {{label}}</td><td class="n">{{value}}</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ===== PRACTICE QUIZ ===== -->
+<section id="quiz">
+  <h2>{{Practice quiz name}}</h2>
+  <button class="toggle" id="quizToggle" type="button"><span class="pip"></span><span id="quizLabel">Hide answers &amp; quiz me</span></button>
+  <div class="q">
+    <div class="q-meta">Q1 &middot; {{what it tests}}</div>
+    <div class="qtext"><span class="lbl">As asked on Canvas</span><div class="body">{{verbatim question}}</div></div>
+    <button class="reveal" type="button">Reveal</button>
+    <div class="ans">
+      <div class="tw"><table><tbody>
+        <tr><td>{{Item}}</td><td><span class="pill v">{{Answer}}</span></td><td class="sm">{{why — and the variant that would change it}}</td></tr>
+      </tbody></table></div>
+      <div class="ex"><span class="lb">Example that makes it stick</span><div>{{a thought test}}</div></div>
+    </div>
+  </div>
+  <!-- essay with a word cap: write TO the cap; count is computed live -->
+  <div class="q">
+    <div class="q-meta">Q{{n}} &middot; essay &middot; {{min}}&ndash;{{max}} words</div>
+    <div class="qtext"><span class="lbl">As asked on Canvas</span><div class="body">{{verbatim question}}</div></div>
+    <button class="reveal" type="button">Reveal</button>
+    <div class="ans">
+      <blockquote data-wc>{{the answer, written to the limit}}</blockquote>
+      <span class="wc" data-wc-for>&nbsp;</span>
+      <div class="ex"><span class="lb">How that answer is built</span><div>{{the moves, in order}}</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="group"><h2>Reference</h2><div class="ln"></div></div>
+
+<section id="glossary">
+  <h2>The words, in plain English</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Term</th><th>What it actually means</th><th>Concrete case</th></tr></thead>
+    <tbody>
+      <tr><td><b>{{Term A}}<br>= {{synonym}}<br>= {{synonym}}</b></td><td><b>All three mean one thing:</b> {{plain definition}}</td><td class="sm">{{from the problems}}</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="traps">
+  <h2>Traps, formulas, files</h2>
+  <div class="tw"><table>
+    <caption>Where marks actually get lost</caption>
+    <tbody><tr><td>{{The mistake}}</td><td>{{what to do instead}}</td></tr></tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="tw"><table><caption>Formula sheet</caption>
+      <tbody><tr><td>{{Name}}</td><td class="n">{{formula}}</td></tr></tbody></table></div>
+    <div class="tw"><table><caption>Materials in this repo</caption>
+      <tbody><tr><td class="sm">cases/{{file}}.pdf</td><td class="sm">{{what it is}}</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="log">
+  <h2>Q&amp;A log</h2>
+  <p class="lede">Follow-up questions get appended here, newest first &mdash; diagram, answer, example.</p>
+  <div class="q">
+    <div class="q-meta">Q1 &middot; {{the question}}</div>
+    <figure><div class="dg pad0">{{svg}}</div><figcaption>{{takeaway}}</figcaption></figure>
+    <div class="ex"><span class="lb">Example</span><div>{{always}}</div></div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<div class="wrap">
+<footer>{{COURSE}} &middot; {{Session}} &middot; Worked solutions are my own &mdash; check against the posted key. Figures not taken from the problem set are illustrative.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var NS = "http://www.w3.org/2000/svg";
+var MONO = "IBM Plex Mono, monospace";
+function E(n,a,t){ var e=document.createElementNS(NS,n); for(var k in a){e.setAttribute(k,a[k]);} if(t!==undefined)e.textContent=t; return e; }
+function clear(s){ while(s.firstChild) s.removeChild(s.firstChild); }
+function tok(n,f){ var v=getComputedStyle(document.documentElement).getPropertyValue(n); return (v||"").trim()||f; }
+function money(v,d){ return "$" + (d?v.toFixed(d):Math.round(v).toLocaleString("en-CA")); }
+function commas(v){ return Math.round(v).toLocaleString("en-CA"); }
+function niceMax(v, steps){
+  if(!(v>0)) return 1;
+  var raw=v/steps, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
+  return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag*steps;
+}
+function kpi(host, items){
+  host.innerHTML="";
+  items.forEach(function(it){
+    var d=document.createElement("div"); d.className="kpi"+(it.tone?" "+it.tone:"");
+    d.innerHTML='<div class="k"></div><div class="v"></div><div class="s"></div>';
+    d.querySelector(".k").textContent=it.k;
+    d.querySelector(".v").textContent=it.v;
+    d.querySelector(".s").textContent=it.s||"";
+    host.appendChild(d);
+  });
+}
+function seg(id, cb){
+  var el=document.getElementById(id); if(!el) return;
+  el.addEventListener("click", function(e){
+    var b=e.target.closest("button"); if(!b) return;
+    el.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x===b)); });
+    cb(b.dataset.k);
+  });
+}
+
+
+/* ---- motion: reveal, count-up, bar growth. Meaning only. ---- */
+(function(){
+  document.documentElement.classList.add("js");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function countUp(el){
+    var to=parseFloat(el.dataset.to), dp=el.dataset.dp?+el.dataset.dp:0,
+        pre=el.dataset.pre||"", suf=el.dataset.suf||"", dur=520, t0=0;
+    if(isNaN(to)) return;
+    if(reduce){ el.textContent=pre+to.toFixed(dp)+suf; return; }
+    function tick(t){
+      if(!t0)t0=t;
+      var k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+      el.textContent=pre+(to*e).toFixed(dp)+suf;
+      if(k<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  var nodes=[].slice.call(document.querySelectorAll(".rv,.bars,.count"));
+  if(!nodes.length) return;
+  if(!("IntersectionObserver" in window)){
+    nodes.forEach(function(n){ n.classList.add("in"); if(n.classList.contains("count")) countUp(n); });
+    return;
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add("in");
+      if(e.target.classList.contains("count")) countUp(e.target);
+      e.target.querySelectorAll && [].forEach.call(e.target.querySelectorAll(".count:not(.done)"),function(c){
+        c.classList.add("done"); countUp(c);
+      });
+      io.unobserve(e.target);
+    });
+  },{rootMargin:"0px 0px -8% 0px",threshold:.12});
+  nodes.forEach(function(n){ io.observe(n); });
+})();
+
+/* ---- contents rail scroll-spy ---- */
+(function(){
+  var links=Array.prototype.slice.call(document.querySelectorAll("nav.toc a"));
+  if(!links.length || !("IntersectionObserver" in window)) return;
+  var map={}, targets=[];
+  links.forEach(function(a){
+    var id=a.getAttribute("href").slice(1), el=document.getElementById(id);
+    if(el){ map[id]=a; targets.push(el); }
+  });
+  var seen=[];
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var i=seen.indexOf(e.target);
+      if(e.isIntersecting && i<0) seen.push(e.target);
+      if(!e.isIntersecting && i>=0) seen.splice(i,1);
+    });
+    if(!seen.length) return;
+    seen.sort(function(a,b){ return a.getBoundingClientRect().top-b.getBoundingClientRect().top; });
+    links.forEach(function(l){ l.classList.remove("on"); });
+    var a=map[seen[0].id]; if(!a) return;
+    a.classList.add("on");
+    var nav=document.querySelector("nav.toc");
+    if(nav && nav.scrollHeight>nav.clientHeight+4){
+      var t=a.offsetTop-nav.clientHeight/2; if(t>0) nav.scrollTop=t;
+    }
+  }, {rootMargin:"-72px 0px -55% 0px", threshold:0});
+  targets.forEach(function(t){ io.observe(t); });
+})();
+
+/* ---- live word count on capped essays ---- */
+document.querySelectorAll("[data-wc]").forEach(function(el){
+  var n=el.textContent.trim().split(/\s+/).filter(Boolean).length;
+  var out=el.parentElement.querySelector("[data-wc-for]");
+  if(out) out.textContent = n + " words / {{max}} max";
+});
+
+/* ---- quiz mode ---- */
+(function(){
+  var body=document.body, tog=document.getElementById("quizToggle"), lab=document.getElementById("quizLabel");
+  if(!tog) return;
+  tog.addEventListener("click", function(){
+    var on=body.classList.toggle("quiz");
+    lab.textContent = on ? "Show all answers" : "Hide answers & quiz me";
+    tog.setAttribute("aria-pressed", String(on));
+    if(!on){
+      document.querySelectorAll(".ans.open").forEach(function(a){a.classList.remove("open");});
+      document.querySelectorAll("button.reveal.gone").forEach(function(b){b.classList.remove("gone");});
+    }
+  });
+  document.querySelectorAll("button.reveal").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var a=btn.parentElement.querySelector(".ans");
+      if(a){ a.classList.add("open"); btn.classList.add("gone"); }
+    });
+  });
+})();
+})();
+</script>
