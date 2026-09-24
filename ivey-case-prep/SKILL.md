@@ -8,14 +8,14 @@ description: >-
   as an Artifact and files the HTML into the course's notes/ folder. Use when the
   user pastes Canvas page text, drops a case or problem-set PDF, or asks to prep,
   study, or "make me an HTML" for a class, session, case, or assignment.
-  Composes with the explainer skill for diagram craft.
+  Composes with the praghtml skill for diagram craft and motion.
 ---
 
 # Ivey Case Prep
 
 One session → one HTML page that contains **everything needed to walk into class**: the concepts as diagrams, the assigned questions worked out, the traps, and the source materials filed in the repo.
 
-Inherits the **`explainer`** skill's diagram-first stance and its *Always ground it in an example* rule. Explainer owns diagram craft; this skill owns the Ivey workflow, the page IA, and the answer standard. Don't restate explainer — load it when a diagram needs real thought.
+Inherits the **`praghtml`** skill's diagram-first stance and its *Always ground it in an example* rule. Praghtml owns diagram craft; this skill owns the Ivey workflow, the page IA, and the answer standard. Don't restate praghtml — load it when a diagram needs real thought.
 
 ## Non-negotiables
 
@@ -24,7 +24,7 @@ Inherits the **`explainer`** skill's diagram-first stance and its *Always ground
 3. **Show the process, not just the answer.** Every calculation gets numbered steps: what you're doing, why, the arithmetic written out longhand, and what the result means. A correct answer with no visible working teaches nothing and earns nothing.
 4. **Solve every assigned question completely** before writing a line of HTML. Partial answers are worse than none — the user takes these into class.
 5. **Lead with diagrams, but do not go thin.** Diagrams replace *paragraphs*, not *content*. Every concept keeps its reasoning; it just opens with a picture. **Completeness is not a licence for length.** See *Density and motion*. If a point takes 200 words, it needed a diagram and 40.
-6. **Every concept carries a concrete example** with real numbers. See explainer's example rule.
+6. **Every concept carries a concrete example** with real numbers. See praghtml's example rule.
 7. **Never pass off invented figures as sourced.** Numbers from the problem set are stated as fact; anything you made up to illustrate is labelled *illustrative*.
 8. **Footer disclaimer, always:** worked solutions are the user's own, check against the posted key.
 9. **No em dashes.** Not in prose, headings, diagram labels or tables. Use a comma, a colon, a full stop or brackets. En dashes in numeric ranges (`pp. 15–80`, `2009–2021`) are fine.
@@ -91,6 +91,7 @@ Stay in this skill for follow-ups. A new question appends to the **Q&A log** at 
 | Masthead | Yes | Course code, module/session, title, one-line gist, meta block: reading pages, problems, graded or not |
 | Contents rail | Yes | Sticky left rail, grouped Start here / Concepts / Questions / Reference, numbered to match headings, a dot marking interactive sections, scroll-spy highlight. Folds to pills under 960px |
 | Big picture | Yes | One diagram of the session's whole mental model, ≤12 nodes |
+| Building blocks | Yes | Every concept the page later leans on, defined once, up front, grouped into families. See *The building blocks section* |
 | Concept sections | Yes | Numbered `1 ·`, `2 ·`… — numbering here is real, it's the order to learn them in. Each opens with an **In one line** plain-English box, then diagram → short lede → examples table or example strip → the edge case |
 | Interactive model | If a decision has a break-even | Editable inputs + a live chart. Label defaults as illustrative |
 | Practice / quiz answers | If assigned | Every question, answered, with a *why* column. Global "quiz me" toggle hides them behind reveal buttons |
@@ -102,6 +103,31 @@ Stay in this skill for follow-ups. A new question appends to the **Q&A log** at 
 | Q&A log | Yes | Seeded with one real question; follow-ups append |
 
 Section numbering tracks **learning order**, not importance. If the content isn't a sequence, don't number it.
+
+## The building blocks section
+
+Sits directly after the big picture, before the numbered concept sections. **One place where every idea the rest of the page uses gets defined**, so a reader who has not done the reading can still follow section 7. Without it the numbered sections each quietly assume four terms the reader has not met, and the page only works for someone who already knows it.
+
+It is **not** the glossary. The glossary at the bottom is a revision list: term, plain words, one line each. The building blocks section is the actual teaching, and it does four things for every block:
+
+| Part | Content |
+| --- | --- |
+| **Name** | The real term, the one that earns marks |
+| **In plain words** | One sentence a first-year would follow. No other course term inside it |
+| **The anchor** | A formula, a number, or a five-word example. Something concrete, never another abstraction |
+| **Where it's used** | A link forward to the numbered section that needs it, `used in §4` |
+
+**Group the blocks into three to five families and name the families as a sequence** — what gets counted, how the count is adjusted, what the count is compared against, what the count is not. The families are the argument. A flat alphabetical list of twelve terms is a glossary that moved up the page and helps nobody.
+
+Open the section with a **stack diagram**: the families as layers, base to top, so the reader sees that later ideas rest on earlier ones. Then the blocks themselves as a grid, grouped under family headings.
+
+Rules that keep it from turning into a wall:
+
+- **A block is at most 45 words including the anchor.** If it needs more, it is a numbered concept section, not a block.
+- **Every block carries its anchor.** A definition with no number, formula or named example is the one thing this section exists to prevent.
+- **Cover every term the page later uses without explaining.** Write the page first, then sweep it for terms and check each one appears here. A term used in section 7 and defined nowhere is the failure mode.
+- **Do not duplicate the numbered sections.** The block says what the thing *is*. The numbered section says what it *does*, why it matters and where it breaks.
+- Eight to eighteen blocks for a normal session. A definitions-heavy one covering two readings can justify more, but past about twenty-four you are transcribing the reading rather than sweeping the page. Fewer than eight means you have not swept it at all.
 
 ## Every problem gets three blocks, in this order
 

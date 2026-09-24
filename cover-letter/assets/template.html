@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@page { size: letter; margin: 0.85in 0.9in; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  line-height: 1.25;
+  color: #000;
+}
+.name {
+  font-size: 19pt;
+  font-weight: bold;
+  letter-spacing: 0.2pt;
+  margin: 0 0 3pt 0;
+}
+.contact {
+  font-size: 10.5pt;
+  margin: 0 0 7pt 0;
+}
+hr {
+  border: none;
+  border-top: 0.8pt solid #000;
+  margin: 0 0 11pt 0;
+}
+.date { margin: 0 0 10pt 0; }
+.recipient { margin: 0 0 10pt 0; }
+p { margin: 0 0 8.5pt 0; text-align: left; }
+.salutation { margin: 0 0 10pt 0; }
+.close { margin: 10pt 0 0 0; }
+.signature { margin: 2pt 0 0 0; }
+</style></head>
+<body>
+
+<div class="name">{{FULL_NAME}}</div>
+<div class="contact">{{CITY_REGION_COUNTRY}} &nbsp;&middot;&nbsp; {{PHONE}} &nbsp;&middot;&nbsp; {{EMAIL}} &nbsp;&middot;&nbsp; {{PORTFOLIO_URL}}</div>
+<hr>
+
+<div class="date">{{MONTH DD, YYYY}}</div>
+
+<div class="recipient">
+{{RECIPIENT_LINE_1}}<br>
+{{COMPANY}}
+</div>
+
+<div class="salutation">Dear {{RECIPIENT_LINE_1}},</div>
+
+<!-- Opening: ~45 words. Role, who they are now, the one connecting sentence. -->
+<p>{{P1_OPENING}}</p>
+
+<!-- Strongest proof: ~95 words. The build, the real number, the discipline it taught. -->
+<p>{{P2_STRONGEST_PROOF}}</p>
+
+<!-- Second proof: ~75 words. Different domain, covers a sub-skill P2 missed. -->
+<p>{{P3_SECOND_PROOF}}</p>
+
+<!-- Credibility extras: ~70 words. Wins, press, rankings, grouped together. -->
+<p>{{P4_EXTRAS}}</p>
+
+<!-- Close: ~50 words. Status, logistics the posting asked about, offer to talk. -->
+<p>{{P5_CLOSE}}</p>
+
+<div class="close">Sincerely,</div>
+<div class="signature">{{FULL_NAME}}</div>
+
+</body></html>

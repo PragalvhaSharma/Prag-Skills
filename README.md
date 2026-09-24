@@ -6,15 +6,15 @@ Agent skills I use daily, for Claude Code, Codex, and Cursor. Each folder is a s
 
 | Skill | What it does |
 |---|---|
-| `explainer` | Diagram-first HTML pages that explain a concept, an architecture, a stack, or a flow. Every follow-up question gets appended into the same page. |
-| `slides` | A full-bleed slide deck as one self-contained HTML file — spring-driven track, progress rail, jump menu, print-to-PDF, optional live demos. |
-| `ideator` | Turns a product idea into an interactive animated HTML demo that auto-plays and loops. Clickable fake interface, staged scenes, real motion. |
+| `praghtml` | Diagram-first HTML pages whose diagrams animate themselves on a loop: explainers, stacks, flows, and product-idea demos. Every follow-up gets appended into the same page. Replaces `explainer` and `ideator`. |
+| `slides` | A full-bleed slide deck as one self-contained HTML file: spring-driven track, progress rail, jump menu, print-to-PDF, optional live demos. |
+| `cover-letter` | One-page cover letters rendered as print-ready PDFs in Times New Roman 12pt, with no em dashes. |
 | `universal-cold-email` | Cold emails to hiring managers, founders, recruiters, operators, and investors. Reads your profile from a reference file and drafts straight into Gmail. |
-| `hatch-pet` | Builds, repairs, validates, and packages Codex-compatible v2 animated pets from character art — all 9 animation rows, 16 look directions, 8x11 spritesheet. |
+| `hatch-pet` | Builds, repairs, validates, and packages Codex-compatible v2 animated pets from character art: all 9 animation rows, 16 look directions, 8x11 spritesheet. |
 | `ivey-case-prep` | One self-contained HTML prep page per Ivey HBA session, case, or problem set, with every assigned question worked end to end. |
-| `accounting-class-prep` | Managerial accounting prep pages — Concepts, Case, Problems — reading each exhibit one by one with a screenshot beside what to do with it. |
+| `accounting-class-prep` | Managerial accounting prep pages (Concepts, Case, Problems), reading each exhibit one by one with a screenshot beside what to do with it. |
 | `browser-harness` | Real browser control over CDP: clicking, typing, navigation, logged-in sessions, JS-rendered or bot-protected pages. |
-| `macos-harness` | Drives a whole Mac from one persistent Python session — screenshots, PID-targeted input, Accessibility, Apple Events, filesystem. |
+| `macos-harness` | Drives a whole Mac from one persistent Python session: screenshots, PID-targeted input, Accessibility, Apple Events, filesystem. |
 
 ## Install
 
@@ -26,7 +26,7 @@ cd Prag-Skills
 bash sync.sh
 ```
 
-Or take a single skill — copy its folder into `~/.claude/skills/` and you're done.
+Or take a single skill: copy its folder into `~/.claude/skills/` and you're done.
 
 ## Before first use
 

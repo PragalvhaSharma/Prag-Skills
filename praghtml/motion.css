@@ -1,0 +1,150 @@
+/* ── praghtml · motion.css ────────────────────────────────────────────────
+   Paste inline into the page's <style>. Never link it — pages stay
+   self-contained. Assumes the page already defines --accent and --line.     */
+
+:root {
+  --ease:   cubic-bezier(0.22, 1, 0.36, 1);  /* ease-out, slight spring */
+  --t-fast: 160ms;   /* state flips */
+  --t-base: 240ms;   /* the default */
+  --t-slow: 320ms;   /* the hero moment only */
+  --t-reveal: 520ms; /* structure entering the page — long enough to see */
+  --reveal-y: 18px;  /* entrance travel */
+  --stagger: 90ms;   /* gap between siblings arriving */
+}
+
+/* ── Mode 1 · Reveal ──────────────────────────────────────────────────────
+   The resting state only applies once JS is on, so a page with JS disabled
+   (or a failed script) still shows everything.                              */
+.js-on .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y));
+}
+.js-on .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--t-reveal) var(--ease),
+              transform var(--t-reveal) var(--ease);
+}
+/* Stagger: children of a [data-reveal-stagger] parent arrive in sequence.
+   reveal.js sets --i per child; the cap keeps long lists from crawling.     */
+.js-on [data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(var(--reveal-y));
+}
+.js-on [data-reveal-stagger].is-in > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--t-reveal) var(--ease),
+              transform var(--t-reveal) var(--ease);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+/* A chain reads left-to-right, so its arrows fade slightly behind the boxes. */
+.js-on [data-reveal-stagger].is-in > *::after { transition: opacity var(--t-fast) var(--ease) calc(var(--i, 0) * var(--stagger) + 120ms); }
+.js-on [data-reveal-stagger] > *::after { opacity: 0; }
+.js-on [data-reveal-stagger].is-in > *::after { opacity: 1; }
+
+/* ── Mode 3 · Play ────────────────────────────────────────────────────────
+   play.js walks a [data-play] diagram on a loop. Upcoming steps wait dim,
+   the current one lifts and rings, finished ones keep an accent trace.
+   Specificity is deliberately high so it wins over the Reveal rules.       */
+[data-play] { cursor: pointer; }
+.js-on [data-play].is-playing [data-step],
+.js-on [data-play].is-playing [data-pick] > *,
+.js-on [data-play].is-playing .box {
+  transition: opacity var(--t-base) var(--ease),
+              transform var(--t-base) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              background-color var(--t-fast) var(--ease),
+              box-shadow var(--t-base) var(--ease);
+  transition-delay: 0s;
+}
+.js-on [data-play].is-playing [data-step]:not(.is-now):not(.is-done),
+.js-on [data-play].is-playing [data-pick]:not(.is-now):not(.is-done) > * { opacity: 0.38; }
+.js-on [data-play] [data-step].is-now { transform: translateY(-3px); }
+
+/* The ring lands on whatever the step is drawn as: a card, or the box inside. */
+[data-play] .is-now:is(.box, .card, .layer, .fork),
+[data-play] .is-now > .box,
+[data-play] .gates > li.is-now {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 10px 24px -14px var(--accent);
+}
+[data-play] .is-done > .box,
+[data-play] .is-done:is(.box, .card, .layer),
+[data-play] .gates > li.is-done { border-color: var(--accent); }
+[data-play] .chain > li.is-done::after { color: var(--accent); }
+
+/* Ladder: the dot fills and pings, the spine fills behind it. */
+[data-play] .ladder > li.is-now::before {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+  animation: play-ping 950ms var(--ease) infinite;
+}
+[data-play] .ladder > li.is-done::before { border-color: var(--accent); color: var(--accent); }
+[data-play] .ladder > li.is-done::after { border-left-color: var(--accent); }
+@keyframes play-ping {
+  0%   { box-shadow: 0 0 0 0 var(--accent-soft); }
+  100% { box-shadow: 0 0 0 9px transparent; }
+}
+
+/* Branch: one outcome wins per pass, the rest step back. */
+.js-on [data-play] [data-pick] > .is-pick { transform: scale(1.035); box-shadow: 0 10px 24px -14px currentColor; }
+.js-on [data-play] [data-pick] > .is-dim  { opacity: 0.3; }
+
+/* Control bar play.js injects under the diagram. */
+.play-bar {
+  display: flex; align-items: center; gap: 10px; margin-top: 10px;
+  font-size: 0.8rem; color: var(--muted, #6a7279);
+}
+.play-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); flex: none; }
+.play-bar.is-live .play-dot { background: var(--accent); animation: play-live 1.6s ease-in-out infinite; }
+@keyframes play-live { 50% { opacity: 0.3; } }
+.play-say { flex: 1; min-width: 0; }
+.play-beats { display: flex; gap: 4px; margin-left: auto; }
+.play-beats i { width: 14px; height: 3px; border-radius: 2px; background: var(--line);
+                transition: background-color var(--t-fast) var(--ease); }
+.play-beats i.is-done { background: var(--accent); opacity: 0.5; }
+.play-beats i.is-now  { background: var(--accent); }
+.play-btn {
+  font: inherit; font-size: 0.75rem; color: inherit; cursor: pointer;
+  background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px;
+}
+
+/* ── State vocabulary ─────────────────────────────────────────────────────
+   Six classes, same meaning on every page. Scenes add and remove these —
+   they never write inline styles.                                           */
+.is-in   { opacity: 1; transform: none; }
+.is-on   { border-color: var(--accent); }
+.is-dim  { opacity: 0.4; }
+.is-pick { box-shadow: 0 0 0 2px var(--accent); }
+.is-out  { opacity: 0; transform: translateY(calc(var(--reveal-y) * -0.5)); }
+
+/* Anything a scene mutates should declare its transition explicitly.
+   Name the properties — never `transition: all`.                            */
+[data-el] {
+  transition: opacity var(--t-base) var(--ease),
+              transform var(--t-base) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              box-shadow var(--t-fast) var(--ease);
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   A real path, not a dimmer switch: everything is simply present.           */
+@media (prefers-reduced-motion: reduce) {
+  .js-on .reveal,
+  .js-on [data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) { .play-bar { display: none; } }
+
+@media print {
+  .reveal, [data-reveal-stagger] > * { opacity: 1 !important; transform: none !important; }
+  .play-bar { display: none; }
+}

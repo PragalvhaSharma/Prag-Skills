@@ -10,7 +10,7 @@ description: >-
   says slides / deck / present this / turn this into slides / make me a
   presentation. Domain-agnostic and component-driven: bring your own blocks.
   Themed Opendoor by default. Not for prose documents (use html-design) or
-  architecture walkthroughs (use explainer).
+  architecture walkthroughs (use praghtml).
 ---
 
 # Slides
@@ -334,8 +334,8 @@ Scene-writing rules:
 | Need | Skill |
 | --- | --- |
 | A prose document, report, or one-pager | `html-design` |
-| How a system works, diagram-first | `explainer` |
-| An interactive product-idea demo | `ideator` |
+| How a system works, diagram-first | `praghtml` |
+| An interactive product-idea demo | `praghtml` (idea demos) |
 | Distinctive visual taste for a non-Opendoor palette | `frontend-design` |
 | Charts doing real analytical work | `dataviz` |
 | Motion craft decisions | `emil-design-eng`, `apple-design` |

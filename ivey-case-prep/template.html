@@ -81,7 +81,7 @@ h3{font-size:17px;font-weight:600;margin-top:8px}
 /* ---------- flow diagrams: CSS boxes, NOT SVG text ----------
    Text wraps and boxes grow, so a long label can never overflow.
    Use these for every box-and-arrow / one-to-many / spectrum diagram.
-   Reserve <svg> for real charts only (bars, lines, curves).           */
+   Reserve SVG for real charts only (bars, lines, curves).           */
 .flow{display:grid;gap:14px;align-items:center}
 .flow.f5{grid-template-columns:minmax(0,1.05fr) 22px minmax(0,.92fr) 58px minmax(0,1.2fr)}
 .flow.f3{grid-template-columns:minmax(0,.8fr) 22px minmax(0,1.25fr)}
@@ -760,6 +760,29 @@ function seg(id, cb){
     });
   },{rootMargin:"0px 0px -8% 0px",threshold:.12});
   nodes.forEach(function(n){ io.observe(n); });
+
+  /* anything already scrolled past (a hash jump from the contents rail, a restored
+     scroll position) never intersects, so it would sit at opacity 0 forever.
+     Settle those instantly, with no animation. */
+  function finalise(el){
+    var to=parseFloat(el.dataset.to);if(isNaN(to))return;
+    el.textContent=(el.dataset.pre||"")+to.toFixed(el.dataset.dp?+el.dataset.dp:0)+(el.dataset.suf||"");
+  }
+  function settle(n){
+    n.classList.add("in");
+    if(n.classList.contains("count")&&!n.classList.contains("done")){n.classList.add("done");finalise(n);}
+    if(n.querySelectorAll)[].forEach.call(n.querySelectorAll(".count:not(.done)"),function(c){c.classList.add("done");finalise(c);});
+    io.unobserve(n);
+  }
+  function sweep(){
+    nodes.forEach(function(n){
+      if(n.classList.contains("in"))return;
+      if(n.getBoundingClientRect().bottom<=0)settle(n);
+    });
+  }
+  sweep();
+  window.addEventListener("load",function(){setTimeout(sweep,80);});
+  window.addEventListener("hashchange",function(){setTimeout(sweep,60);});
 })();
 
 /* ---- contents rail scroll-spy ---- */

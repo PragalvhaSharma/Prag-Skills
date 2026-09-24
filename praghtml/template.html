@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Session tracking: keep these accurate so follow-up turns update THIS file. -->
+  <meta name="praghtml-file" content="{{path}}.html" />
+  <meta name="praghtml-session" content="active" />
+  <title> — {{Subject}}</title>
+
+  <script>document.documentElement.classList.add("js-on")</script>
+  <style>
+    /* PLACEHOLDER palette — re-theme per frontend-design (4–6 semantic tokens). */
+    :root {
+      --ink:        #16202b;
+      --muted:      #5b6b7b;
+      --line:       #dfe4ea;
+      --surface:    #f5f7f9;
+      --bg:         #ffffff;
+      --accent:     #0d7a6f;
+      --accent-soft:#e2f3f0;
+      --font: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+      --maxw: 52rem;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: var(--font); line-height: 1.6;
+      font-size: 16px; -webkit-font-smoothing: antialiased;
+    }
+    main { max-width: var(--maxw); margin: 0 auto; padding: clamp(24px, 5vw, 64px) 24px 96px; }
+
+    header { margin-bottom: 40px; }
+    .session-tag {
+      display: inline-block; font-size: 0.75rem; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+    h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 12px; }
+    .gist { font-size: 1.1rem; color: var(--muted); max-width: 48ch; margin: 0; }
+
+    section { margin-top: 52px; }
+    h2 {
+      font-size: 1.15rem; letter-spacing: -0.01em; margin: 0 0 16px;
+      padding-left: 14px; border-left: 3px solid var(--accent);
+    }
+    h3 { font-size: 1rem; margin: 0 0 12px; }
+    p, ul { margin: 0 0 12px; }
+    ul { padding-left: 1.15rem; } li { margin: 4px 0; }
+    code { font-family: var(--mono); font-size: 0.88em; background: var(--surface);
+           padding: 1px 5px; border-radius: 4px; }
+
+    figure { margin: 0; }
+    .diagram {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      padding: clamp(16px, 3vw, 28px);
+    }
+    figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 10px; }
+
+    /* ── DIAGRAM PRIMITIVES ─────────────────────────────────────────────
+       Hand-built. No Mermaid, no library, no render pass. Five shapes
+       cover everything: chain, layers, ladder, track, hand SVG.        */
+
+    /* shared box */
+    .box {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 9px;
+      padding: 10px 14px; font-size: 0.9rem; line-height: 1.35; text-align: center;
+    }
+    .box small { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+    .box.is-key { background: var(--accent-soft); border-color: var(--accent); font-weight: 600; }
+    .box.is-muted { background: transparent; border-style: dashed; color: var(--muted); }
+
+    /* 1 · CHAIN — a flow of 3–6 steps */
+    .chain { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap;
+             list-style: none; margin: 0; padding: 0; }
+    .chain > li { display: flex; align-items: center; gap: 12px; flex: 1 1 auto; min-width: 0; }
+    .chain > li > .box { flex: 1; }
+    .chain > li:not(:last-child)::after {
+      content: "→"; color: var(--muted); font-size: 1.1rem; flex: none;
+    }
+    @media (max-width: 640px) {
+      .chain { flex-direction: column; }
+      .chain > li { flex-direction: column; gap: 6px; }
+      .chain > li > .box { width: 100%; }
+      .chain > li:not(:last-child)::after { content: "↓"; }
+    }
+
+    /* 2 · LAYERS — stack / architecture; the boundary IS the border */
+    .layers { display: grid; gap: 10px; }
+    .layer {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      border: 1px solid var(--line); border-radius: 11px; padding: 12px;
+      background: var(--bg);
+    }
+    .layer > .box { flex: 1 1 140px; }
+    .layer-name {
+      flex: none; width: 5.5rem; font-size: 0.72rem; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .layer.is-frozen { background: var(--accent-soft); border-color: var(--accent); }
+    @media (max-width: 640px) { .layer-name { width: 100%; } }
+
+    /* 3 · LADDER — order of events. Replaces the sequence diagram. */
+    .ladder { list-style: none; margin: 0; padding: 0 0 0 4px; counter-reset: step; }
+    .ladder > li {
+      position: relative; padding: 0 0 16px 40px; counter-increment: step;
+      font-size: 0.94rem;
+    }
+    .ladder > li::before {
+      content: counter(step);
+      position: absolute; left: 0; top: 0;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--bg); border: 1px solid var(--line); color: var(--muted);
+      font-size: 0.72rem; font-weight: 600;
+      display: grid; place-items: center;
+    }
+    .ladder > li::after {   /* the spine */
+      content: ""; position: absolute; left: 11px; top: 24px; bottom: 0;
+      border-left: 1px solid var(--line);
+    }
+    .ladder > li:last-child { padding-bottom: 0; }
+    .ladder > li:last-child::after { display: none; }
+    .ladder .who {
+      display: inline-block; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+      padding: 1px 8px; margin-right: 6px; color: var(--muted);
+    }
+    .ladder > li.is-key::before { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* branches — two short blocks side by side, never a dotted frame */
+    .forks { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+    .fork { flex: 1 1 200px; border: 1px solid var(--line); border-radius: 10px;
+            padding: 12px 14px; background: var(--bg); font-size: 0.9rem; }
+    .fork h4 { margin: 0 0 4px; font-size: 0.78rem; letter-spacing: 0.04em;
+               text-transform: uppercase; color: var(--muted); }
+
+    /* 4 · TRACK — states / motion over time */
+    .track { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+    .track > span { flex: 1; padding: 9px 10px; font-size: 0.82rem; text-align: center;
+                    background: var(--bg); border-right: 1px solid var(--line); }
+    .track > span:last-child { border-right: 0; }
+    .track > span.is-key { background: var(--accent-soft); font-weight: 600; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.94rem; margin-top: 16px; }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tbody tr:last-child td { border-bottom: none; }
+    td code { background: var(--bg); border: 1px solid var(--line); }
+
+    /* Questions log — each follow-up appends an article (newest on top). */
+    #questions .q {
+      border: 1px solid var(--line); border-radius: 12px;
+      padding: 20px 20px 16px; margin-bottom: 16px; background: var(--bg);
+    }
+    #questions .q-meta {
+      font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+
+    .demo { display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+            background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .demo-stage { flex: 1 1 220px; min-height: 120px; display: flex; align-items: center; justify-content: center; }
+    .demo-card {
+      width: 72px; height: 72px; border-radius: 12px;
+      background: var(--accent); color: #fff; display: grid; place-items: center;
+      font-size: 0.8rem;
+      transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .demo-card.is-open { transform: scale(2); }
+    .btn {
+      font: inherit; font-size: 0.9rem; cursor: pointer;
+      background: var(--ink); color: #fff; border: 0; border-radius: 8px; padding: 8px 16px;
+    }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+    @media print {
+      body { background: #fff; }
+      section, figure, .q, .demo, .layer { break-inside: avoid; }
+      .btn { display: none; }
+    }
+
+/* ── praghtml · motion.css ────────────────────────────────────────────────
+   Paste inline into the page's <style>. Never link it — pages stay
+   self-contained. Assumes the page already defines --accent and --line.     */
+
+:root {
+  --ease:   cubic-bezier(0.22, 1, 0.36, 1);  /* ease-out, slight spring */
+  --t-fast: 160ms;   /* state flips */
+  --t-base: 240ms;   /* the default */
+  --t-slow: 320ms;   /* the hero moment only */
+  --t-reveal: 520ms; /* structure entering the page — long enough to see */
+  --reveal-y: 18px;  /* entrance travel */
+  --stagger: 90ms;   /* gap between siblings arriving */
+}
+
+/* ── Mode 1 · Reveal ──────────────────────────────────────────────────────
+   The resting state only applies once JS is on, so a page with JS disabled
+   (or a failed script) still shows everything.                              */
+.js-on .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y));
+}
+.js-on .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--t-reveal) var(--ease),
+              transform var(--t-reveal) var(--ease);
+}
+/* Stagger: children of a [data-reveal-stagger] parent arrive in sequence.
+   reveal.js sets --i per child; the cap keeps long lists from crawling.     */
+.js-on [data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(var(--reveal-y));
+}
+.js-on [data-reveal-stagger].is-in > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--t-reveal) var(--ease),
+              transform var(--t-reveal) var(--ease);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+/* A chain reads left-to-right, so its arrows fade slightly behind the boxes. */
+.js-on [data-reveal-stagger].is-in > *::after { transition: opacity var(--t-fast) var(--ease) calc(var(--i, 0) * var(--stagger) + 120ms); }
+.js-on [data-reveal-stagger] > *::after { opacity: 0; }
+.js-on [data-reveal-stagger].is-in > *::after { opacity: 1; }
+
+/* ── Mode 3 · Play ────────────────────────────────────────────────────────
+   play.js walks a [data-play] diagram on a loop. Upcoming steps wait dim,
+   the current one lifts and rings, finished ones keep an accent trace.
+   Specificity is deliberately high so it wins over the Reveal rules.       */
+[data-play] { cursor: pointer; }
+.js-on [data-play].is-playing [data-step],
+.js-on [data-play].is-playing [data-pick] > *,
+.js-on [data-play].is-playing .box {
+  transition: opacity var(--t-base) var(--ease),
+              transform var(--t-base) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              background-color var(--t-fast) var(--ease),
+              box-shadow var(--t-base) var(--ease);
+  transition-delay: 0s;
+}
+.js-on [data-play].is-playing [data-step]:not(.is-now):not(.is-done),
+.js-on [data-play].is-playing [data-pick]:not(.is-now):not(.is-done) > * { opacity: 0.38; }
+.js-on [data-play] [data-step].is-now { transform: translateY(-3px); }
+
+/* The ring lands on whatever the step is drawn as: a card, or the box inside. */
+[data-play] .is-now:is(.box, .card, .layer, .fork),
+[data-play] .is-now > .box,
+[data-play] .gates > li.is-now {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 10px 24px -14px var(--accent);
+}
+[data-play] .is-done > .box,
+[data-play] .is-done:is(.box, .card, .layer),
+[data-play] .gates > li.is-done { border-color: var(--accent); }
+[data-play] .chain > li.is-done::after { color: var(--accent); }
+
+/* Ladder: the dot fills and pings, the spine fills behind it. */
+[data-play] .ladder > li.is-now::before {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+  animation: play-ping 950ms var(--ease) infinite;
+}
+[data-play] .ladder > li.is-done::before { border-color: var(--accent); color: var(--accent); }
+[data-play] .ladder > li.is-done::after { border-left-color: var(--accent); }
+@keyframes play-ping {
+  0%   { box-shadow: 0 0 0 0 var(--accent-soft); }
+  100% { box-shadow: 0 0 0 9px transparent; }
+}
+
+/* Branch: one outcome wins per pass, the rest step back. */
+.js-on [data-play] [data-pick] > .is-pick { transform: scale(1.035); box-shadow: 0 10px 24px -14px currentColor; }
+.js-on [data-play] [data-pick] > .is-dim  { opacity: 0.3; }
+
+/* Control bar play.js injects under the diagram. */
+.play-bar {
+  display: flex; align-items: center; gap: 10px; margin-top: 10px;
+  font-size: 0.8rem; color: var(--muted, #6a7279);
+}
+.play-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); flex: none; }
+.play-bar.is-live .play-dot { background: var(--accent); animation: play-live 1.6s ease-in-out infinite; }
+@keyframes play-live { 50% { opacity: 0.3; } }
+.play-say { flex: 1; min-width: 0; }
+.play-beats { display: flex; gap: 4px; margin-left: auto; }
+.play-beats i { width: 14px; height: 3px; border-radius: 2px; background: var(--line);
+                transition: background-color var(--t-fast) var(--ease); }
+.play-beats i.is-done { background: var(--accent); opacity: 0.5; }
+.play-beats i.is-now  { background: var(--accent); }
+.play-btn {
+  font: inherit; font-size: 0.75rem; color: inherit; cursor: pointer;
+  background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px;
+}
+
+/* ── State vocabulary ─────────────────────────────────────────────────────
+   Six classes, same meaning on every page. Scenes add and remove these —
+   they never write inline styles.                                           */
+.is-in   { opacity: 1; transform: none; }
+.is-on   { border-color: var(--accent); }
+.is-dim  { opacity: 0.4; }
+.is-pick { box-shadow: 0 0 0 2px var(--accent); }
+.is-out  { opacity: 0; transform: translateY(calc(var(--reveal-y) * -0.5)); }
+
+/* Anything a scene mutates should declare its transition explicitly.
+   Name the properties — never `transition: all`.                            */
+[data-el] {
+  transition: opacity var(--t-base) var(--ease),
+              transform var(--t-base) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              box-shadow var(--t-fast) var(--ease);
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   A real path, not a dimmer switch: everything is simply present.           */
+@media (prefers-reduced-motion: reduce) {
+  .js-on .reveal,
+  .js-on [data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) { .play-bar { display: none; } }
+
+@media print {
+  .reveal, [data-reveal-stagger] > * { opacity: 1 !important; transform: none !important; }
+  .play-bar { display: none; }
+}
+  </style>
+</head>
+<body>
+  <main>
+    <!-- REQUIRED: Title + gist — refresh as the session grows -->
+    <header>
+      <div class="session-tag">Living explainer · updates with each question</div>
+      <h1>{{Plain-language title}}</h1>
+      <p class="gist">{{One or two sentences: what this is and why it matters.}}</p>
+    </header>
+
+    <!-- REQUIRED: Big picture — overall model; ≤ ~12 boxes; update when answers change it -->
+    <section aria-labelledby="big-picture">
+      <h2 id="big-picture">Big picture</h2>
+      <figure class="reveal">
+        <div class="diagram" data-play>
+          <ol class="chain" data-reveal-stagger>
+            <li data-step><div class="box">{{User}}</div></li>
+            <li data-step><div class="box">{{API}}</div></li>
+            <li data-step><div class="box is-key">{{Service}}<small>{{where the work happens}}</small></div></li>
+            <li data-step><div class="box">{{Store}}</div></li>
+          </ol>
+        </div>
+        <figcaption>{{One-line takeaway for the whole system.}}</figcaption>
+      </figure>
+      <ul>
+        <li>{{What the system is for, in plain words.}}</li>
+        <li>{{Where the critical path / state lives.}}</li>
+      </ul>
+    </section>
+
+    <!-- REQUIRED for tech: Stack — everything that comes together (not a dep laundry list) -->
+    <section aria-labelledby="stack">
+      <h2 id="stack">Stack</h2>
+      <figure class="reveal">
+        <div class="diagram">
+          <div class="layers" data-reveal-stagger>
+            <div class="layer">
+              <span class="layer-name">Client</span>
+              <div class="box">{{React / Next}}</div>
+            </div>
+            <div class="layer">
+              <span class="layer-name">Core</span>
+              <div class="box is-key">{{Node API}}</div>
+              <div class="box">{{Workers}}</div>
+            </div>
+            <div class="layer">
+              <span class="layer-name">Data</span>
+              <div class="box">{{Postgres}}</div>
+              <div class="box">{{Redis}}</div>
+            </div>
+          </div>
+        </div>
+        <figcaption>{{How the layers compose — the hot path accented.}}</figcaption>
+      </figure>
+      <table>
+        <thead><tr><th>Layer</th><th>Piece</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>Client</td><td><code>{{React / iOS / …}}</code></td><td>{{UI + local interaction}}</td></tr>
+          <tr><td>API</td><td><code>{{services/checkout}}</code></td><td>{{Orchestrates X}}</td></tr>
+          <tr><td>Data</td><td><code>{{Postgres}}</code></td><td>{{Source of truth}}</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- OPTIONAL: How it works — order of events. LADDER, never a sequence diagram. -->
+    <section aria-labelledby="how">
+      <h2 id="how">How it works</h2>
+      <figure class="reveal">
+        <div class="diagram">
+          <ol class="ladder" data-reveal-stagger>
+            <li><span class="who">{{User}}</span>{{does the thing}}</li>
+            <li><span class="who">{{API}}</span>{{validates and forwards}}</li>
+            <li class="is-key"><span class="who">{{Service}}</span>{{the step that actually matters}}</li>
+          </ol>
+          <div class="forks" data-reveal-stagger>
+            <div class="fork"><h4>{{if it works}}</h4>{{what happens}}</div>
+            <div class="fork"><h4>{{if it fails}}</h4>{{what happens instead}}</div>
+          </div>
+        </div>
+        <figcaption>{{Happy path, top to bottom; branches side by side.}}</figcaption>
+      </figure>
+    </section>
+
+    <!-- OPTIONAL: Motion — trigger → states → settle -->
+    <section aria-labelledby="motion">
+      <h2 id="motion">Motion &amp; interaction</h2>
+      <figure class="reveal">
+        <div class="diagram">
+          <div class="track" data-reveal-stagger>
+            <span>Idle</span><span class="is-key">Expanding</span><span>Open</span><span>Collapsing</span>
+          </div>
+        </div>
+        <figcaption>Trigger → states → settle.</figcaption>
+      </figure>
+      <table>
+        <thead><tr><th>t</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>trigger</td></tr>
+          <tr><td>settle</td><td>idle — interruptible</td></tr>
+        </tbody>
+      </table>
+      <div class="demo" style="margin-top:16px">
+        <div class="demo-stage"><div class="demo-card" id="demoCard">card</div></div>
+        <button class="btn" id="demoBtn" aria-pressed="false">Trigger</button>
+      </div>
+      <ul>
+        <li><strong>Interruptibility:</strong> {{…}}</li>
+        <li><strong>Reduced motion:</strong> {{…}}</li>
+      </ul>
+    </section>
+
+    <!-- OPTIONAL: Key pieces — codebase -->
+    <section aria-labelledby="pieces">
+      <h2 id="pieces">Key pieces</h2>
+      <table>
+        <thead><tr><th>Path / symbol</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>src/…/flow.ts</code></td><td>{{Orchestrates the path}}</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- REQUIRED: Questions log — append each follow-up here (newest on top) -->
+    <section aria-labelledby="questions-heading" id="questions">
+      <h2 id="questions-heading">Questions</h2>
+
+      <article class="q" id="q-1">
+        <div class="q-meta">Q1 · {{timestamp or turn}}</div>
+        <h3>{{User's question, verbatim or lightly cleaned}}</h3>
+        <figure class="reveal">
+          <div class="diagram">
+            <ol class="chain" data-reveal-stagger>
+              <li><div class="box">{{Start}}</div></li>
+              <li><div class="box is-key">{{Answer shape}}</div></li>
+              <li><div class="box">{{Takeaway}}</div></li>
+            </ol>
+          </div>
+          <figcaption>{{Takeaway for this answer.}}</figcaption>
+        </figure>
+        <ul>
+          <li>{{Bullet}}</li>
+          <li>{{Bullet}}</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const card = document.getElementById("demoCard");
+    const btn = document.getElementById("demoBtn");
+    if (btn && card) {
+      btn.addEventListener("click", () => {
+        const open = card.classList.toggle("is-open");
+        btn.setAttribute("aria-pressed", String(open));
+      });
+    }
+  </script>
+  <script>
+/* ── praghtml · reveal.js ─────────────────────────────────────────────────
+   Mode 1. Elements enter once as they scroll in. Paste inline at the end of
+   <body>. Mark up with class="reveal", or data-reveal-stagger on a parent
+   to cascade its children.                                                  */
+(() => {
+  // Ideally also set in <head> so nothing flashes before this runs.
+  document.documentElement.classList.add("js-on");
+
+  const targets = document.querySelectorAll(".reveal, [data-reveal-stagger]");
+  if (!targets.length) return;
+
+  // Number the children of each stagger parent so CSS can delay them in turn.
+  document.querySelectorAll("[data-reveal-stagger]").forEach((parent) => {
+    [...parent.children].forEach((child, i) => child.style.setProperty("--i", i));
+  });
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const show = (el) => el.classList.add("is-in");
+
+  // No observer, or the viewer asked for less motion: everything is present.
+  if (reduce || !("IntersectionObserver" in window)) {
+    targets.forEach(show);
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        show(entry.target);
+        io.unobserve(entry.target);   // once, never again
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  targets.forEach((el) => {
+    // The first screen animates on load instead of waiting for a scroll.
+    // Two frames so the hidden state paints first and the transition runs.
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      requestAnimationFrame(() => requestAnimationFrame(() => show(el)));
+    } else io.observe(el);
+  });
+})();
+
+/* ── praghtml · play.js ───────────────────────────────────────────────────
+   Mode 3. Ideator motion for any diagram, with zero scene code. Put
+   data-play on a container and it walks itself, on a loop:
+
+     <div class="diagram" data-play>
+       <ol class="ladder">
+         <li data-step data-say="Agent picks a hypothesis">…</li>
+         <li data-step>…</li>
+       </ol>
+       <div class="forks" data-pick>   ← a branch: one child wins per pass,
+         <div class="fork">…</div>        cycling keep → discard → crash
+       </div>
+     </div>
+
+   Steps are every [data-step] / [data-pick] inside, in DOM order. With none
+   marked, the container's direct children are the steps.
+
+     • Starts when the diagram scrolls in (after Reveal has finished).
+     • Current step .is-now, passed steps .is-done, upcoming ones wait dim.
+     • Loops. Pauses off-screen, on tab switch, and on click (WCAG 2.2.2).
+     • data-ms on a step or the container sets the beat (default 950).
+     • prefers-reduced-motion: never starts. The diagram is simply there.   */
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) return;
+
+  const HOLD = 1400;       // hold the finished frame before rewinding
+  const REST = 520;        // calm beat after the rewind
+  const SETTLE = 700;      // let Reveal's entrance finish first
+
+  document.querySelectorAll("[data-play]").forEach((root) => {
+    let steps = [...root.querySelectorAll("[data-step], [data-pick]")];
+    if (!steps.length) steps = [...root.children];
+    if (!steps.length) return;
+
+    const beat = Number(root.dataset.ms) || 950;
+    const says = steps.some((s) => s.dataset.say);
+
+    // Control bar: live dot, caption, beats, pause. Injected so pages stay clean.
+    const bar = document.createElement("div");
+    bar.className = "play-bar";
+    bar.innerHTML =
+      `<span class="play-dot" aria-hidden="true"></span>` +
+      (says ? `<span class="play-say"></span>` : "") +
+      `<span class="play-beats" aria-hidden="true">${steps.map(() => "<i></i>").join("")}</span>` +
+      `<button type="button" class="play-btn" aria-pressed="false">Pause</button>`;
+    root.after(bar);
+    const sayEl = bar.querySelector(".play-say");
+    const beats = [...bar.querySelectorAll(".play-beats i")];
+    const btn = bar.querySelector(".play-btn");
+
+    let pass = 0, i = -1, timer = null, running = false;
+    let onScreen = false, userPaused = false, settled = false;
+
+    function clearPick(g) { [...g.children].forEach((c) => c.classList.remove("is-pick", "is-dim")); }
+
+    function reset() {
+      steps.forEach((s) => {
+        s.classList.remove("is-now", "is-done");
+        if (s.hasAttribute("data-pick")) clearPick(s);
+      });
+      beats.forEach((b) => b.classList.remove("is-now", "is-done"));
+      if (sayEl) sayEl.textContent = "";
+      i = -1;
+    }
+
+    function show(n) {
+      steps.forEach((s, k) => {
+        s.classList.toggle("is-now", k === n);
+        s.classList.toggle("is-done", k < n);
+      });
+      beats.forEach((b, k) => {
+        b.classList.toggle("is-now", k === n);
+        b.classList.toggle("is-done", k < n);
+      });
+      const s = steps[n];
+      if (s.hasAttribute("data-pick")) {
+        const kids = [...s.children];
+        const win = kids[pass % kids.length];
+        kids.forEach((c) => {
+          c.classList.toggle("is-pick", c === win);
+          c.classList.toggle("is-dim", c !== win);
+        });
+      }
+      if (sayEl && s.dataset.say) sayEl.textContent = s.dataset.say;
+    }
+
+    function tick() {
+      timer = null;
+      if (!running) return;
+      if (i + 1 >= steps.length) {
+        // Hold the payoff, rewind, rest, go again.
+        timer = setTimeout(() => {
+          reset();
+          pass += 1;
+          timer = setTimeout(tick, REST);
+        }, HOLD);
+        return;
+      }
+      i += 1;
+      show(i);
+      timer = setTimeout(tick, Number(steps[i].dataset.ms) || beat);
+    }
+
+    function sync() {
+      const go = settled && onScreen && !userPaused && !document.hidden;
+      root.classList.toggle("is-playing", i >= 0 || go);
+      bar.classList.toggle("is-live", go);
+      btn.textContent = userPaused ? "Play" : "Pause";
+      btn.setAttribute("aria-pressed", String(userPaused));
+      if (go && !running) { running = true; tick(); }
+      if (!go && running) { running = false; clearTimeout(timer); timer = null; }
+    }
+
+    const toggle = () => { userPaused = !userPaused; sync(); };
+    btn.addEventListener("click", toggle);
+    root.addEventListener("click", (e) => { if (!e.target.closest("a, button")) toggle(); });
+    document.addEventListener("visibilitychange", sync);
+
+    new IntersectionObserver((entries) => {
+      onScreen = entries.some((en) => en.isIntersecting);
+      if (onScreen && !settled) setTimeout(() => { settled = true; sync(); }, SETTLE);
+      sync();
+    }, { threshold: 0.35 }).observe(root);
+  });
+})();
+  </script>
+</body>
+</html>

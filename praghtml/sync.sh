@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Link the canonical ideator skill into Claude Code, Codex, and Cursor.
-# Canonical: ~/.claude/skills/ideator
-# Usage: bash ~/.claude/skills/ideator/sync.sh
+# Link the canonical praghtml skill into Claude Code, Codex, and Cursor.
+# Canonical: ~/.claude/skills/praghtml
+# Usage: bash ~/.claude/skills/praghtml/sync.sh
 
 set -euo pipefail
 
-CANON="${HOME}/.claude/skills/ideator"
+CANON="${HOME}/.claude/skills/praghtml"
 TARGETS=(
-  "${HOME}/.codex/skills/ideator"
-  "${HOME}/.cursor/skills/ideator"
+  "${HOME}/.codex/skills/praghtml"
+  "${HOME}/.cursor/skills/praghtml"
+  "${HOME}/.agents/skills/praghtml"
 )
 
 if [[ ! -f "${CANON}/SKILL.md" ]]; then
@@ -16,7 +17,7 @@ if [[ ! -f "${CANON}/SKILL.md" ]]; then
   exit 1
 fi
 
-mkdir -p "${HOME}/.claude/skills" "${HOME}/.codex/skills" "${HOME}/.cursor/skills"
+mkdir -p "${HOME}/.claude/skills" "${HOME}/.codex/skills" "${HOME}/.cursor/skills" "${HOME}/.agents/skills"
 
 for dest in "${TARGETS[@]}"; do
   parent="$(dirname "$dest")"
