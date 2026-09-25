@@ -7,7 +7,7 @@ Agent skills I use daily, for Claude Code, Codex, and Cursor. Each folder is a s
 | Skill | What it does |
 |---|---|
 | `praghtml` | Diagram-first HTML pages whose diagrams animate themselves on a loop: explainers, stacks, flows, and product-idea demos. Every follow-up gets appended into the same page. Replaces `explainer` and `ideator`. |
-| `slides` | A full-bleed slide deck as one self-contained HTML file: spring-driven track, progress rail, jump menu, print-to-PDF, optional live demos. |
+| `slides` | A full-bleed slide deck as one self-contained HTML file: spring-driven track, progress rail, jump menu, print-to-PDF, optional live demos. Pitch decks lead with the real people you interviewed, and one content source can also build the PPTX, PDF and presenter script. |
 | `cover-letter` | One-page cover letters rendered as print-ready PDFs in Times New Roman 12pt, with no em dashes. |
 | `universal-cold-email` | Cold emails to hiring managers, founders, recruiters, operators, and investors. Reads your profile from a reference file and drafts straight into Gmail. |
 | `hatch-pet` | Builds, repairs, validates, and packages Codex-compatible v2 animated pets from character art: all 9 animation rows, 16 look directions, 8x11 spritesheet. |

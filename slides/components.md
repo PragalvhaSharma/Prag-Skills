@@ -5,7 +5,7 @@ Every entry is a **self-contained pair**: a CSS chunk to append to the last
 here depends on anything else here — only on the tokens and core classes in
 `template.html`.
 
-**Take only what the slide needs.** A deck that pastes all 32 blocks is a
+**Take only what the slide needs.** A deck that pastes all 33 blocks is a
 worse deck than one that pastes four. Unused CSS is the thing that makes these
 files feel generated.
 
@@ -20,7 +20,7 @@ Contents
 | --- | --- |
 | [Numbers](#numbers--evidence) | stat grid · big number · scale bars · now/target metric · funnel · line chart |
 | [Argument](#argument--structure) | two moves · versus · gap tree · steps strip · timeline · layer stack · 2×2 matrix · then-chain · tiers · risk + guardrail · do/don't |
-| [Voice](#voice--text) | pull quote · callout bar · definitions · verification list · annotations |
+| [Voice](#voice--text) | person card · pull quote · callout bar · definitions · verification list · annotations |
 | [Reference](#reference--data) | table · was/now · spec table · code |
 | [Media](#media) | screenshot frame · split media · legend key |
 | [Live](#live) | message mock · schema stage · flow diagram |
@@ -698,6 +698,59 @@ reporting a result.
 ---
 
 ## Voice & text
+
+### Person card
+
+The real person behind the problem: photo, name, role, a line or two of
+context, and what they told you beside it. Use it on the slide where the
+story starts. Reuse the same photo at `.face--sm` wherever you quote them
+again. Inline the photo as a `data:` URI, about 256 px square.
+
+```css
+.who{width:100%;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);gap:1.6rem;align-items:stretch;}
+.who__card{background:var(--blue);color:#fff;border-radius:16px;padding:1.8rem;display:flex;flex-direction:column;gap:1.2rem;}
+.who__id{display:flex;align-items:center;gap:1.2rem;}
+.face{display:block;flex:none;box-sizing:border-box;width:6.5rem;height:6.5rem;border-radius:50%;object-fit:cover;border:4px solid #fff;}
+.face--sm{width:3rem;height:3rem;border-width:2px;}   /* match the bubble it replaces */
+.who__card .eyebrow{color:var(--mint-pale);margin-bottom:.35rem;}
+.who__name{font-family:var(--display);font-weight:700;font-size:2rem;line-height:1.05;letter-spacing:-.03em;color:#fff;}
+.who__role{margin-top:.3rem;font-size:1rem;color:rgba(255,255,255,.84);}
+.who__facts{list-style:none;margin:0;padding:0;display:grid;gap:.7rem;}
+.who__facts li{padding-top:.7rem;border-top:1px solid rgba(255,255,255,.22);font-size:1.05rem;line-height:1.4;}
+.who__links{margin-top:auto;display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-size:.9rem;font-weight:700;}
+.who__links a{color:var(--mint-pale);}   /* the accent link colour vanishes on blue */
+.who__said{display:grid;gap:.8rem;align-content:start;}
+.who__said .eyebrow{margin-bottom:0;}
+.who__said > div{background:#fff;border-radius:14px;padding:1.2rem 1.4rem;}
+.who__said b{display:block;font-family:var(--display);font-size:1.4rem;line-height:1.2;letter-spacing:-.02em;color:var(--ink);margin-bottom:.25rem;}
+.who__said span{font-size:1.02rem;line-height:1.45;color:var(--mute);}
+@media (max-width:960px){.who{grid-template-columns:1fr;}}
+```
+
+```html
+<section class="slide" data-section="1" data-title="Where this started">
+  <p class="label"><i>1.1</i>Where this started</p>
+  <div class="who">
+    <div class="who__card">
+      <div class="who__id">
+        <img class="face" src="data:image/jpeg;base64,…" alt="Jordan Lee, founder of Northside Studio">
+        <div><p class="eyebrow">We spoke with</p><p class="who__name">Jordan Lee</p><p class="who__role">Founder, Northside Studio</p></div>
+      </div>
+      <ul class="who__facts">
+        <li>Northside is a video and social agency in Toronto</li>
+        <li>One of us was its creative director for two years</li>
+      </ul>
+      <p class="who__links"><a href="https://…">@northside</a><a href="https://…">Jordan on LinkedIn</a></p>
+    </div>
+    <div class="who__said">
+      <p class="eyebrow">What Jordan told us</p>
+      <div><b>Control sits with the agency</b><span>Clients can't change a line without going back into the queue.</span></div>
+      <div><b>Every change adds delay</b><span>Each round of revisions pushes back the ad the client wanted.</span></div>
+    </div>
+  </div>
+  <p class="cap"><b>Paraphrased from our conversation, September 2026.</b> The market numbers on the next slide show how common this is.</p>
+</section>
+```
 
 ### Pull quote
 

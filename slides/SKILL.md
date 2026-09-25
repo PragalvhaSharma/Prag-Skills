@@ -34,7 +34,8 @@ restate those skills.
 ## Non-negotiables
 
 - **One self-contained `.html`.** Inline `<style>` and `<script>`. The only
-  network requests are the two Opendoor font files.
+  network requests are the two Opendoor font files. Images, headshots
+  included, go in as `data:` URIs, never as relative paths.
 - **Start from [template.html](template.html)** on the first create — the deck
   engine is 400 lines of spring physics, gesture handling, and pixel-snapping
   that is not worth re-deriving. Copy it, then rewrite the slides.
@@ -182,6 +183,14 @@ Not optional — these are the things that are wrong in a generated deck:
 - **Read the captions alone.** They should tell the whole argument. If they
   don't, the slides are decorative.
 - **Grep your own CSS.** Any component block you pasted but did not use, delete.
+- **Swapped an icon bubble for a photo?** Give the photo the bubble's outer
+  size (`box-sizing:border-box`, ring included). A taller attribution row
+  shrinks its column's card and the row of cards drifts out of line.
+- **Links on blue cards.** The global link colour is the accent, which vanishes
+  on `--blue`. Set `--mint-pale` on any link that sits on a blue fill.
+- **Renamed someone or something?** Grep the deck, the speaker notes and the
+  script for the old stand-in ("the owner", "a client", the old name) and fix
+  every hit.
 
 ### 5 · Stop
 
@@ -205,10 +214,66 @@ expand into a written report unless asked.
 - **No acronyms.** If unavoidable, spell it out in braces the first time.
 - **No bullet lists of more than four items.** Five facts is a table, a stat
   grid, or two slides.
+- **Pictures over paragraphs.** On screen: the claim, a label, one line per
+  card, an icon, a photo, a diagram. The long version goes in speaker notes or
+  the script. When the user says a slide is too texty, cut words and add a
+  visual before you shrink the type.
+
+### Evidence from people
+
+For pitches, venture concepts and class deliverables, a problem backed only by
+statistics reads as a web search. Judges and investors weigh **"we went out and
+talked to real people"** far more. Build the problem around a real conversation:
+
+1. **Who.** Name the person, their role and their organisation, with a photo
+   when the user supplies one or points to a public profile. Use the
+   **person card** from [components.md](components.md#person-card).
+2. **What they told you.** Their two or three pain points, under a heading that
+   uses their first name ("What Sam told us"), in their terms.
+3. **Why it matters.** Your insight, then the market numbers that show how big
+   the pain is. The statistics come after the person and support the story.
+
+Rules:
+
+- **Only real conversations.** Name only people the user says were spoken to.
+  Label paraphrase as paraphrase in the caption. Never invent a quote, a date
+  or a title; take the title from their own profile.
+- **One face, used twice.** The large card on the origin slide, then the same
+  photo, small, as the attribution on the evidence slide, so the audience
+  recognises them.
+- **Same name everywhere.** Slides, captions, speaker notes, presenter script.
+- **Photos stay small.** Crop square, about 256 px, JPEG around 12 KB, inlined
+  as a `data:` URI with alt text of name plus role. Round them with
+  `border-radius:50%;object-fit:cover` and a white ring. No drop shadow.
+
+## When the deck ships in more than one format
+
+Class and client work often needs the HTML deck, a PPTX, a PDF and a
+presenter script from the same words.
+
+- **One content module is the source of truth.** Every output builds from it:
+  short on-screen lines, long speaker notes, per-speaker script lines. Edit it,
+  then rebuild **every** output. Never hand-patch one output.
+- **Check each render.** Look at the HTML screenshot, the PPTX render and
+  the PDF page for every slide you touched. They fail in different ways.
+- **PPTX photos are rectangles.** Mask a headshot to a circle before inserting
+  it (for example `sharp(img).composite([{ input: circleSvg, blend: "dest-in" }])`)
+  and draw a white ellipse behind it for the ring.
+- **Presenter script.** Write it word for word, per slide and per speaker. Time
+  it at 150 words a minute plus one second per handoff, and confirm that a slow
+  130 words a minute still lands under the limit. Re-time it after every
+  wording change, and show the total on the script page.
+- **Say where things stand.** If nothing is built yet, the offer slide says
+  so and names the first test. Pre-launch decks never imply traction.
+- **Names exactly as the source lists them.** Team, course and company names
+  come verbatim from the portal or profile. Don't add a section number or
+  suffix the user didn't give.
+- **Published decks.** If a push deploys the deck, watch the run, then fetch
+  the live URL and grep it for the new words before you report it as done.
 
 ## Components
 
-Thirty-two blocks in [components.md](components.md), each a self-contained
+Thirty-three blocks in [components.md](components.md), each a self-contained
 CSS + HTML pair. **Take only what the slide needs** — unused CSS is what makes
 a deck feel generated.
 
@@ -216,7 +281,7 @@ a deck feel generated.
 | --- | --- |
 | **Numbers** | stat grid · big number · scale bars · now/target metric · funnel · line chart |
 | **Argument** | two moves · versus · gap tree · steps strip · timeline · layer stack · 2×2 matrix · then-chain · tiers · risk + guardrail · do/don't |
-| **Voice** | pull quote · callout bar · definitions · verification list · annotations |
+| **Voice** | person card · pull quote · callout bar · definitions · verification list · annotations |
 | **Reference** | table · was/now · spec table · code |
 | **Media** | screenshot frame · split media · legend key |
 | **Live** | message mock · schema stage · flow diagram |
@@ -242,6 +307,7 @@ Always available from the template itself: cover, section opener, statement,
 | Prove it works on real cases | was/now, message mock |
 | Show a flow moving | schema stage, flow diagram |
 | Make the argument in someone's words | pull quote |
+| Show who you talked to and what they said | person card |
 | Land one unmissable sentence | callout bar |
 | Make the deck checkable | verification list |
 
@@ -303,13 +369,18 @@ Scene-writing rules:
 
 - Describing the deck in chat instead of writing the file
 - Rebuilding the deck engine instead of copying `template.html`
-- Pasting all 32 components' CSS "just in case"
+- Pasting all 33 components' CSS "just in case"
 - Hand-maintaining rail segments or a section array — they are derived
 - A slide whose content scrolls, because it should have been two slides
 - Topic headlines ("Overview", "Background", "Next steps") instead of claims
 - A composition with no caption saying what to take from it
 - Bullet lists where a table, a stat grid, or two slides belong
 - A metric with no provenance, or a target presented as measured
+- Market statistics as the only proof of a problem, when the user has a real
+  conversation to show
+- An anonymous "the owner" or "a customer" when the user has given you the
+  person's name
+- An image loaded from a relative path, which breaks the one-file deck
 - Five live demos — one or two, and only where a flow needs showing
 - A second accent colour, a gradient, or a drop shadow
 - Bare acronyms
@@ -328,6 +399,10 @@ Scene-writing rules:
   renumber the labels
 - `make slide 8's demo slower on the reveal beat` → same file, bump that
   scene's `ms`
+- `put the founder we interviewed on slide 2, with his photo` → same file,
+  person card with the headshot inlined, "What <first name> told us" beside
+  it, the same face on the evidence slide, and every "the owner" renamed in
+  slides, notes and script
 
 ## Related skills
 
