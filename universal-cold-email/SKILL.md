@@ -13,6 +13,16 @@ The best emails are direct, lightly personalized, proof-dense, and easy to reply
 
 Cold email is not just for jobs or startups. It works for scholarships, rare collectibles, investor meetings, conference invitations, and anything else behind a closed door. Most people never ask. The worst outcome is silence, and you are already at zero.
 
+## The five rules (non-negotiable)
+
+Every draft must follow these. They override any looser guidance below.
+
+1. **5 to 8 sentences, max.** Count every sentence and every bullet in the body (greeting and sign-off excluded). Over 8 means cut, not trim.
+2. **Lead with who you are and why you're worth talking to.** The first sentence or two establish identity plus the strongest proof. Do not open with flattery or a warm-up line.
+3. **Personalize, but stay on topic.** One specific detail about the recipient that connects directly to the ask. No tangents, no compliments unrelated to why you're writing.
+4. **Explain in 1 to 2 sentences how you can help them.** Concrete outcome for their team or company, not a list of what you've built.
+5. **Write like a founder, not an AE.** Peer to peer, plain, confident. No sales-speak ("circle back", "touch base", "synergies", "value-add", "I'd love to learn more about your needs"), no pitch-deck adjectives, no manufactured urgency.
+
 ## Installation
 
 ### curl (manual)
@@ -60,7 +70,7 @@ Unless the user asks for something else, produce:
 
 - 3 subject lines
 - 1 primary email draft
-- 1 shorter alternative if the first draft is above 170 words
+- 1 shorter alternative (5 sentences) if the primary draft is 7 or 8 sentences
 - 1 follow-up email
 
 ## Workflow
@@ -80,7 +90,7 @@ Do not mix goals in one email.
 
 2. Find one credible hook.
 
-Anchor the opener to one concrete thing:
+Anchor the personal line (sentence 2 or 3, after who you are) to one concrete, on-topic thing:
 
 - a product the sender uses
 - a job post
@@ -141,7 +151,7 @@ The ask should be specific and make it too easy to say yes. Never use vague asks
 
 Keep the final draft tight:
 
-- target 110 to 170 words
+- 5 to 8 sentences max, counting each bullet as a sentence
 - only keep details that strengthen reply odds
 - remove repeated enthusiasm
 - remove anything that sounds like a resume pasted into email
@@ -150,12 +160,13 @@ Keep the final draft tight:
 
 Use this default structure:
 
-1. Personal opener tied to one real thing
-2. Why the sender is reaching out now
-3. One-line identity statement
-4. 2 to 4 proof bullets or tight proof clauses
-5. Clear CTA
-6. One closing line with the sender's website always. Include the full website URL in every closing.
+1. Who the sender is and why they're worth talking to (one-line identity plus 2 to 4 proof bullets or tight proof clauses)
+2. One on-topic personal detail tied to why the sender is reaching out now
+3. How the sender can help them, in 1 to 2 sentences
+4. Clear CTA
+5. One closing line with the sender's website always. Include the full website URL in every closing.
+
+The whole body stays within 5 to 8 sentences. If the always-on proof points push it over, fold them into one sentence instead of separate bullets.
 
 Bullets work well when the sender has compact proof. If the proof is weak, use a shorter paragraph instead of fake bullet points.
 When using bullets in email, keep each bullet to one compact claim. If a link matters, attach it inline with a short label instead of adding a raw URL line below it.
@@ -279,9 +290,9 @@ Same rules, different energy. Read the room.
 
 Every draft should pass this structural test. The core email is five elements:
 
-1. Hook (one line showing you paid attention)
-2. Why it matters to them (not to you)
-3. What you are offering, framed as outcome
+1. Who you are and why you're worth talking to
+2. On-topic personal detail (one line showing you paid attention)
+3. How you can help them, framed as outcome (1 to 2 sentences)
 4. Low-friction ask
 5. Sign off (first name only)
 
@@ -290,6 +301,12 @@ If the draft cannot compress to this shape, the sender does not understand their
 ## Output quality bar
 
 Before finalizing, check:
+
+- Is the body 5 to 8 sentences (bullets count)?
+- Do the first 1 to 2 sentences say who the sender is and why they're worth talking to?
+- Is the personal detail on topic?
+- Is "how I can help you" stated in 1 to 2 sentences?
+- Does it read like a founder wrote it, not an account executive?
 
 - Would this sound real if a founder read it on a phone?
 - Is there one reason this specific recipient would reply?

@@ -52,7 +52,7 @@ Link rule:
 
 - If a proof point is stronger with a link, write it inline like `- Built X that did Y ([demo](https://...))`.
 - Do not put a bare URL on the next line unless the user explicitly wants a plain raw-link version.
-- For Prag's profile, always include both the NASA/NSS proof and the xAI Hackathon proof, and use the linked versions by default.
+- If personal-info.md pins always-on proof points, always include them, and use the linked versions by default.
 
 ## Template 2: Product-user angle
 
