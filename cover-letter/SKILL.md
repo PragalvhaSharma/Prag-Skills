@@ -38,6 +38,8 @@ Structure that works:
 
 Voice: consistent formal register. Pick "I am" or "I'm" and hold it for the whole letter. Concrete nouns. No adjectives doing work that a number could do.
 
+Sentences: short, active and plain. Read `references/style.md` before you draft. Its "Readable output" section has the rules.
+
 ### 3. Render
 
 Copy `assets/template.html`, replace the content, then:
@@ -67,6 +69,8 @@ pdftoppm -png -r 90 -f 1 -l 1 out.pdf preview
 ```
 
 Read the PNG. Check the header is not crowding the date, the paragraphs are not rivers of whitespace, and nothing is orphaned at the bottom. Then `open` the PDF for the user.
+
+In chat, lead with the PDF path and the build checks it passed: page count, embedded fonts and em dashes. Then give each flagged ambiguity one line. Leave out the build log.
 
 ## Filing
 

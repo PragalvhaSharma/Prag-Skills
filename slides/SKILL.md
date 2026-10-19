@@ -1,23 +1,29 @@
 ---
 name: slides
 description: >-
-  Build a presentation as one self-contained HTML {HyperText Markup Language}
-  file — a full-bleed slide deck you drag, swipe, or arrow through, with a
-  spring-driven track, a section progress rail, a jump menu, print-to-PDF, and
-  optional live demos that play themselves. Use whenever the user wants slides,
+  Build a presentation as self-contained HTML {HyperText Markup Language}: a
+  full-bleed slide deck you drag, swipe, or arrow through, with a section
+  progress rail, a jump menu, speaker notes, print-to-PDF, and optional live
+  demos that play themselves. Use whenever the user wants slides,
   a deck, a presentation, a readout, a pitch, a project review, a design review,
   a pilot or launch update, a talk, a lunch-and-learn, an all-hands section, or
   says slides / deck / present this / turn this into slides / make me a
   presentation. Domain-agnostic and component-driven: bring your own blocks.
-  Themed Opendoor by default. Not for prose documents (use html-design) or
-  architecture walkthroughs (use praghtml).
+  Themed Opendoor by default. Every run ships two HTML files: the deck, and a
+  script page (<slug>-script.html) written as a note to the co-presenter, with
+  each slide's image beside its word-for-word script, the speaker split, the
+  timing, a practice timer and likely questions. Not for prose documents (use
+  html-design) or architecture walkthroughs (use praghtml).
 ---
 
 # Slides
 
-Ship a **presentation as one HTML file**. No hosting, no export, no
-PowerPoint — open it in a browser, press `F`, present. It drags like an iOS
-page view, prints to a landscape PDF, and deep-links to any slide.
+Ship a **presentation as two HTML files**: the deck, and its script page. No
+hosting, no export, no PowerPoint. Open the deck in a browser, press `F`,
+present. It drags like an iOS page view, prints to a landscape PDF, and
+deep-links to any slide. The script page is what the presenters rehearse from:
+every slide beside what to say, who says it and when. See
+[The script page](#the-script-page).
 
 **Opendoor-themed by default:** ivory paper, one blue, Publico Headline over
 Graphik, flat tint fills. Full palette and voice rules in
@@ -33,21 +39,32 @@ restate those skills.
 
 ## Non-negotiables
 
-- **One self-contained `.html`.** Inline `<style>` and `<script>`. The only
+- **Two outputs, every run.** `<slug>.html` is the deck and
+  `<slug>-script.html` is the script page, side by side. Write the script into
+  the deck (`data-time` and `<aside class="notes">` on every slide, the talk
+  block in the head), then build the page from it:
+  `node ~/.claude/skills/slides/scripts/build_script.mjs <slug>.html`. Rebuild
+  it after every edit. Never ship the deck alone, and never write the script
+  page by hand.
+- **Each file is self-contained.** Inline `<style>` and `<script>`. The only
   network requests are the two Opendoor font files. Images, headshots
-  included, go in as `data:` URIs, never as relative paths.
+  included, go in as `data:` URIs, never as relative paths. The builder
+  inlines the slide images on the script page the same way.
 - **Start from [template.html](template.html)** on the first create — the deck
   engine is 400 lines of spring physics, gesture handling, and pixel-snapping
   that is not worth re-deriving. Copy it, then rewrite the slides.
-- **Never paste the whole deck into chat.** Reply = path + one-line gist.
+- **Never paste the whole deck into chat.** Reply = both paths + one-line gist.
 - **Every slide is one claim.** If a slide has two claims it is two slides.
 - **Path default:** the user's path → else `decks/<slug>.html` in a repo → else
-  `./<slug>.html`.
+  `./<slug>.html`. The script page always sits next to the deck.
 
 Chat reply shape:
 
-> `decks/paint-pilot.html` — 14 slides in four sections; the intake demo on 8
-> plays itself. `F` for full screen, `O` for the jump menu, `P` prints to PDF.
+> `decks/paint-pilot.html`: 14 slides in four sections; the intake demo on 8
+> plays itself. `F` for full screen, `O` for the jump menu, `N` for the
+> script, `P` prints to PDF.
+> `decks/paint-pilot-script.html`: the script page, 9:40 total (8:10 at a slow
+> 130 words a minute), Sam on slides 1 to 7, Priya on 8 to 14.
 
 ## What this is / isn't
 
@@ -67,8 +84,8 @@ Once invoked, **stay in slides mode** until the user ends it ("new deck",
 
 | Turn | Action |
 | --- | --- |
-| **First ask** | Create the file from `template.html`. Write the outline, then build the slides. |
-| **Follow-up** | **Edit the same file** — add, cut, reorder, retitle, retime. |
+| **First ask** | Create the file from `template.html`. Write the outline, then build the slides and their script, then build `<slug>-script.html`. |
+| **Follow-up** | **Edit the same file** (add, cut, reorder, retitle, retime), then rebuild the script page. |
 | **New deck** | Only when asked — new file, new slug. |
 
 Track the active path in the head, as the template already does:
@@ -82,13 +99,16 @@ Track the active path in the head, as the template already does:
 
 ### 1 · Pin the deck (before any markup)
 
-Four things, out loud, in one short block:
+Five things, out loud, in one short block:
 
 1. **The claim** — the one sentence the audience leaves with.
 2. **The audience** — and what they can decide. A deck for a director is a
    different deck from one for the team that will maintain it.
 3. **The ask** — what you need from them. A deck with no ask is a document.
 4. **The length** — minutes, which sets slide count (see below).
+5. **The speakers.** Who presents which part, and who the script page is
+   addressed to (the co-presenter's first name). A solo talk has one speaker
+   and no "to".
 
 Ask **one** clarifying question, only if the claim or the ask is genuinely
 unclear. Otherwise state your reading and build.
@@ -148,14 +168,21 @@ Copy `template.html` to the target path. Then, in order:
    last `<style>` block, its markup into `.track`.
 5. **Closer** — the asks, named, with who decides.
 6. **Cut.** Then cut again. A 14-slide deck that was 20 is a better deck.
+7. **Script.** On every slide, set `data-time` (seconds) and write the
+   word-for-word script in its `<aside class="notes">`. Fill the talk block in
+   the head. Rules in [The script page](#the-script-page).
+8. **Build the script page.**
+   `node ~/.claude/skills/slides/scripts/build_script.mjs <slug>.html`. Read
+   every warning it prints and fix the deck, then rebuild.
 
 Per-slide markup contract:
 
 ```html
-<section class="slide" data-section="2" data-title="Two real orders">
+<section class="slide" data-section="2" data-title="Two real orders" data-time="30">
   <p class="label"><i>2.1</i>What this slide shows</p>
   <!-- one component -->
   <p class="cap"><b>The takeaway.</b> What to do with what you just saw.</p>
+  <aside class="notes" data-speaker="Alex" data-sources="Pilot log, Sept 2026">Word-for-word script for this slide.</aside>
 </section>
 ```
 
@@ -164,6 +191,11 @@ Per-slide markup contract:
 | `data-section="N"` | Groups it. `"0"` is the overview run (cover, contents). |
 | `data-section-name="2 · What shipped"` | Once per section, on its opener. |
 | `data-title="…"` | The jump-menu label. Falls back to the first heading. |
+| `data-time="30"` | Seconds this slide gets. Sets the script page timing and the `N` panel clock. |
+| `data-time="0"` or `data-backup` | A backup slide: shown on the script page, untimed, only pulled up if asked. |
+| `<aside class="notes">` | The script, word for word. Hidden on the slide; `N` shows it. Use `<p>` for paragraphs. |
+| `data-speaker="Alex"` | Who says it. Drives the split, the colours and the filters on the script page. |
+| `data-sources="…"` | Where the slide's numbers come from. Printed under the script. |
 | `class="slide--blue"` | Openers, statements, the closer. Roughly 1 in 3–4. |
 | `class="slide--center"` | One statement, nothing else. |
 | `class="slide--diag"` | One full-stage composition; centres it and lines up the label and caption with it. |
@@ -191,11 +223,151 @@ Not optional — these are the things that are wrong in a generated deck:
 - **Renamed someone or something?** Grep the deck, the speaker notes and the
   script for the old stand-in ("the owner", "a client", the old name) and fix
   every hit.
+- **Speaker notes (`N`).** On two or three slides, the panel shows the right
+  speaker, the slot and the script. `T` restarts the clock.
+- **The script page.** Open it. It starts "Hey <name>," for a shared talk, the
+  split bullets have the right slide ranges and times, the handover quotes the
+  right two lines, every card has its slide image, the "<name> only" filter
+  hides the other speaker, and the practice button opens the timer. The build
+  must finish with no warnings, and the slow 130 words a minute total must
+  land under the limit.
 
 ### 5 · Stop
 
-Path + gist. Stay ready to cut a slide, retime a demo, or add a section. Do not
-expand into a written report unless asked.
+Both paths + gist. Stay ready to cut a slide, retime a demo, or add a section,
+and rebuild the script page after each change. Do not expand into a written
+report unless asked.
+
+## The script page
+
+The second output. It is the note we sent Alex with the Shopify in Brazil
+deck (a strategy course, Session 5), and the user wants
+exactly that shape every time. The builder writes it from the deck alone, so
+the deck and the script never drift.
+
+```bash
+node ~/.claude/skills/slides/scripts/build_script.mjs decks/shopify-brazil.html
+# writes decks/shopify-brazil-script.html; slide images come from headless Chrome
+```
+
+Options: `--out <file>`; `--images <dir>` uses existing renders (a PPTX render,
+say) in natural sort order; `--no-images`; `--allow-em-dash`. It needs Node 18
+or later, plus Chrome for the images (`CHROME=/path` picks another browser;
+a wrong path warns and falls back to the installed one).
+
+For a shared talk, fill `to`, `me`, `from`, `speakers` (the topics),
+`provenance` and `qa` in the talk block. The build warns when a shared talk
+is missing `speakers` topics or `provenance`, because the page then drifts
+from the note below. With those filled, the page reads like this:
+
+```text
+COURSE NAME · SESSION 5 · DAY, DATE
+Shopify in Brazil: script and slides
+
+Hey Alex,
+Here are the slides and the script for our Shopify in Brazil presentation.
+Touch up whatever you want, especially your half.
+
+What's attached
+- shopify-brazil.html is the deck. Open it in a browser and press F for full
+  screen. Each slide has its script in the speaker notes: press N to show
+  them with a talk clock.
+- shopify-brazil-script.html shows every slide next to its script and timing.
+  Open it in a browser on your laptop. It has an "Alex only" filter and a
+  practice mode with a 30 second timer.
+
+How we're splitting it
+18 slides at 30 seconds each, so 9 minutes total, which leaves 1 minute for
+questions.
+- Me, slides 1 to 10 (0:00 to 5:00): the cover and our recommendation, ...
+- You, slides 11 to 18 (5:00 to 9:00): taxes and getting profits home, ...
+- Slide 19 is a backup slide (Key sources). Only pull it up if someone asks.
+  The likely questions are at the bottom of this page.
+The handover is at 5:00. I end slide 10 with "Alex?" and you open slide 11
+with "Thanks, Pragalvha."
+Everything comes from our first draft, and the script is written to sound like
+us talking.
+
+The full script
+Each slide is 56 to 71 words, about 30 seconds out loud.
+[All slides] [Pragalvha only] [Alex only]    [Practise with a 30-second timer]
+Timing at a glance (opens a table)
+
+Slide 1, Me, 0:00 to 0:30: Cover
+  [slide image]  Good morning. We're Pragalvha Sharma and Alex Chen, ...
+                 Sources: ...  ·  58 words · 30 sec · open in deck
+  ...
+  5:00 · Pragalvha hands over to Alex
+Slide 11, You, 5:00 to 5:30: Taxes and tax reform
+  ...
+  Backup, shown only if someone asks
+Slide 19, backup: Key sources
+
+Likely questions
+Q1 Your own licence scores below a small acquisition. Why file for it now?
+   It scores third only because it's slow ...
+
+Thanks,
+Prag
+```
+
+Keep that shape. The headings, the order, the "Me / You" labels, the slide
+ranges with clock times and the quoted handover all come from the builder.
+Your job is the words in the deck and the talk block. Me / You labels appear
+only when two or more people present. Without `to` there is no greeting and
+the files heading is "The files". With one speaker the split heading is "How
+it's timed" and each card uses the speaker's name.
+
+The page also has: a filter for each speaker, a collapsible timing table,
+coloured dividers at each handover, the backup slides grouped at the end
+after their own divider, and a dark
+practice mode that shows one slide at a time with its own timer (arrows move,
+`P` pauses, `Esc` exits; the bar turns orange when a slide runs over).
+Clicking a slide image opens that slide in the deck.
+
+### The talk block
+
+A JSON block in the deck's head, `<script type="application/json" id="talk">`.
+The template has one. Every field is optional.
+
+| Field | Sets |
+| --- | --- |
+| `title` | The page title and "our <title> presentation". Default: the deck's `<title>` up to its first `·`. |
+| `context` | The eyebrow above the title: course, session, date. |
+| `to` | The co-presenter's first name. Turns on "Hey <to>," and labels their slides **You**. |
+| `me` | The user's speaker name. Labels their slides **Me**, so the handover reads "I end slide 10 with …". |
+| `from`, `signoff` | The sign-off: `signoff` (default "Thanks,") over `from`. No `from`, no sign-off. |
+| `intro` | The first paragraph. Default for a shared talk: "Here are the slides and the script for our <title> presentation. Touch up whatever you want, especially your half." |
+| `limit_minutes` | The time limit. The page says what it leaves for questions; the build warns if the talk runs over. The `N` clock counts against it. |
+| `seconds` | The slot for any slide without `data-time`. |
+| `speakers` | `{ "Alex": "taxes, the rivals, and the roadmap." }`: the topics in each split bullet, lower case, as a list. Required for a shared talk; without it the bullet lists slide titles and the build warns. |
+| `split_note` | Replaces "which leaves N for questions". |
+| `backup_note` | `{ "19": "is a backup sources slide. Only pull it up if someone asks." }` |
+| `handover` | Replaces the generated handover sentence. With one handover, "The handover is at 5:00." still goes in front. |
+| `provenance` | One line on where the content comes from, after the handover. Required for a shared talk. |
+| `files` | Extra attachments: `[{ "name": "deck.pdf", "text": "is the same deck as a PDF." }]` |
+| `qa` | `[{ "q": "…", "a": "…" }]`: the Likely questions section. Give three to five. |
+| `speaker` | The default `data-speaker` for a solo talk. |
+
+### Writing the script
+
+- **Word for word, in the speaker's voice.** Write it the way they talk:
+  contractions, short sentences, numbers said out loud ("about 30,000"). One
+  `<aside class="notes">` per slide, `<p>` for paragraphs.
+- **Time it at 150 words a minute.** A 30 second slot is 60 to 75 words. Set
+  `data-time` on every slide. The build warns above 165 words a minute, and
+  prints the total at a slow 130 words a minute, which must still land under
+  `limit_minutes`. Re-time after every wording change.
+- **Handovers are spoken.** The outgoing speaker's last sentence hands over
+  ("Alex?") and the next speaker's first sentence takes it ("Thanks,
+  Pragalvha."). The page quotes both lines, so make them worth quoting.
+- **Backups go after the closer**, with `data-time="0"`. The page lists them
+  at the end even if one sits mid-deck. Put the likely questions in `qa`, not
+  on a slide.
+- **No em dashes** (U+2014) in titles, scripts, sources or the talk block. The
+  build stops if it finds one. Use a comma, a colon or a full stop.
+- **Sources on the aside** (`data-sources`), short: "Draft, p. 3; Central
+  Bank, 2025".
 
 ## Slide-writing rules
 
@@ -218,6 +390,27 @@ expand into a written report unless asked.
   card, an icon, a photo, a diagram. The long version goes in speaker notes or
   the script. When the user says a slide is too texty, cut words and add a
   visual before you shrink the type.
+
+### Readable output (Karpathy, Oct 2026)
+
+Captions, speaker notes and the presenter script are prose. Write them in
+Simplified Technical English at about 80%. The rest of the on-screen text keeps
+the rules above.
+
+- **Short, active sentences.** A description is 25 words or fewer, an
+  instruction 20. Use simple tenses. Keep "the" and "a". A `.cap` is two
+  sentences at most: the takeaway, then what to do with it.
+- **One term per thing.** If slide 4 says "intake form", the caption, the
+  notes and the script say "intake form" too.
+- **Claim first, then a check the audience can run:** the number, its source,
+  the screenshot. Full tables and every check go in the speaker notes or an
+  appendix slide after the closer.
+- **Show change over time with a live demo slide**, one or two per deck. If the
+  deck goes out without a presenter, offer a short narrated explainer video
+  built with `brag-slim` or Hyperframes.
+- **Narration.** ElevenLabs needs the user's API key. Ask before you use it.
+  Never print the key. Without a key, use a free local voice (macOS `say`,
+  Kokoro or Piper).
 
 ### Evidence from people
 
@@ -259,10 +452,11 @@ presenter script from the same words.
 - **PPTX photos are rectangles.** Mask a headshot to a circle before inserting
   it (for example `sharp(img).composite([{ input: circleSvg, blend: "dest-in" }])`)
   and draw a white ellipse behind it for the ring.
-- **Presenter script.** Write it word for word, per slide and per speaker. Time
-  it at 150 words a minute plus one second per handoff, and confirm that a slow
-  130 words a minute still lands under the limit. Re-time it after every
-  wording change, and show the total on the script page.
+- **Presenter script.** The two HTML files still ship, every time. If a PPTX
+  is asked for too, put the same script in its speaker notes, render its
+  slides, and build the script page from the HTML deck with
+  `--images <render dir>` so the cards show the PPTX slides. Add the PPTX and
+  PDF to the talk block's `files` so "What's attached" lists them.
 - **Say where things stand.** If nothing is built yet, the offer slide says
   so and names the first test. Pre-launch decks never imply traction.
 - **Names exactly as the source lists them.** Team, course and company names
@@ -362,12 +556,18 @@ Scene-writing rules:
 | `F` | Full screen |
 | `O` | Jump menu (or tap the counter); `Esc` closes |
 | `P` | Print to PDF |
+| `N` | Speaker notes: this slide's script, its speaker and slot, and the talk clock against the limit |
+| `T` | Restart the talk clock (it starts on the first move) |
 | drag / swipe | 1:1 tracking, flick to advance, rubber-band at the ends |
 | `#7` in the URL | Deep-links to slide 7 |
 
 ## Anti-patterns
 
 - Describing the deck in chat instead of writing the file
+- Shipping the deck without its script page, or a slide without its script
+- Hand-writing or hand-editing `<slug>-script.html` instead of fixing the deck
+  and rebuilding
+- Changing the script page's shape: it is the Alex note, every time
 - Rebuilding the deck engine instead of copying `template.html`
 - Pasting all 33 components' CSS "just in case"
 - Hand-maintaining rail segments or a section array — they are derived
@@ -390,7 +590,11 @@ Scene-writing rules:
 
 - `slides for the paint pilot readout, 15 minutes, for ops leadership` → 14
   slides, four sections, one live intake demo, a was/now table, closer with
-  three named asks
+  three named asks, and `paint-pilot-script.html` beside it
+- `deck for our 10 minute class presentation, I do the first half and Alex
+  does the rest` → the deck with every slide timed and scripted, the talk
+  block with `"to": "Alex"`, then `<slug>-script.html`: "Hey Alex,", the
+  split, the handover at 5:00, the full script and likely questions
 - `turn this design doc into a deck` → read the doc, outline sections from its
   headings, one claim per slide, code component for the schema
 - `a 5-minute lightning talk on why we enumerate instead of guess` → 7 slides,

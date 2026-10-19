@@ -7,6 +7,24 @@
 <meta name="description" content="What this deck argues, in one sentence.">
 <meta name="slides-file" content="decks/deck-slug.html">
 <meta name="slides-session" content="active">
+<!-- The talk. scripts/build_script.mjs reads this block, plus each slide's
+     data-time and aside.notes, to write the deck's -script.html page, the
+     second output. Every field is optional; see SKILL.md, "The script page".
+     "to" and "me" turn the page into a note to a co-presenter (Me / You). -->
+<script type="application/json" id="talk">
+{
+  "title": "Deck title",
+  "context": "Course or team · Session · Date",
+  "to": "",
+  "me": "",
+  "from": "",
+  "intro": "",
+  "limit_minutes": 15,
+  "speakers": { "Presenter": "the topics this speaker covers, as a list." },
+  "provenance": "",
+  "qa": [ { "q": "A question the room is likely to ask?", "a": "The short answer." } ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 20'%3E%3Crect width='14' height='20' rx='2' fill='%230040E6'/%3E%3Cpath fill='%23fff' fill-rule='evenodd' d='M10.07 7.73c0-4.85-.83-6.86-3.11-6.86-2.01 0-3.03 1.41-3.03 6.3 0 4.82.79 6.81 3.11 6.81 2.05 0 3.03-1.39 3.03-6.25zM0 7.6C0 2.15 3.75 0 7.08 0 10.65 0 14 2.13 14 7.27 14 12.76 10.25 14.85 6.92 14.85 3.36 14.85 0 12.57 0 7.6zm13.27 11.63s-1.65-2.19-1.65-2.19a.43.43 0 0 0-.56-.26H2.94a.43.43 0 0 0-.56.26L.73 19.23a.4.4 0 0 0-.08.23v.34c0 .11.09.2.2.2h12.3c.11 0 .2-.09.2-.2v-.34a.4.4 0 0 0-.08-.23z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.opendoor.com" crossorigin>
 <style>
@@ -207,7 +225,7 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
 .h{font-size:2.5rem;line-height:1.1;letter-spacing:-.028em;max-width:34ch;}
 .lead{margin-top:.9rem;font-size:1.08rem;line-height:1.55;color:var(--mute);max-width:74ch;}
 .slide--blue .lead{color:rgba(255,255,255,.88);}
-/* the numbered slide label: <p class="label"><i>2.1</i>What this slide shows</p> */
+/* the numbered slide label: p.label, with the number in an i before the text */
 .label{font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:1.4rem;}
 .label i{font-style:normal;color:var(--blue);margin-right:.5rem;}
 .slide--blue .label{color:rgba(255,255,255,.7);}
@@ -389,6 +407,20 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
    PRINT · one slide per landscape page. Colour is the argument here, so
    force it on everything rather than listing components one by one.
    ══════════════════════════════════════════════════════════════════════════ */
+/* ── speaker notes: each slide's script sits in an aside.notes,
+      hidden on the slide. N shows it in a panel with the talk clock. ── */
+.notes{display:none;}
+.npanel{position:fixed;left:50%;transform:translateX(-50%);bottom:5rem;z-index:55;width:min(92vw,62rem);
+  max-height:38vh;overflow:auto;display:none;background:rgba(255,255,255,.97);border:1px solid var(--rule);
+  border-radius:14px;padding:.95rem 1.2rem 1.05rem;font-size:.98rem;line-height:1.55;color:var(--body);}
+.npanel.is-open{display:block;}
+.npanel__k{display:flex;justify-content:space-between;gap:1rem;font-family:var(--ui);font-size:.68rem;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:.45rem;}
+.npanel__k span:last-child{color:var(--mute);}
+.npanel__k .over{color:var(--crimson);}
+.npanel__k .clk{color:var(--ink);}
+.npanel p{margin:0 0 .5rem;}
+
 @media print{
   @page{size:landscape;margin:0;}
   html{font-size:11px;}
@@ -397,7 +429,7 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
   .track{display:block;transform:none!important;}
   .slide{width:100%;height:auto;min-height:96vh;page-break-after:always;break-after:page;padding:2.4rem 2.6rem;overflow:visible;}
   .slide:last-child{break-after:auto;}
-  .rail,.pill,.hint,.jump,.demo__ctl,.beats{display:none!important;}
+  .rail,.pill,.hint,.jump,.demo__ctl,.beats,.npanel{display:none!important;}
   /* every reveal-on-arrival state prints in its finished form */
   [data-reveal]{opacity:1!important;transform:none!important;}
   .stage{min-height:0;}
@@ -417,7 +449,7 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
        are all built from those attributes, so there is nothing to keep in
        sync by hand. Add data-section-name once per section.
        ═════════════════════════════════════════════════════════════════════ -->
-  <section class="slide slide--blue cover" data-section="0" data-title="Cover">
+  <section class="slide slide--blue cover" data-section="0" data-title="Cover" data-time="30">
     <div class="cover__logo brand">
       <svg class="brand__mark" viewBox="0 0 14 20" fill="currentColor" role="img" aria-label="Opendoor">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0652 7.72525C10.0652 2.87886 9.23666 0.869951 6.95864 0.869951C4.94968 0.869951 3.93488 2.27822 3.93488 7.16613C3.93488 11.9918 4.7219 13.9801 7.04144 13.9801C9.09177 13.9801 10.0652 12.5924 10.0652 7.72525ZM0 7.60107C0 2.15396 3.74854 0 7.08288 0C10.645 0 14 2.13332 14 7.26967C14 12.7581 10.2515 14.85 6.91711 14.85C3.35507 14.85 0 12.5718 0 7.60107ZM13.2689 19.2321C12.929 18.7812 11.6198 17.0442 11.6198 17.0442C11.4969 16.8812 11.2864 16.7829 11.0605 16.7829H2.93952C2.71362 16.7829 2.50312 16.8812 2.38028 17.0442L0.731324 19.2318C0.679012 19.3011 0.651254 19.3819 0.651254 19.4645V19.7984C0.651254 19.9098 0.741489 20 0.852838 20H13.1472C13.2585 20 13.3488 19.9098 13.3488 19.7984V19.4645C13.3488 19.3819 13.3213 19.3014 13.2689 19.2321Z"/>
@@ -433,17 +465,22 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
       <div><b>Section 3</b><span>The question this section answers</span></div>
     </div>
     <p class="cover__by"><b>Name</b>Date range · 15 minutes, then questions</p>
+    <!-- Every slide ends with its script, word for word, and carries
+         data-time (seconds) on the section. data-time="0" marks a backup
+         slide. The deck, the N panel and <slug>-script.html all read these. -->
+    <aside class="notes" data-speaker="Presenter" data-sources="Where the claim comes from.">Good morning. The opening line, said out loud. Then the claim, in one sentence, and what you will ask for at the end.</aside>
   </section>
 
   <!-- ═══════════ 2 · SECTION OPENER ═══════════ -->
-  <section class="slide slide--blue" data-section="1" data-section-name="1 · The problem" data-title="Section 1 opener">
+  <section class="slide slide--blue" data-section="1" data-section-name="1 · The problem" data-title="Section 1 opener" data-time="20">
     <p class="sect__no">Section 1</p>
     <p class="sect__q">The question this section answers, phrased as a question.</p>
     <h2 class="stmt">The one sentence a viewer should leave with. <em>The turn.</em></h2>
+    <aside class="notes" data-speaker="Presenter">The question this section answers, then the turn.</aside>
   </section>
 
   <!-- ═══════════ 3 · CONTENT ═══════════ -->
-  <section class="slide" data-section="1" data-title="Three things that are true">
+  <section class="slide" data-section="1" data-title="Three things that are true" data-time="45">
     <p class="label"><i>1.1</i>What this slide shows</p>
     <div class="cols c3">
       <div class="item" data-reveal style="--i:0">
@@ -463,13 +500,15 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
       </div>
     </div>
     <p class="cap"><b>The takeaway.</b> The sentence that says what to do with the three findings above.</p>
+    <aside class="notes" data-speaker="Presenter" data-sources="Source one; source two.">The three findings in the order they appear, each with its number. Then the takeaway, said the way the caption says it.</aside>
   </section>
 
   <!-- ═══════════ 4 · STATEMENT ═══════════ -->
-  <section class="slide slide--blue slide--center" data-section="2" data-section-name="2 · What shipped" data-title="The turn">
+  <section class="slide slide--blue slide--center" data-section="2" data-section-name="2 · What shipped" data-title="The turn" data-time="15">
     <p class="sect__no">Section 2</p>
     <h2 class="stmt">One idea, <em>full bleed</em>.</h2>
     <p class="sub">Only if it needs a second line.</p>
+    <aside class="notes" data-speaker="Presenter">One idea, said once.</aside>
   </section>
 
   <!-- ═══════════ PASTE COMPONENTS HERE ═══════════════════════════════════
@@ -478,7 +517,7 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
        ═════════════════════════════════════════════════════════════════════ -->
 
   <!-- ═══════════ 5 · CLOSER ═══════════ -->
-  <section class="slide slide--blue" data-section="3" data-section-name="3 · Asks" data-title="Asks">
+  <section class="slide slide--blue" data-section="3" data-section-name="3 · Asks" data-title="Asks" data-time="40">
     <p class="eyebrow">What I need</p>
     <h2 class="stmt">Three asks, <em>named</em>.</h2>
     <div class="cols c3" style="margin-top:2.6rem">
@@ -487,6 +526,7 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
       <div class="item"><p class="item__n">Ask 3</p><h3>The next slice</h3><p>What ships if this one worked.</p></div>
     </div>
     <p class="cover__by"><b>Name</b>email@opendoor.com · thanks</p>
+    <aside class="notes" data-speaker="Presenter">The three asks, each with who decides and by when. Thank you. Happy to take questions.</aside>
   </section>
 
 </div>
@@ -1078,6 +1118,65 @@ code{font-family:var(--mono);font-size:.92em;color:var(--ink);}
     }
   });
   ─────────────────────────────────────────────────────────────────────────── */
+})();
+</script>
+<script>
+/* ── speaker notes + talk clock: N shows each slide's script, T restarts the
+      clock. The limit comes from the talk block's limit_minutes. ── */
+(function(){
+  'use strict';
+  var talk = {};
+  try { talk = JSON.parse((document.getElementById('talk') || {}).textContent || '{}'); } catch (err) {}
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  function notesOf(s){ return s ? [].slice.call(s.querySelectorAll('.notes')) : []; }
+  function secs(s){
+    if (s.hasAttribute('data-backup')) return 0;
+    var t = s.getAttribute('data-time'), v = (t === null || t === '') ? NaN : Number(t);
+    if (isFinite(v) && v >= 0) return v === 0 ? 0 : Math.max(1, Math.round(v));   // only an exact 0 is a backup
+    if (+talk.seconds > 0) return +talk.seconds;
+    var w = notesOf(s).reduce(function(a, n){ return a + (n.textContent.trim().match(/\S+/g) || []).length; }, 0);
+    return Math.max(10, Math.round(w / 150 * 60 / 5) * 5);   // same estimate as build_script.mjs
+  }
+  var plan = slides.map(secs);
+  var total = plan.reduce(function(a, b){ return a + b; }, 0);
+  var LIMIT = (+talk.limit_minutes || 0) * 60 || total;
+  var panel = document.createElement('div');
+  panel.className = 'npanel';
+  panel.innerHTML = '<div class="npanel__k"><span class="npanel__who"></span><span><span class="npanel__clk"></span> · T restart · N hide</span></div>' +
+    '<div class="npanel__body" aria-live="polite"></div>';
+  document.body.appendChild(panel);
+  var whoEl = panel.querySelector('.npanel__who'), clkEl = panel.querySelector('.npanel__clk'), bodyEl = panel.querySelector('.npanel__body');
+  var jump = document.getElementById('jump');
+  var open = false, t0 = null, shown = -1;
+  function fmt(s){ s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function paint(){
+    if (!open) return;
+    var s = document.querySelector('.slide.is-active') || slides[0];
+    var i = Math.max(0, slides.indexOf(s)), ns = notesOf(slides[i]);
+    var doneBy = 0; for (var k = 0; k <= i; k++) doneBy += plan[k];
+    var el = t0 ? (Date.now() - t0) / 1000 : 0;
+    clkEl.className = 'npanel__clk ' + (t0 && el > doneBy && plan[i] ? 'over' : 'clk');
+    clkEl.textContent = 'Clock ' + (t0 ? fmt(el) : 'starts on first move') + ' / ' + fmt(LIMIT);
+    if (i === shown) return;   // the script only changes with the slide, so screen readers hear it once
+    shown = i;
+    var who = [];
+    ns.forEach(function(n){ var w = n.getAttribute('data-speaker') || talk.speaker; if (w && who.indexOf(w) < 0) who.push(w); });
+    whoEl.textContent = (who.length ? 'Speaker · ' + who.join(' and ') : 'No notes') + ' · ' +
+      (plan[i] ? 'This slide ' + fmt(plan[i]) + ' · finish by ' + fmt(doneBy) + ' of ' + fmt(total) : 'Backup slide · not presented');
+    bodyEl.innerHTML = ns.map(function(n){ return '<div>' + n.innerHTML + '</div>'; }).join('');
+  }
+  function typing(t){
+    var tag = (t && t.tagName || '').toLowerCase();
+    return tag === 'input' || tag === 'textarea' || tag === 'select' || !!(t && t.isContentEditable);
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target)) return;
+    if (jump && jump.classList.contains('is-open')) return;
+    if (e.key === 'n' || e.key === 'N'){ e.preventDefault(); open = !open; panel.classList.toggle('is-open', open); shown = -1; paint(); }
+    else if (e.key === 't' || e.key === 'T'){ e.preventDefault(); t0 = Date.now(); paint(); }
+  });
+  document.addEventListener('slidechange', function(){ if (!t0) t0 = Date.now(); paint(); });
+  setInterval(paint, 1000);
 })();
 </script>
 </body>

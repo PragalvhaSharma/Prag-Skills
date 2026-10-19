@@ -138,6 +138,16 @@ report to the user.
 
 Not every session needs one. A problem-set session does not. A case does.
 
+**Concept videos.** NotebookLM voices the overview itself, so this step needs
+no voice key. The one-video rule covers only this overview. If an idea unfolds
+over time, offer a separate 3Blue1Brown-style concept video. Example: each cut
+puts more overhead on the routes that are left. If the user says yes, build it
+with `brag-slim` or Hyperframes.
+
+**Narration.** ElevenLabs needs the user's API key. Ask before you use it.
+Never print the key. Without a key, use a free local voice (macOS `say`,
+Kokoro or Piper).
+
 ### 1 · Gather
 
 | Source | How |
@@ -337,8 +347,8 @@ every case in this course are the same shape:
 Rules for the rungs:
 
 - **Write the sentence you would say out loud to a friend.** "A plane leaves the
-  gate with a fixed number of seats on it, and it costs the same to fly whether
-  those seats are full or empty."
+  gate with a fixed number of seats, and it costs the same to fly full or
+  empty."
 - **One idea per rung.** If a rung needs a semicolon, split it.
 - **The number sits under the sentence, never inside it.** Prose carries the
   logic, the mono block carries the figures.
@@ -348,9 +358,9 @@ Rules for the rungs:
   should see the answer being produced, not told it.
 
 **`.mix`, where the money goes.** One bar, two buckets, named in plain words:
-"Goes away if the plane stays home" and "Still there in the morning". Never
-"variable" and "fixed" as the bucket labels. The percentage and the dollar
-figure both appear.
+"Leaves with the flight" and "Stays whatever you do", the same words as the
+cost classes above. Never "variable" and "fixed" as the bucket labels. The
+percentage and the dollar figure both appear.
 
 **`.ksf`, what this business has to be good at.** Two to four things, each a
 short bold claim, then why it decides who wins, then whether this company
@@ -487,6 +497,19 @@ If one of these is on the page, rewrite the sentence around it:
 
 Course vocabulary still earns marks in class, so keep the real term, but put it
 after the plain sentence rather than in place of it.
+
+**Readable output (Karpathy, Oct 2026).** The section of the same name in
+`ivey-case-prep` applies in full. In the Case part it means:
+
+- **Every sentence:** one idea, 25 words at most, simple tenses, active voice.
+  That covers the rungs, the `.brief` story, the observations and the
+  `.sowhat`.
+- **Exhibit reads:** the `.pt` head states the claim in one active sentence,
+  such as "Overhead fell more slowly than revenue." The `.sub` lines stay
+  fragments, like table cells.
+- **One plain phrase per cost class.** If rung 3 says "the costs that leave
+  with the flight", every block on the page uses those words. A new phrase
+  makes the reader look for a new cost.
 
 ### 4 · Concepts and Problems
 

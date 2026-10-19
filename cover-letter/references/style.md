@@ -33,6 +33,17 @@ A number, a name, or a thing that happened. "I automated roughly 5,000 rental-sc
 
 Pick one and hold it for the whole letter. Mixing "I'm" and "I am" across paragraphs is the most common tell that a letter was assembled rather than written. Formal contraction-free reads better in a letter that will be read next to a resume.
 
+## Readable output (Karpathy, Oct 2026)
+
+Write about 80% of the way to Simplified Technical English (ASD-STE100). It sets a ceiling on complexity. It is not a template, so keep the register above.
+
+- Keep most sentences to 20 words or fewer, with one idea each.
+- Use active voice and simple tenses: "I built", not "I have been building". Use plain words: "use", not "utilize"; "help", not "facilitate".
+- Use one name for one thing. Copy the team name and the exact role title from the posting, and repeat them as written. If the opening says "Payments Platform team", do not switch to "the platform group". Numbers follow the same rule (see Numbers).
+- The letter stays text. Link a small artifact only if the user asks for one or already has one. Examples: a one-page HTML or a short demo video. Put the link once, next to the claim it proves.
+
+Example. Before: "Over the past few months, I have been leveraging automation to streamline the handling of a large volume of rental-scam tickets." After: "I automated roughly 5,000 rental-scam tickets in two months."
+
 ## The paragraph that matters
 
 The second paragraph is the letter. Everything else is scaffolding around it. It should name one thing the user built, attach the real number, and then say what the work taught them, phrased as the exact discipline the job posting asks for. If that paragraph is weak, tightening the other four will not save the letter.

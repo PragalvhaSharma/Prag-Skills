@@ -200,6 +200,18 @@ A page that is correct and unreadable has failed. The reader is a student skimmi
 
 **Table cells are fragments, not sentences.** `Fixed for a period, updated every year or two`, not `The basket is fixed for a period of time and is then updated every year or two by the agency.` Drop articles and auxiliaries. No cell gets two sentences. A table whose cells are paragraphs should have been cards, a diagram, or a list.
 
+### Readable output (Karpathy, Oct 2026)
+
+The caps above limit length. These rules make each sentence quick to read and check. They apply to all prose: the "In one line" box, ledes, notes, step prose and the Q&A log. An essay answer may keep a personal voice, but it keeps the short sentences and plain words.
+
+- **Answer first.** A lede or a note opens with its conclusion. Worked problems keep the three-block order above, so the reader can try the question first.
+- **One idea per sentence.** A description is 25 words or fewer, an instruction 20. Put a condition first: "If a decision has a break-even, add an interactive model."
+- **Active voice, simple tenses.** Write "The plant applies overhead at 150% of direct labour cost", not "Overhead has been applied at 150%".
+- **Prose keeps "the" and "a".** Fragments belong where the caps above ask for them: table cells, card bodies and diagram labels.
+- **One term per thing.** Pick the course term and keep it. If §2 says *contribution margin*, every later section says *contribution margin*, never *CM* in one place and *margin* in another. Only the glossary lists synonyms.
+- **Video is the top rung.** Offer a 3Blue1Brown-style explainer video only for a concept that unfolds over time. Example: capital per worker climbs, then levels off at the steady state. If the user says yes, build it with `brag-slim` or Hyperframes.
+- **Narration.** ElevenLabs needs the user's API key. Ask before you use it. Never print the key. Without a key, use a free local voice (macOS `say`, Kokoro or Piper).
+
 ### Every section earns one visual
 
 Concept sections open with a diagram, chart, meter, or interactive, before the prose rather than after it. A section with no visual means either you have not found the picture, or it should not be its own section. Whole-page rule: **at least one visual per 300 words of body copy.** Past that ratio you are writing an essay.

@@ -18,7 +18,7 @@ Cold email is not just for jobs or startups. It works for scholarships, rare col
 Every draft must follow these. They override any looser guidance below.
 
 1. **5 to 8 sentences, max.** Count every sentence and every bullet in the body (greeting and sign-off excluded). Over 8 means cut, not trim.
-2. **Lead with who you are and why you're worth talking to.** The first sentence or two establish identity plus the strongest proof. Do not open with flattery or a warm-up line.
+2. **Lead with who you are and why you're worth talking to.** The first sentence or two establish identity, the reason for writing, and the strongest proof. Do not open with flattery or a warm-up line.
 3. **Personalize, but stay on topic.** One specific detail about the recipient that connects directly to the ask. No tangents, no compliments unrelated to why you're writing.
 4. **Explain in 1 to 2 sentences how you can help them.** Concrete outcome for their team or company, not a list of what you've built.
 5. **Write like a founder, not an AE.** Peer to peer, plain, confident. No sales-speak ("circle back", "touch base", "synergies", "value-add", "I'd love to learn more about your needs"), no pitch-deck adjectives, no manufactured urgency.
@@ -72,6 +72,8 @@ Unless the user asks for something else, produce:
 - 1 primary email draft
 - 1 shorter alternative (5 sentences) if the primary draft is 7 or 8 sentences
 - 1 follow-up email
+
+Put these first in the reply. Add any note or assumption after them, one line each.
 
 ## Workflow
 
@@ -183,6 +185,14 @@ When using bullets in email, keep each bullet to one compact claim. If a link ma
 - If the sender has genuine product love or sharp insight, lead with it.
 - If the sender already built something relevant, lead with that instead.
 - Frame everything around what it does for them, not what the sender built. No one cares what you built. They care what it does for them.
+
+**Readable output (Karpathy, Oct 2026).** Write about 80% of the way to Simplified Technical English (ASD-STE100). It sets a ceiling on complexity. It is not a template, so keep the voice above.
+
+- Keep most sentences to 20 words or fewer, with one idea each. If shorter sentences push the body past 8, cut an idea (rule 1).
+- Use active voice, simple tenses and plain words: "I built", not "I have been building"; "use", not "leverage" or "utilize"; "help", not "facilitate".
+- Call each thing by one name. If the hook says "your Payments team", do not switch to "the payments org" later. Do the same for the company, the role and the product.
+- Each proof point needs at least one thing the reader can check: a number, a link or a named result. If a proof point has none, cut it.
+- Keep the email as text. A link to a small artifact, such as a one-page HTML or a short demo video, can prove a claim better than a sentence. Add one only if the user asks for it or already has it.
 
 ## Formatting rules - critical for Gmail rendering
 
@@ -303,7 +313,7 @@ If the draft cannot compress to this shape, the sender does not understand their
 Before finalizing, check:
 
 - Is the body 5 to 8 sentences (bullets count)?
-- Do the first 1 to 2 sentences say who the sender is and why they're worth talking to?
+- Do the first 1 to 2 sentences say who the sender is, why they're writing, and why they're worth talking to?
 - Is the personal detail on topic?
 - Is "how I can help you" stated in 1 to 2 sentences?
 - Does it read like a founder wrote it, not an account executive?
@@ -313,6 +323,8 @@ Before finalizing, check:
 - Is the proof concrete enough to remember?
 - Is the ask easy to say yes to?
 - Could 15 percent of the words be cut without losing meaning?
+- Are most sentences 20 words or fewer, with one idea each?
+- Does each company, role and product keep one name throughout?
 - Does it sound like a smart friend wrote it, not a desperate applicant?
 - Is the opener something other than "Hope you're doing well"?
 - Does every proof point have an inline link?

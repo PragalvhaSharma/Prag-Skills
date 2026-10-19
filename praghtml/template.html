@@ -148,7 +148,8 @@
     th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
     th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
     tbody tr:last-child td { border-bottom: none; }
-    td code { background: var(--bg); border: 1px solid var(--line); }
+    td code { background: var(--bg); border: 1px solid var(--line); overflow-wrap: anywhere; }
+    @media (max-width: 640px) { th, td { padding: 8px 8px; } }
 
     /* Questions log — each follow-up appends an article (newest on top). */
     #questions .q {

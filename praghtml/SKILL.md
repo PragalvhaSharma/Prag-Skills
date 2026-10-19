@@ -5,14 +5,16 @@ description: >-
   diagrams animate themselves on a loop. Explains concepts, architecture,
   stacks, flows, codebases and product ideas as one self-contained .html, with
   hand-built diagrams that assemble on scroll and then walk through their steps
-  like a live demo. Once invoked in a conversation, every follow-up question is
-  appended into the same file (never chat-only); chat reply is path + one-line
-  gist. Use when the user asks to explain something, map a codebase or feature,
-  show the stack, walk a flow, show how an idea or feature should work, or make
-  any HTML page, or says "how does this work", "explain this", "what's the
-  stack", "show me how this should feel", "make it animate", "make me an
-  HTML". Replaces the old explainer, animator and ideator skills. Not for
-  slide decks (use slides) or production app code.
+  like a live demo. Also builds Anatomy object figures: interactive isometric
+  objects whose motion is the idea, for any topic. Once invoked in a
+  conversation, every follow-up question is appended into the same file (never
+  chat-only); chat reply is path + one-line gist. Use when the user asks to
+  explain something, map a codebase or feature, show the stack, walk a flow,
+  show how an idea or feature should work, or make any HTML page, or says "how
+  does this work", "explain this", "what's the stack", "show me how this should
+  feel", "make it animate", "make me an HTML". Replaces the old explainer,
+  animator and ideator skills. Not for slide decks (use slides) or production
+  app code.
 ---
 
 # Praghtml
@@ -25,7 +27,7 @@ Composes with **`html-design`** and **`frontend-design`** for polish. Praghtml o
 
 **The density bar in `html-design` applies here too** — it is a content rule, not a styling one. This user's standing complaint is that these pages come out too verbose. Diagrams **replace** prose, they don't accompany it: ≤2 sentences under each one, tables instead of paragraphs, no preamble, no boilerplate Overview/Conclusion sections, and a subtraction pass before showing. In session mode this matters more each turn — appended Q sections accumulate, so keep every one tight and re-trim the Big picture instead of letting it grow.
 
-**Install note:** Canonical copy lives at `~/.claude/skills/praghtml/`. Symlink into Codex, Cursor and Agents via `bash ~/.claude/skills/praghtml/sync.sh` so one edit updates all of them.
+**Install note:** Canonical copy lives at `~/.claude/skills/praghtml/`. Symlink into Codex, Cursor and Agents via `bash ~/.claude/skills/praghtml/sync.sh` so one edit updates all of them. `anatomy/` is a git clone of [Anatomy](https://github.com/wheresryan22/anatomy) for object figures; update it with `git -C ~/.claude/skills/praghtml/anatomy pull` (see *Object figures*).
 
 ## Non-negotiable: every answer ships / updates HTML
 
@@ -83,6 +85,20 @@ Each answered question becomes a dated/numbered block under `#questions` so the 
 8. **Default to "how it should work."** Note as-is drift in one line if relevant.
 9. **Explain, don't refactor** product code.
 
+## Readable output (Karpathy, Oct 2026)
+
+Karpathy ranks output formats as a ladder: text → diagram → HTML page → explainer video. Each rung is easier to take in than the one below it. This skill lives on the HTML rung. Use the lower rungs inside the page, and offer the next rung when it helps.
+
+- **Climb only as far as the question needs.** A one-fact answer is a row in a table. A new diagram is for a new structure or flow.
+- **Write prose at about 80% of ASD-STE100** (Simplified Technical English). Instructions: 20 words or fewer. Descriptions: 25 words or fewer. Paragraphs: 6 sentences or fewer. One idea per sentence.
+- **Active voice, simple tenses.** "The webhook sends the lead to Make.com." Avoid "-ing" verbs and "has been".
+- **Same word for the same thing.** A page that says "vendor" never switches to "store" or "retailer" for the same record. Noun clusters: 3 words or fewer.
+- **Plain words:** use, start, make sure, before, about, to. Drop utilize, commence, ensure, prior to, approximately, in order to.
+- **Build for oversight.** The model does the legwork and the reader checks it. Lead with the answer or verdict, then the proof: a number, a cropped screenshot, a source link, a test result.
+- **Fold raw detail.** Full logs, every check and long tables go in a collapsed `<details>` at the end.
+- **Offer the video rung when change over time is the point.** Hand off to `brag-slim` (or Hyperframes) for a 3b1b-style explainer. ElevenLabs narration needs the user's key: ask before you spend it, and never print it. Without a key, use a free local voice (macOS `say`).
+- **Discardable is fine.** A large page built for one question is a good result when it makes the answer easier to check.
+
 ## Workflow
 
 ### 1 · Scope
@@ -95,6 +111,7 @@ Each answered question becomes a dated/numbered block under `#questions` so the 
 | Codebase / feature | Who calls what | **layers** + one accented path |
 | Flow / lifecycle | Order of events | **ladder** (never a sequence diagram) |
 | Motion / interaction | States, triggers, timing | **track** + timeline table |
+| Mechanism / quantity (any topic) | What moves and what it means | **object figure** (Anatomy) |
 
 One clarifying question only if scope is genuinely ambiguous.
 
@@ -160,7 +177,20 @@ Omit Stack for pure non-tech concepts (e.g. "what is eventual consistency" can s
 
 Newest question can go at the top or bottom of `#questions` — pick one order and keep it consistent in the file (default: **newest at top**).
 
-### 4 · Stop (per turn)
+### 4 · Check, then stop (per turn)
+
+Render the page and look at it before you reply. `qa.js` in this folder does the render and the checks:
+
+```bash
+node ~/.claude/skills/praghtml/qa.js <page.html> [out-dir]
+```
+
+- It renders at 1280 px and as a 390 px phone (Playwright device emulation, reduced motion on), and saves full-page screenshots.
+- It fails on sideways scroll, a broken image, a dead `#anchor` link or a script error. On sideways scroll it names the element that sticks out.
+- Open the screenshots and look. Fix, rebuild, and re-render only when something changed.
+- Pages with object figures also need `lines.mjs` and `capture.mjs` (see *Object figures*).
+- Do not trust Chrome's `--window-size=390,…` as a phone check. The page lays out wider than 390 px and the capture cuts off the right edge.
+- Without reduced motion, Reveal elements can capture blank. For the Chrome CLI, add `--force-prefers-reduced-motion --run-all-compositor-stages-before-draw`.
 
 After updating the HTML: path + gist. Stay ready for the next question. Don't auto-expand beyond what the latest question needs.
 
@@ -181,13 +211,32 @@ Examples belong **inside the diagram** where they fit — a node labelled `Beef 
 
 **Checklist before shipping:** every abstract noun on the page has a concrete instance within one screen of it. If a section defines something and never shows it, that section is unfinished.
 
+## Audit and evidence pages
+
+Use this shape when the page reports what you tested: an app audit, a QA pass, a review that someone will forward. The proof is the content.
+
+| Part | Do |
+| --- | --- |
+| **Header** | Title, a two-sentence verdict, who it is for, the date and what you tested. Jump pills to each section. |
+| **Big picture** | One layers diagram. Each box carries a verdict pill: `WORKS`, `FAKE` or `GAP`. |
+| **Findings** | Numbered. One claim per heading, a verdict pill, one or two sentences, then the screenshots. |
+| **Screenshots** | 16 or fewer. Crop each one to the evidence and ring the exact spot in the accent colour. A click opens the full screenshot in a lightbox (`data-full`). |
+| **State changes** | A before → after pair, top-aligned, with bold "Before:" and "After a refresh:" captions. |
+| **What works** | Screenshots of what works too. Credit makes the negatives easier to trust. |
+| **Next steps** | A ranked ladder, then a "What I need from you" table. |
+| **Full log** | Every check you ran, in a collapsed `<details>` at the end. |
+
+- Blur passwords, demo logins, keys and private emails in the image itself before it goes in. Never quote them in the text.
+- Inline the images as WebP `data:` URIs, so the page is one file that opens anywhere and goes out as one attachment.
+- State what you did not change ("Nothing real was sent") in the header and the footer.
+
 ## Diagrams
 
 **Hand-build every diagram in HTML + CSS + inline SVG. No Mermaid. No diagram library, no CDN renderer, no `<pre class="mermaid">`.**
 
 A generated diagram announces that a tool drew it — numbered step bubbles, dotted `alt` frames, yellow sticky notes, acres of dead lane whitespace, labels placed wherever the layout engine felt like. It reads as *output*. A diagram you lay out yourself reads as *a page*. It also costs less: no CDN, no render pass, no layout you can't control, and it prints.
 
-Build everything out of these five primitives. Each is ~20 lines of CSS, defined once in the page's `<style>` and reused.
+Build everything out of these six primitives. The first five are ~20 lines of CSS each, defined once in the page's `<style>` and reused. The sixth comes from the Anatomy bridge.
 
 | Primitive | Use for | Built from |
 | --- | --- | --- |
@@ -196,6 +245,7 @@ Build everything out of these five primitives. Each is ~20 lines of CSS, defined
 | **Ladder** | order of events over time | numbered rows, actor chip + what happens |
 | **Track** | states / motion over time | a bar with labelled segments |
 | **Hero SVG** | when the geometry itself is the point | hand-written `<svg viewBox>` |
+| **Object figure** | a mechanism: a level, threshold, flow, leak or balance | Anatomy kit through `iso/figure.mjs`; see *Object figures* |
 
 ### Order of events: use a ladder, not a sequence diagram
 
@@ -221,8 +271,39 @@ Branches (`alt` / `else`) become two or three short labelled blocks side by side
 - **Print.** `break-inside: avoid` on every figure.
 - **No JS to render.** A diagram that needs a script to appear is the thing we just removed.
 - **Reveal, then play; don't render.** The diagram is complete in the HTML; Reveal fades it in, Play walks it. With JavaScript off or reduced motion on, everything is simply there.
+- **Object figures are the exception** to the box and element caps: they carry 40–80 parts by design. Their colours still come from page tokens, through the bridge.
 
 Reach for a hand-written `<svg>` only when boxes genuinely can't say it: an overlap, a curve, a nesting, a real geometric relationship. Then set a `viewBox`, use `currentColor` or token variables for strokes, and keep it under ~40 elements.
+
+### Object figures (Anatomy)
+
+Some ideas are a mechanism: a level that fills, a threshold, a flow, a leak, a balance, a queue. Draw those as a real object that does the thing. Anatomy (`anatomy/`, MIT) builds them: interactive isometric SVG in a framed card with a live readout. Use it for any topic, not only machines.
+
+| Idea | Object | What moves → readout |
+| --- | --- | --- |
+| Break-even | Cistern with an overflow spout at the fixed-cost height | Each unit pours in its contribution; the spill is profit |
+| Solow steady state | Tank with an investment inlet and a depreciation leak | The level settles where inflow equals the leak |
+| Bottleneck | Pipe that narrows | Flow out equals the narrowest section |
+| Cache key | Pin-tumbler lock | All pins match → the plug turns, nothing redraws |
+
+**Read `iso/figures.md` before you build one.** It has the full metaphor table, the bridge API and the verify steps. `iso/examples/break-even-cistern.fig.mjs` is a finished build to copy from.
+
+- **Size it first and tell the user.** Figure: 40–80 parts, about 30–90 min, build it. Hero: 80–150 parts, 2–4 h, say so first. Epic: do not start; propose a Hero.
+- **One model drives it.** A small pure function gives the readout, the motion and the caption. Label made-up numbers "illustrative".
+- **Build in Node, splice into the page.** Keep the build script beside the page as `<slug>.fig.mjs`. It builds the SVG with the kit, wraps it with `figureBlock(...)` and calls `splice(page, id, block)` at an `<!-- iso:<id> -->` marker.
+- `splice` inlines the kit, its CSS and `iso/player.js` into `<head>` once. It is safe to rerun.
+- **Session follow-ups:** edit the `.fig.mjs` and rerun it. Never hand-edit the spliced block.
+- **One lit subject.** Lit is the page `--accent`. The subject can span parts that are the same thing, like water in two vessels; every other part stays neutral. Light theme only.
+- **Motion:** `PLAY(root, { stops, draw })` in the live script tours the stops, steers on pointer and keys, pauses on its button or a click on the figure, and stops offscreen. Reduced motion never tours.
+- **Verify** with `qa.js`, then:
+
+  ```bash
+  node ~/.claude/skills/praghtml/anatomy/scripts/lines.mjs <page.html> --select '#<id> .iso-plate'
+  node ~/.claude/skills/praghtml/anatomy/scripts/capture.mjs <page.html> --select '#<id> .iso-plate' --out <png> [--width 390]
+  ```
+
+  `lines.mjs` must report 0 floating line ends. Open the captures and look.
+- **Update:** `git -C ~/.claude/skills/praghtml/anatomy pull`, then rebuild one figure page. A sparse checkout hides Anatomy's own SKILL.md, so it never shows up as a second skill. Never restore it.
 
 ## Motion
 
@@ -234,6 +315,7 @@ One motion layer, in this folder. **Paste inline, never link**: the page must op
 | `reveal.js` | Reveal | Diagrams enter as they scroll in, children staggered. First screen animates on load. |
 | `play.js` | **Play** | Any `data-play` diagram walks itself step by step on a loop. The default for every process diagram. |
 | `runner.js` | Runner | Scripted scenes for a fake interface (idea demos). Only when Play can't express it. |
+| `iso/player.js` | Object | Tours an object figure's stops on a loop, steers on pointer and keys, pauses on its button or a click. `splice` inlines it with the kit; never paste it by hand. |
 
 Put `<script>document.documentElement.classList.add("js-on")</script>` in `<head>` so nothing flashes.
 
@@ -300,6 +382,7 @@ Intended behavior only — **trigger → states → settle**. Always name **inte
 - **Concept** — "Explain event sourcing" → Big picture chain with Play; Stack omitted.
 - **Idea** — "Show me how saved searches should work" → fake search UI driven by `runner.js`, plus a ladder of the flow.
 - **Stack** — "What's the stack for this app?" → Stack section is the hero; Big picture shows how layers connect.
+- **Mechanism, any topic** — "Explain break-even" → Big picture is an Anatomy cistern: units pour in contribution, the spout sits at fixed costs, the spill is profit. Tables carry the numbers. Reference build: `iso/examples/break-even-cistern.fig.mjs`.
 
 ## Anti-patterns
 
@@ -317,3 +400,11 @@ Intended behavior only — **trigger → states → settle**. Always name **inte
 - A play button on something that should be playing, or a loop with no Pause
 - Linking `motion.css` / `*.js` by `src` instead of inlining
 - Grading motion quality; refactoring product code; pasting long summaries into chat
+- Sentences past 25 words, paragraphs past 6 sentences, or one thing called by two names
+- A claim the reader cannot check: no number, screenshot, source or test beside it
+- A full-page screenshot where a ringed crop would show the point
+- Calling a page done from a `--window-size=390` render, or without opening the screenshots
+- Boxes and arrows drawn in isometric and called an object figure
+- An object figure for a static fact, a list or a stack
+- A figure readout or motion that does not come from its model
+- Hand-editing a spliced `iso:` block instead of rerunning its `.fig.mjs`
