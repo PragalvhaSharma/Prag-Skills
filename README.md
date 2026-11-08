@@ -42,6 +42,7 @@ These are open source skills I use every day. Each folder keeps its original lic
 | `global/AGENTS.md` | `~/.claude/CLAUDE.md` | The instructions every agent follows: parallel work by default (split multi-part tasks across subagents, brief each one fully, have a fresh `verifier` check the merged result), which models subagents may use, how to report a blocker, and how to send Gmail. |
 | `global/claude-agents/verifier.md` | `~/.claude/agents/verifier.md` | The fresh-context checker for the fan-in step. It gets the original goal and the combined diff, runs the real checks, and reports what fails without fixing it. |
 | `global/codex-agents/verifier.toml` | `~/.codex/agents/verifier.toml` | The same `verifier` for Codex. |
+| `global/codex-agents/subagents.toml` | The `[agents]` section of `~/.codex/config.toml` | The Codex `default`, `worker` and `explorer` roles, the subagent limit, and the nickname list Codex names spawned agents from. |
 | `global/opencode-agents/verifier.md` | `~/.config/opencode/agents/verifier.md` | The same `verifier` for OpenCode. |
 | `global/claude-agents/ocx-*.md` | `~/.claude/agents/` | Claude Code subagents that route to other models through the [OpenCodex](https://github.com/lidge-jun/opencodex) proxy (`ocx claude`). OpenCodex regenerates these on launch, so these copies are a reference and a fallback. |
 | `global/claude-agents/case-video.md` | `~/.claude/agents/case-video.md` | Turns a case PDF into a NotebookLM video overview for case prep pages. |
@@ -50,6 +51,29 @@ These are open source skills I use every day. Each folder keeps its original lic
 `~/.claude/CLAUDE.md` is the one real copy of the instructions. It has to stay a real file because Claude Cowork sessions skip a symlinked one. Codex and OpenCode read it through symlinks at `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md`.
 
 `AGENTS.md` is written for my machine. It names local tools such as `blocked-alert` and the `gws-email` script path, so edit those lines before you use it as your own.
+
+### Subagents and their names
+
+Every subagent on this Mac, by tool:
+
+| Subagent | Tool | Defined in | What it does |
+|---|---|---|---|
+| `default` | Codex | `[agents.default]` in `~/.codex/config.toml` | The general agent Codex spawns when no role is given. |
+| `worker` | Codex | `[agents.worker]` in `~/.codex/config.toml` | Execution work: implements a piece of a feature, fixes tests or bugs, owns a set of files. |
+| `explorer` | Codex | `[agents.explorer]` in `~/.codex/config.toml` | Answers one well-scoped question about a codebase; several run in parallel. |
+| `verifier` | Codex, Claude Code, OpenCode, Cursor | `~/.codex/agents/verifier.toml`, `~/.claude/agents/verifier.md`, `~/.config/opencode/agents/verifier.md` | Fresh-context checker for the fan-in step. |
+| `case-video` | Claude Code | `~/.claude/agents/case-video.md` | Turns a case PDF into a NotebookLM video overview for case prep pages. |
+| `ocx-claude-opus-5-5` | Claude Code | `~/.claude/agents/ocx-claude-opus-5-5.md` | Worker routed to Claude Opus 5.5 through OpenCodex. |
+| `ocx-gpt-5-6-sol` | Claude Code | `~/.claude/agents/ocx-gpt-5-6-sol.md` | Worker routed to GPT-5.6 Sol (Cursor) through OpenCodex. |
+| `ocx-gpt-5-6-terra` | Claude Code | `~/.claude/agents/ocx-gpt-5-6-terra.md` | Worker routed to GPT-5.6 Terra through OpenCodex. |
+| `ocx-gpt-5-5` | Claude Code | `~/.claude/agents/ocx-gpt-5-5.md` | Worker routed to GPT-5.5 through OpenCodex. |
+| `ocx-self` | Claude Code | `~/.claude/agents/ocx-self.md` | Clone of the current main Claude Code model. |
+
+Codex gives each spawned agent a nickname picked at random from `nickname_candidates`. The `default`, `worker`, `explorer` and `verifier` roles share one list of 28 names, the people I talk with most on Messages and WhatsApp:
+
+`Yogya`, `Akshay`, `Bedi`, `Narula`, `Nimai`, `Parum`, `Sukhraj`, `Athul`, `Anant`, `Kanwar`, `Ashwin`, `Tanvir`, `Saithan`, `Big T`, `Snehith`, `Uttej`, `Kushal`, `Sugams`, `Nikhil`, `Anthony`, `Ed`, `Shaan`, `Roeg`, `Garbo`, `Chirag`, `Rushaabh`, `Krystall`, `BOOI Bowie`
+
+The three role definitions and the list live in `global/codex-agents/subagents.toml`. It is the `[agents]` section of my `~/.codex/config.toml`; paste it into yours to get the same roles and names, or swap in your own names. `sync.sh` does not edit `config.toml`. `verifier.toml` carries its own copy of the list.
 
 ## Install
 
